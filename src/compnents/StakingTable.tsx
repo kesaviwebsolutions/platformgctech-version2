@@ -6,7 +6,7 @@ import { Box, Typography } from "@mui/material";
 //.......STAKER'S DETAIL..........
 
 const columns: GridColDef[] = [
-  { field: "sno", headerName: "SNO.", width: 70 },
+  { field: "sno", headerName: "SNO.", width: 70, align: "center" },
   {
     field: "wallet address",
     headerName: "Wallet Address",

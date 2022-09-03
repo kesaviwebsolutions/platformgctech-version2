@@ -71,6 +71,7 @@ export default function App({ Metamask, account, contractadmin }) {
               account == "0x9929BbE55e79cAC1003Dc4c9cD2e911CbaAd532D" ? (
                 <>
                   <Link
+                    onClick={() => setActive(2)}
                     id="link"
                     to="/admin"
                     className={
@@ -79,16 +80,18 @@ export default function App({ Metamask, account, contractadmin }) {
                   >
                     ADMIN
                   </Link>
-                  {/* <Link
+                  <Link
                     id="link"
                     onClick={() => setActive(3)}
                     to="/create-level"
                     className={
-                      window.location.pathname === "/staking" ? "active" : ""
+                      window.location.pathname === "/create-level"
+                        ? "active"
+                        : ""
                     }
                   >
                     CREATE LEVEL
-                  </Link> */}
+                  </Link>
                 </>
               ) : (
                 ""

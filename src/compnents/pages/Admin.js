@@ -550,7 +550,7 @@ export default function Admin({ account, contractadmin }) {
         )}
         <Toaster />
       </Container>
-      {/* <StakingTable />: */}
+      <StakingTable />
     </>
   );
 }
