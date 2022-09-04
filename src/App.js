@@ -16,6 +16,9 @@ import Admin from "./compnents/pages/Admin";
 import Home from "./compnents/pages/Home";
 import "./App.css";
 import CreateLevel from "./compnents/pages/CreateLevel.tsx";
+import Referralid from "./compnents/pages/Referralid.tsx";
+import StakingTable from "./compnents/StakingTable.tsx";
+import Staking from "./compnents/pages/Staking";
 const url = "https://apigctech.ap.ngrok.io";
 
 function App() {
@@ -147,7 +150,9 @@ function App() {
     setUsdmMarketcap(usdmmk);
     const xaustogcs = (((xau / 31.1025) * 0.425 * 1.03) / gcstousd).toFixed(5);
     setXausGcs(xaustogcs);
-    const xaustousdm = Number(((xau / 31.1025) * 0.425 * 1.03)/(3 / btwo)).toFixed(5)
+    const xaustousdm = Number(
+      ((xau / 31.1025) * 0.425 * 1.03) / (3 / btwo)
+    ).toFixed(5);
     setXaustousdm(xaustousdm);
   };
 
@@ -248,7 +253,10 @@ function App() {
             path="/admin"
             element={<Admin account={acount} contractadmin={contractadmin} />}
           />
-          <Route path="/create-level" element={<CreateLevel />} />
+          <Route path="/staking" element={<Staking />} />
+          <Route path="/admin/staker's-detail" element={<StakingTable />} />
+          <Route exact path="/admin/referral-id" element={<Referralid />} />
+          <Route exact path="/admin/create-level" element={<CreateLevel />} />
         </Routes>
         <Footer />
       </Router>

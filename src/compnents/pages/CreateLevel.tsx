@@ -1,11 +1,13 @@
 import React from "react";
 import { MDBInput } from "mdb-react-ui-kit";
 import { Box, Container } from "@mui/system";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+import AdminNav from "../AdminNav";
 
 export default function CreateLevel() {
   return (
     <Container maxWidth="lg">
+      <AdminNav />
       <Box style={{ margin: "0px 0px 50px" }}>
         <Box style={{ margin: "70px 0px 0px" }}>
           <Typography paragraph>Name of the level</Typography>
@@ -43,6 +45,7 @@ export default function CreateLevel() {
           </Typography>
           <MDBInput label="30 Days" id="form1" type="text" />
         </Box>
+        <Button className="createbutton">Create</Button>
       </Box>
     </Container>
   );

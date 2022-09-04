@@ -8,7 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Container } from "@mui/system";
-import AdminNav from "./AdminNav";
+import AdminNav from "../AdminNav";
 import { Link } from "react-router-dom";
 
 interface Column {
@@ -27,16 +27,13 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
   },
-  { id: "name", label: "Wallet Address", minWidth: 170 },
-  { id: "code", label: "Username", minWidth: 100 },
   {
-    id: "population",
-    label: "Referral ID",
+    id: "density",
+    label: "Referrer ID",
     minWidth: 170,
     align: "center",
-    format: (value: number) => value.toLocaleString("en-US"),
+    format: (value: number) => value.toFixed(2),
   },
-
   {
     id: "density",
     label: "Tx Hash",
@@ -46,21 +43,21 @@ const columns: readonly Column[] = [
   },
   {
     id: "density",
-    label: "Timestamp of stake",
+    label: "Time of Stake",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
-    label: "Period of staking",
+    label: "NO. of Tokens Staked",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
-    label: "Level of staker",
+    label: "Length of Stake",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
@@ -74,21 +71,28 @@ const columns: readonly Column[] = [
   },
   {
     id: "density",
-    label: "Pending Reward",
+    label: "Referrer Bonus",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
-    label: "Claimed Reward",
+    label: "No. of Tokens in Bonus",
+    minWidth: 200,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "Due Date",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
-    label: "NO. of Referrals",
+    label: "Action",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
@@ -113,97 +117,87 @@ function createData(
   return { name, code, population, size, density };
 }
 
+// FOR ROW MAPPING
+
 const rowsInfo = [
   {
     tablecell: "1",
-    walletaddress: "0xawe...2121",
-    username: "nikhil",
-    referralid: "002...324",
+    Referrallink: "002...324",
     txhash: "#121...22233",
-    timeofstake: "120 min ago",
-    periodofstaking: "2",
-    levelofstaker: "50%",
+    timeofstake: "20 min ago",
+    nooftokenstaked: "10",
+    lengthofstake: "1",
     APY: "50%",
-    pendingreward: "2",
-    claimedreward: "10",
-    noofreferrals: "7",
+    referrerbonus: "23",
+    nooftokensinbonus: "10",
+    duedate: "12-09-2022",
   },
   {
     tablecell: "2",
-    walletaddress: "0xawe...2134",
-    username: "mayank",
-    referralid: "002...324",
+    Referrallink: "002...324",
     txhash: "#121...22233",
-    timeofstake: "120 min ago",
-    periodofstaking: "2",
-    levelofstaker: "50%",
-    APY: "50%",
-    pendingreward: "2",
-    claimedreward: "10",
-    noofreferrals: "7",
+    timeofstake: "60 min ago",
+    nooftokenstaked: "40",
+    lengthofstake: "2",
+    APY: "20%",
+    referrerbonus: "23",
+    nooftokensinbonus: "5",
+    duedate: "20-09-2022",
   },
   {
     tablecell: "3",
-    walletaddress: "0xawe...2145",
-    username: "ritu",
-    referralid: "002...324",
+    Referrallink: "002...324",
     txhash: "#121...22233",
-    timeofstake: "120 min ago",
-    periodofstaking: "2",
-    levelofstaker: "50%",
-    APY: "50%",
-    pendingreward: "2",
-    claimedreward: "10",
-    noofreferrals: "7",
+    timeofstake: "90 min ago",
+    nooftokenstaked: "40",
+    lengthofstake: "3",
+    APY: "70%",
+    referrerbonus: "23",
+    nooftokensinbonus: "20",
+    duedate: "15-09-2022",
   },
   {
     tablecell: "4",
-    walletaddress: "0xawe...2110",
-    username: "saurabh",
-    referralid: "002...324",
+    Referrallink: "002...324",
     txhash: "#121...22233",
     timeofstake: "120 min ago",
-    periodofstaking: "2",
-    levelofstaker: "50%",
+    nooftokenstaked: "40",
+    lengthofstake: "4",
     APY: "50%",
-    pendingreward: "2",
-    claimedreward: "10",
-    noofreferrals: "7",
+    referrerbonus: "23",
+    nooftokensinbonus: "10",
+    duedate: "12-09-2022",
   },
   {
     tablecell: "5",
-    walletaddress: "0xawe...2103",
-    username: "aditya",
-    referralid: "002...324",
+    Referrallink: "002...324",
     txhash: "#121...22233",
-    timeofstake: "120 min ago",
-    periodofstaking: "2",
-    levelofstaker: "50%",
+    timeofstake: "1 day ag0",
+    nooftokenstaked: "10",
+    lengthofstake: "5",
     APY: "50%",
-    pendingreward: "2",
-    claimedreward: "10",
-    noofreferrals: "7",
+    referrerbonus: "23",
+    nooftokensinbonus: "10",
+    duedate: "12-09-2022",
   },
 ];
+
 const renderRows = (rowsInfo, index) => {
   return (
     <>
       <TableRow key={index}>
         <TableCell>{rowsInfo.tablecell}</TableCell>
-        <TableCell>{rowsInfo.walletaddress}</TableCell>
-        <TableCell>{rowsInfo.username}</TableCell>
         <TableCell>
-          {" "}
-          <Link to="/">{rowsInfo.referralid}</Link>
+          <Link to="/">{rowsInfo.Referrallink}</Link>
         </TableCell>
         <TableCell>{rowsInfo.txhash}</TableCell>
         <TableCell>{rowsInfo.timeofstake}</TableCell>
-        <TableCell>{rowsInfo.periodofstaking}</TableCell>
-        <TableCell>{rowsInfo.levelofstaker}</TableCell>
+        <TableCell>{rowsInfo.nooftokenstaked}</TableCell>
+        <TableCell>{rowsInfo.lengthofstake}</TableCell>
         <TableCell>{rowsInfo.APY}</TableCell>
-        <TableCell>{rowsInfo.pendingreward}</TableCell>
-        <TableCell>{rowsInfo.claimedreward}</TableCell>
-        <TableCell>{rowsInfo.noofreferrals}</TableCell>
+        <TableCell>{rowsInfo.referrerbonus}</TableCell>
+        <TableCell>{rowsInfo.nooftokensinbonus}</TableCell>
+        <TableCell>{rowsInfo.duedate}</TableCell>
       </TableRow>
     </>
   );
@@ -260,31 +254,6 @@ export default function StakingTable() {
               </TableRow>
             </TableHead>
             <TableBody>{rowsInfo.map(renderRows)}</TableBody>
-            {/* <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody> */}
           </Table>
         </TableContainer>
         <TablePagination

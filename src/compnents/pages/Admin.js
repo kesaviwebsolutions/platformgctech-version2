@@ -44,6 +44,7 @@ import {
 
 import { Button } from "@material-ui/core";
 import StakingTable from "../StakingTable.tsx";
+import AdminNav from "../AdminNav";
 
 const notify = (msg) => toast(msg);
 const usdm = "0x08ab7e5c08cc0d78589fc506c35ea9c2520a86bc";
@@ -136,6 +137,7 @@ export default function Admin({ account, contractadmin }) {
   return (
     <>
       <Container maxWidth="lg">
+        <AdminNav />
         <Grid
           container
           spacing={2}
@@ -550,7 +552,6 @@ export default function Admin({ account, contractadmin }) {
         )}
         <Toaster />
       </Container>
-      <StakingTable />
     </>
   );
 }

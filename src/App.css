@@ -26,7 +26,7 @@ ul.dropdown-menu.disconnect {
   font-weight: 500;
 }
 a.active {
-  color: #8d00ff;
+  color: #f144ec !important;
   font-weight: 500;
 }
 a#link {
@@ -99,4 +99,65 @@ table.table.align-middle {
 }
 span.MuiButtonBase-root.MuiCheckbox-root.MuiCheckbox-colorPrimary.PrivateSwitchBase-root.MuiCheckbox-root.MuiCheckbox-colorPrimary.MuiDataGrid-checkboxInput.css-12wnr2w-MuiButtonBase-root-MuiCheckbox-root {
   display: none;
+}
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 50px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  list-style: none;
+  border-bottom: 1px solid;
+  background-color: transparent !important;
+  border-radius: 0.25rem;
+}
+
+.css-1ex1afd-MuiTableCell-root {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  display: table-cell;
+  vertical-align: inherit;
+  border-bottom: 1px solid rgba (224, 224, 224, 1);
+  text-align: center !important;
+  padding: 16px;
+  color: rgba(0, 0, 0, 0.87);
+}
+.css-78c6dr-MuiToolbar-root-MuiTablePagination-toolbar {
+  min-height: 52px;
+  padding-right: 2px;
+  display: none !important;
+}
+.css-41abqd-MuiTableContainer-root {
+  width: 100%;
+  overflow-x: auto;
+  max-height: 440px;
+  margin-top: 50px !important;
+  margin-bottom: 50px;
+}
+nav.navbar-light.navbar.navbar-expand-lg.bg-transparent.adminnav {
+  margin-top: 50px;
+  box-shadow: none;
+  border-bottom: 1px solid;
+  padding-bottom: 20px;
+}
+.css-41abqd-MuiTableContainer-root {
+  width: 100%;
+  overflow-x: auto;
+  max-height: 440px;
+  margin-top: 50px !important;
+  margin-bottom: 50px;
+  border: 1px solid;
+}
+
+button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.createbutton.css-1e6y48t-MuiButtonBase-root-MuiButton-root {
+  background-color: #f144ec;
+  color: #fff;
+  display: block;
+  margin: 30px auto;
+  font-size: 14px;
+  width: 50%;
+  padding: 5px 0px;
 }
