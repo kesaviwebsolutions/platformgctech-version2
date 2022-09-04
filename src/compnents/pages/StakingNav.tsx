@@ -29,6 +29,13 @@ interface Column {
   align?: "center";
   format?: (value: number) => string;
 }
+interface Column2 {
+  id: "name" | "code" | "population" | "size" | "density";
+  label: string;
+  minWidth?: number;
+  align?: "center";
+  format?: (value: number) => string;
+}
 const columns: readonly Column[] = [
   {
     id: "size",
@@ -67,7 +74,37 @@ const columns: readonly Column[] = [
     format: (value: number) => value.toFixed(2),
   },
 ];
+const columns2: readonly Column2[] = [
+  {
+    id: "size",
+    label: "SN0.",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toLocaleString("en-US"),
+  },
+  {
+    id: "size",
+    label: "All Referral Record",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toLocaleString("en-US"),
+  },
 
+  {
+    id: "density",
+    label: "Valid Upto",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "UnValid Upto",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+];
 interface Data {
   name: string;
   code: string;
@@ -85,17 +122,34 @@ function createData2(
   const density = population / size;
   return { name, code, population, size, density };
 }
-
+function createData3(
+  name: string,
+  code: string,
+  population: number,
+  size: number
+): Data {
+  const density = population / size;
+  return { name, code, population, size, density };
+}
 const rowsInfo = [
   {
     OrderID: "1",
     StakingDate: "20-09-2022",
     TokenAmount: "25000",
-    StakedEnd: "27-09-2022",
-    Action: "true",
-    Emergency: "000",
+    StakedEnd: "25000",
+    Action: "25000",
+    Emergency: "25000",
   },
 ];
+const rowsInfo2 = [
+  {
+    SNO: "1",
+    AllReferralReward: "1",
+    Validupto: "20-09-2022",
+    Unvalidupto: "25000",
+  },
+];
+
 interface Data {
   name: string;
   code: string;
@@ -105,6 +159,8 @@ interface Data {
 }
 
 const rows2 = [createData2("India", "IN", 1324171354, 1)];
+
+const rows3 = [createData3("India", "IN", 1324171354, 1)];
 
 const renderRows = (rowsInfo, index) => {
   return (
@@ -116,6 +172,18 @@ const renderRows = (rowsInfo, index) => {
         <TableCell>{rowsInfo.StakedEnd}</TableCell>
         <TableCell>{rowsInfo.Action}</TableCell>
         <TableCell>{rowsInfo.Emergency}</TableCell>
+      </TableRow>
+    </>
+  );
+};
+const renderRows2 = (rowsInfo, index) => {
+  return (
+    <>
+      <TableRow key={index}>
+        <TableCell>{rowsInfo.SNO}</TableCell>
+        <TableCell>{rowsInfo.AllReferralReward}</TableCell>
+        <TableCell>{rowsInfo.Validupto}</TableCell>
+        <TableCell>{rowsInfo.Unvalidupto}</TableCell>
       </TableRow>
     </>
   );
@@ -164,6 +232,10 @@ export default function AdminNav() {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+  };
+  const handleChangeRowsPerPage2 = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(+e.target.value);
+    setPage(0);
   };
 
   return (
@@ -717,7 +789,37 @@ export default function AdminNav() {
         {/* MY REFERRAL */}
 
         <TabPanel value={value} index={2}>
-          Item Three
+          <Container maxWidth="xl">
+            <Container maxWidth="xl">
+              <TableContainer sx={{ maxHeight: 440 }}>
+                <Table stickyHeader aria-label="sticky table">
+                  <TableHead>
+                    <TableRow>
+                      {columns2.map((column) => (
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          style={{ minWidth: column.minWidth }}
+                        >
+                          {column.label}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>{rowsInfo2.map(renderRows2)}</TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={rows3.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage2}
+              />
+            </Container>
+          </Container>
         </TabPanel>
       </Box>
     </Container>
