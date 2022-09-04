@@ -2,14 +2,124 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Container, Box } from "@mui/system";
-import { Grid, Card, Typography, CardContent, Stack } from "@mui/material";
-import { MDBInput } from "mdb-react-ui-kit";
+import {
+  Grid,
+  Card,
+  Typography,
+  CardContent,
+  Stack,
+  TableRow,
+  TableCell,
+  TableContainer,
+  Table,
+  TableHead,
+  TableBody,
+  TablePagination,
+} from "@mui/material";
 
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
   value: number;
 }
+interface Column {
+  id: "name" | "code" | "population" | "size" | "density";
+  label: string;
+  minWidth?: number;
+  align?: "center";
+  format?: (value: number) => string;
+}
+const columns: readonly Column[] = [
+  {
+    id: "size",
+    label: "Order ID",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toLocaleString("en-US"),
+  },
+  { id: "name", label: "Staking Date", minWidth: 170, align: "center" },
+  {
+    id: "density",
+    label: "Token Amount",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "Staking End",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "Action",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "Emergency",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+];
+
+interface Data {
+  name: string;
+  code: string;
+  population: number;
+  size: number;
+  density: number;
+}
+
+function createData2(
+  name: string,
+  code: string,
+  population: number,
+  size: number
+): Data {
+  const density = population / size;
+  return { name, code, population, size, density };
+}
+
+const rowsInfo = [
+  {
+    OrderID: "1",
+    StakingDate: "20-09-2022",
+    TokenAmount: "25000",
+    StakedEnd: "27-09-2022",
+    Action: "true",
+    Emergency: "000",
+  },
+];
+interface Data {
+  name: string;
+  code: string;
+  population: number;
+  size: number;
+  density: number;
+}
+
+const rows2 = [createData2("India", "IN", 1324171354, 1)];
+
+const renderRows = (rowsInfo, index) => {
+  return (
+    <>
+      <TableRow key={index}>
+        <TableCell>{rowsInfo.OrderID}</TableCell>
+        <TableCell>{rowsInfo.StakingDate}</TableCell>
+        <TableCell>{rowsInfo.TokenAmount}</TableCell>
+        <TableCell>{rowsInfo.StakedEnd}</TableCell>
+        <TableCell>{rowsInfo.Action}</TableCell>
+        <TableCell>{rowsInfo.Emergency}</TableCell>
+      </TableRow>
+    </>
+  );
+};
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -40,6 +150,17 @@ function a11yProps(index: number) {
 
 export default function AdminNav() {
   const [value, setValue] = React.useState(0);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const handleChangePage = (e: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRowsPerPage(+e.target.value);
+    setPage(0);
+  };
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -437,6 +558,7 @@ export default function AdminNav() {
             </Box>
           </Container>
         </TabPanel>
+
         <TabPanel value={value} index={1}>
           <Container maxWidth="xl">
             <Box
@@ -534,9 +656,66 @@ export default function AdminNav() {
                   </Box>
                 </Grid>
               </Grid>
+              <Container maxWidth="xl">
+                <TableContainer sx={{ maxHeight: 440 }}>
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        {columns.map((column) => (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            style={{ minWidth: column.minWidth }}
+                          >
+                            {column.label}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>{rowsInfo.map(renderRows)}</TableBody>
+                    {/* <TableBody>
+              {rows
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.code}
+                    >
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format && typeof value === "number"
+                              ? column.format(value)
+                              : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })}
+            </TableBody> */}
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[10, 25, 100]}
+                  component="div"
+                  count={rows2.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
+              </Container>
             </Box>
           </Container>
         </TabPanel>
+
+        {/* MY REFERRAL */}
+
         <TabPanel value={value} index={2}>
           Item Three
         </TabPanel>
