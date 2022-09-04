@@ -68,28 +68,35 @@ export default function AdminNav() {
               }}
             >
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
-                  <Box sx={{ minWidth: 290 }}>
+                <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+                  <Box sx={{}}>
                     <Card
                       variant="outlined"
                       style={{
                         border: "none",
+
                         background: "#fff",
                         boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                        width: "90%",
+                        margin: "0 auto",
                       }}
                     >
                       {" "}
                       <CardContent>
                         <Box className="cardcontent">
                           <Typography
-                            sx={{ fontSize: 14 }}
+                            sx={{ fontSize: 14, minWidth: "0px" }}
                             color="text.secondary"
                             gutterBottom
                           ></Typography>
                           <Typography
                             variant="h6"
                             component="div"
-                            style={{ fontWeight: "900", fontSize: "17px" }}
+                            style={{
+                              fontWeight: "900",
+                              fontSize: "17px",
+                              minWidth: "0px",
+                            }}
                           >
                             Total Token Staked
                           </Typography>
@@ -107,14 +114,16 @@ export default function AdminNav() {
                     </Card>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
-                  <Box sx={{ minWidth: 290 }}>
+                <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+                  <Box sx={{}}>
                     <Card
                       variant="outlined"
                       style={{
                         border: "none",
                         background: "#fff",
                         boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                        width: "90%",
+                        margin: "0 auto",
                       }}
                     >
                       {" "}
@@ -146,14 +155,16 @@ export default function AdminNav() {
                     </Card>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={4} xl={3}>
-                  <Box sx={{ minWidth: 290 }}>
+                <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+                  <Box sx={{}}>
                     <Card
                       variant="outlined"
                       style={{
                         border: "none",
                         background: "#fff",
                         boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                        width: "90%",
+                        margin: "0 auto",
                       }}
                     >
                       {" "}
@@ -367,11 +378,164 @@ export default function AdminNav() {
                   </div>
                 </div>
               </Box>
+              <Box>
+                <div className="container" style={{ marginTop: "3rem" }}>
+                  <div className="stake-summary-content">
+                    <div className="stake">
+                      <h4 className="srpayBalance">Your Balance : SRPAY</h4>
+                    </div>
+                    <button
+                      className="d-block m-auto stake-btton"
+                      style={{ marginTop: "2rem !important" }}
+                    >
+                      {" "}
+                      BUY GCex
+                    </button>
+                    <div className="stake">
+                      <h3 className="stakingSummary">Staking Details</h3>
+                    </div>
+                    <div className="stake">
+                      <div className="summary-content">
+                        <p>Duration</p>
+                        <p className="ssc4">:</p>
+                        <p className="sc">90 Days</p>
+                      </div>
+                      <div className="summary-content">
+                        <p>APY</p>
+                        <p className="ssc5">:</p>
+                        <p className="sc">50 %</p>
+                      </div>
+                      <div className="summary-content">
+                        <p>Staked Amount</p>
+                        <p className="ssc">:</p>
+                        <p className="sc">0 SRPAY</p>
+                      </div>
+                      <div className="summary-content">
+                        <p>Estimated Return</p>
+                        <p className="ssc2">:</p>
+                        <p className="sc">0 SRPAY</p>
+                      </div>
+                      <div className="summary-content">
+                        <p>Start Date</p>
+                        <p className="ssc3">:</p>
+                        <p className="sc">9/4/2022, 4:03:08 PM</p>
+                      </div>
+                      <div className="summary-content">
+                        <p>End Date</p>
+                        <p className="ssc4">:</p>
+                        <p className="sc">12/3/2022, 3:53:08 PM</p>
+                      </div>
+                    </div>
+                    <button className="d-block m-auto stake-btton">
+                      {" "}
+                      STAKE NOW
+                    </button>
+                    <br />
+                  </div>
+                </div>
+              </Box>
             </Box>
           </Container>
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <Container maxWidth="xl">
+            <Box
+              style={{
+                boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                padding: "60px 20px 60px",
+              }}
+            >
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <Box sx={{}}>
+                    <Card
+                      variant="outlined"
+                      style={{
+                        border: "none",
+
+                        background: "#fff",
+                        boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                        width: "90%",
+                        margin: "0 auto",
+                      }}
+                    >
+                      {" "}
+                      <CardContent>
+                        <Box className="cardcontent">
+                          <Typography
+                            sx={{ fontSize: 14, minWidth: "0px" }}
+                            color="text.secondary"
+                            gutterBottom
+                          ></Typography>
+                          <Typography
+                            variant="h6"
+                            component="div"
+                            style={{
+                              fontWeight: "900",
+                              fontSize: "17px",
+                              minWidth: "0px",
+                            }}
+                          >
+                            Total Token Staked
+                          </Typography>
+                          <Typography
+                            sx={{
+                              mb: 1.5,
+                              fontSize: "30px",
+                              fontWeight: "900",
+                            }}
+                          >
+                            0 GCex
+                          </Typography>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <Box sx={{}}>
+                    <Card
+                      variant="outlined"
+                      style={{
+                        border: "none",
+                        background: "#fff",
+                        boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                        width: "90%",
+                        margin: "0 auto",
+                      }}
+                    >
+                      {" "}
+                      <CardContent>
+                        <Box className="cardcontent">
+                          <Typography
+                            sx={{ fontSize: 14 }}
+                            color="text.secondary"
+                            gutterBottom
+                          ></Typography>
+                          <Typography
+                            variant="h6"
+                            component="div"
+                            style={{ fontWeight: "900", fontSize: "17px" }}
+                          >
+                            Total Reward Distributed
+                          </Typography>
+                          <Typography
+                            sx={{
+                              mb: 1.5,
+                              fontSize: "30px",
+                              fontWeight: "900",
+                            }}
+                          >
+                            0 GCex
+                          </Typography>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+          </Container>
         </TabPanel>
         <TabPanel value={value} index={2}>
           Item Three

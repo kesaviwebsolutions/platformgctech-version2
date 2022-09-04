@@ -202,3 +202,77 @@ h4.ss-heading {
   font-style: normal;
   margin: 15px 20px;
 }
+h4.srpayBalance {
+  font-weight: 500;
+}
+h4.srpayBalance {
+  font-family: josefin-sans, sans-serif;
+}
+button.stake-btton {
+  background-color: #8d00ff;
+  border: none;
+  color: #fff;
+  font-family: josefin-sans, sans-serif;
+  font-weight: 400;
+  padding: 10px;
+  width: 100%;
+}
+h3.stakingSummary {
+  color: #333;
+  font-size: 22px;
+  font-weight: 700;
+  padding: 40px 0 10px;
+}
+h3.stakingSummary,
+h4.srpayBalance {
+  font-family: josefin-sans, sans-serif;
+}
+.summary-content {
+  align-items: center;
+  display: flex;
+}
+.ssc3,
+.ssc4 {
+  font-family: josefin-sans, sans-serif;
+}
+p.sc {
+  margin-left: 7px;
+}
+.ssc3 {
+  padding-left: 82px;
+}
+p.sc {
+  margin-left: 7px;
+}
+.ssc4 {
+  padding-left: 88px;
+}
+.ssc5 {
+  padding-left: 122px;
+}
+.ssc {
+  padding-left: 42px;
+}
+.ssc2 {
+  padding-left: 32px;
+}
+.m-auto {
+  margin: 0px !important;
+}
+
+@media screen and (max-width: 500px) {
+  .stakedsubmission {
+    display: grid;
+  }
+  h4.ss-heading {
+    display: block;
+    margin: 1rem auto;
+  }
+  .d-grid {
+    display: block;
+    margin: 1rem auto;
+  }
+  .css-19kzrtu {
+    padding: 2rem 0px !important;
+  }
+}
