@@ -18,7 +18,7 @@ import "./App.css";
 import CreateLevel from "./compnents/pages/CreateLevel.tsx";
 import Referralid from "./compnents/pages/Referralid.tsx";
 import StakingTable from "./compnents/StakingTable.tsx";
-import Staking from "./compnents/pages/Staking";
+import Staking from "./compnents/pages/StakingNav.tsx";
 const url = "https://apigctech.ap.ngrok.io";
 
 function App() {
