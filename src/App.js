@@ -19,6 +19,7 @@ import CreateLevel from "./compnents/pages/CreateLevel.tsx";
 import Referralid from "./compnents/pages/Referralid.tsx";
 import StakingTable from "./compnents/StakingTable.tsx";
 import Staking from "./compnents/pages/StakingNav.tsx";
+import PersonalReferralId from "./compnents/pages/PersonalReferralId.tsx";
 const url = "https://apigctech.ap.ngrok.io";
 
 function App() {
@@ -256,6 +257,11 @@ function App() {
           <Route path="/staking" element={<Staking />} />
           <Route path="/admin/staker's-detail" element={<StakingTable />} />
           <Route exact path="/admin/referral-id" element={<Referralid />} />
+          <Route
+            exact
+            path="/admin/000xxxx2323245"
+            element={<PersonalReferralId />}
+          />
           <Route exact path="/admin/create-level" element={<CreateLevel />} />
         </Routes>
         <Footer />
