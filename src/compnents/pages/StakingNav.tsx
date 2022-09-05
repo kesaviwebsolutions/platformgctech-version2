@@ -15,7 +15,21 @@ import {
   TableHead,
   TableBody,
   TablePagination,
+  useScrollTrigger,
+  
 } from "@mui/material";
+import toast, { Toaster } from "react-hot-toast";
+import { useState, useEffect } from "react";
+import {FaQuestionCircle} from 'react-icons/fa'
+import axios from "axios";
+import { Stake, StakingtokenBalance, StakeBalace, tokenDistribute, totakRewardEarned, getDetails,emergencyaction,  unstake} from "./../../Web3/Web3";
+
+const url = "http://localhost:3030/isuser"
+
+const time = new Date().getTime();
+
+const notify = (msg) => toast.success(msg);
+const warning = (msg) => toast.error(msg)
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -162,32 +176,7 @@ const rows2 = [createData2("India", "IN", 1324171354, 1)];
 
 const rows3 = [createData3("India", "IN", 1324171354, 1)];
 
-const renderRows = (rowsInfo, index) => {
-  return (
-    <>
-      <TableRow key={index}>
-        <TableCell>{rowsInfo.OrderID}</TableCell>
-        <TableCell>{rowsInfo.StakingDate}</TableCell>
-        <TableCell>{rowsInfo.TokenAmount}</TableCell>
-        <TableCell>{rowsInfo.StakedEnd}</TableCell>
-        <TableCell>{rowsInfo.Action}</TableCell>
-        <TableCell>{rowsInfo.Emergency}</TableCell>
-      </TableRow>
-    </>
-  );
-};
-const renderRows2 = (rowsInfo, index) => {
-  return (
-    <>
-      <TableRow key={index}>
-        <TableCell>{rowsInfo.SNO}</TableCell>
-        <TableCell>{rowsInfo.AllReferralReward}</TableCell>
-        <TableCell>{rowsInfo.Validupto}</TableCell>
-        <TableCell>{rowsInfo.Unvalidupto}</TableCell>
-      </TableRow>
-    </>
-  );
-};
+
 
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -216,10 +205,60 @@ function a11yProps(index: number) {
   };
 }
 
-export default function AdminNav() {
+export default function AdminNav({account}) {
+
   const [value, setValue] = React.useState(0);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [duration, setDuration] = useState(0);
+  const [amount, setAmount] = useState(0);
+  const [balance, setBalance] = useState(0);
+  const [apy, setAPY] = useState(0);
+  const [stakeTotal, setStakeTotal] = useState(0);
+  const [distributed, setDistribute] = useState(0);
+  const [mystake, setMystake] = useState(0);
+  const [reward, setRewards] = useState(0);
+  const [events, setEvents] = useState([]);
+
+  const getUserReferrals = async()=>{
+  
+  }
+
+  useEffect(() => {
+    const init = async () => {
+      await axios.post(url,{
+        "user":account
+      }).then((res)=>{
+        console.log(res)
+      }).catch((e)=>{
+        console.log(e)
+      })
+      // const bal = await StakingtokenBalance();
+      // setBalance(bal);
+      // const ts = await StakeBalace();
+      // setStakeTotal(ts);
+      // const ds = await tokenDistribute()
+      // setDistribute(ds);
+      // const rewards = await totakRewardEarned();
+      // setRewards(rewards)
+      // const event = await getDetails();
+      // setEvents(event)
+     
+    };
+    init();
+  }, [account]);
+
+
+  const StakingToken = async()=>{
+    const data = await Stake(duration, amount);
+    if (data.status) {
+      notify('Stake Successfully')
+      const ts = await StakeBalace();
+      setStakeTotal(ts);
+      const bal = await StakingtokenBalance();
+      setBalance(bal);
+    }
+  }
 
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
@@ -233,9 +272,81 @@ export default function AdminNav() {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
   const handleChangeRowsPerPage2 = (e: React.ChangeEvent<HTMLInputElement>) => {
     setRowsPerPage(+e.target.value);
     setPage(0);
+  };
+
+  const unStakeAmount = async (id, end) => {
+    console.log(Number(new Date().getTime()/1000).toFixed(0), Number(end))
+    if(new Date().getTime()/1000 < Number(end)){
+      warning("Can not unstake before end time")
+      return true;
+    }
+    const data = await unstake(id)
+    if (data.status) {
+      notify('Staked Successfully')
+      const rewards = await totakRewardEarned();
+      setRewards(rewards)
+      const event = await getDetails();
+      setEvents(event)
+    }
+  }
+
+  const upcommingDate=(time)=>{
+    var current = Math.round(new Date().getTime()/1000);
+    var seconds =  time-current 
+    if(seconds > 0){
+      const days = Math.floor(seconds/86400)
+      const hour = Math.floor(seconds / 3600) % 24;
+      const min = Math.floor(seconds / 60) % 60;
+      const sec = seconds % 60;
+      // return days+"D :"+hour+"H :"+min+"M :"+sec+"S"
+      return days+"D " + hour + "H"
+    }
+    else{
+      return "UNSTAKE"
+    }
+  } 
+  const EmergencyUnstake =async(id)=>{
+    const data = await emergencyaction(id);
+    if(data.status){
+      notify('Unstake Successfully')
+    }
+  }
+
+  const renderRows = (rowsInfo, index) => {
+    return (
+      <>
+        <TableRow key={index}>
+          <TableCell>{rowsInfo.id}</TableCell>
+          <TableCell>{new Date(Number(rowsInfo.starttime)*1000).toLocaleDateString()}</TableCell>
+          <TableCell>{rowsInfo.amount/10**18}</TableCell>
+          <TableCell>{new Date(Number(rowsInfo.endtime)*1000).toLocaleDateString()}</TableCell>
+          {!rowsInfo.claimed ? <TableCell className='' onClick={()=>unStakeAmount(rowsInfo.id,rowsInfo.endtime)}>{upcommingDate(rowsInfo.endtime)}</TableCell> :
+                    <TableCell>UNSTAKED</TableCell>}
+          {!rowsInfo.claimed ? <TableCell><p className='emergency' data-tip="hello world"  onClick={()=>EmergencyUnstake(rowsInfo.id)}>Emergency Withdraw &nbsp;&nbsp;<span
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    title="10% fee will be charged">
+                <FaQuestionCircle size={20}/>
+              </span></p></TableCell> : <TableCell><p>NOT AVAILABLE</p></TableCell>}
+        </TableRow>
+      </>
+    );
+  };
+  const renderRows2 = (rowsInfo, index) => {
+    return (
+      <>
+        <TableRow key={index}>
+          <TableCell>{rowsInfo.SNO}</TableCell>
+          <TableCell>{rowsInfo.AllReferralReward}</TableCell>
+          <TableCell>{rowsInfo.Validupto}</TableCell>
+          <TableCell>{rowsInfo.Unvalidupto}</TableCell>
+        </TableRow>
+      </>
+    );
   };
 
   return (
@@ -300,7 +411,7 @@ export default function AdminNav() {
                               fontWeight: "900",
                             }}
                           >
-                            0 GCex
+                            {stakeTotal} GCex
                           </Typography>
                         </Box>
                       </CardContent>
@@ -341,7 +452,7 @@ export default function AdminNav() {
                               fontWeight: "900",
                             }}
                           >
-                            0 GCex
+                            {distributed} GCex
                           </Typography>
                         </Box>
                       </CardContent>
@@ -417,7 +528,7 @@ export default function AdminNav() {
                       >
                         {" "}
                         <CardContent>
-                          <Box className="cardcontent2">
+                          <Box className="cardcontent2" onClick={()=>{setDuration(30); setAPY(35)}}>
                             <Typography
                               sx={{ fontSize: 14 }}
                               color="text.secondary"
@@ -454,7 +565,7 @@ export default function AdminNav() {
                       >
                         {" "}
                         <CardContent>
-                          <Box className="cardcontent2">
+                          <Box className="cardcontent2" onClick={()=>{setDuration(90); setAPY(75)}}>
                             <Typography
                               sx={{ fontSize: 14 }}
                               color="text.secondary"
@@ -491,7 +602,7 @@ export default function AdminNav() {
                       >
                         {" "}
                         <CardContent>
-                          <Box className="cardcontent2">
+                          <Box className="cardcontent2" onClick={()=>{setDuration(180); setAPY(90)}}>
                             <Typography
                               sx={{ fontSize: 14 }}
                               color="text.secondary"
@@ -517,7 +628,7 @@ export default function AdminNav() {
                     </Box>
                   </Grid>
                   <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
-                    <Box sx={{ maxWidth: 300 }}>
+                    <Box sx={{ maxWidth: 300 }} onClick={()=>{setDuration(365); setAPY(130)}}>
                       <Card
                         variant="outlined"
                         style={{
@@ -563,9 +674,10 @@ export default function AdminNav() {
                     <div className="d-grid">
                       <input
                         type="number"
+                        onChange={(e)=>setAmount(e.target.value)}
                         placeholder="Enter amount"
                         className="stakedAmount"
-                        value={0}
+                        value={amount}
                       />
                     </div>
                   </div>
@@ -591,35 +703,43 @@ export default function AdminNav() {
                       <div className="summary-content">
                         <p>Duration</p>
                         <p className="ssc4">:</p>
-                        <p className="sc">90 Days</p>
+                        <p className="sc">{duration} Days</p>
                       </div>
                       <div className="summary-content">
                         <p>APY</p>
                         <p className="ssc5">:</p>
-                        <p className="sc">50 %</p>
+                        <p className="sc">{apy} %</p>
                       </div>
                       <div className="summary-content">
                         <p>Staked Amount</p>
                         <p className="ssc">:</p>
-                        <p className="sc">0 SRPAY</p>
+                        <p className="sc">{amount} SRPAY</p>
                       </div>
                       <div className="summary-content">
                         <p>Estimated Return</p>
                         <p className="ssc2">:</p>
-                        <p className="sc">0 SRPAY</p>
+                        <p className="sc">
+                        {duration == 30
+                          ? `${amount * 1.0292}`
+                          : duration == 90
+                          ? `${amount * 1.1875}`
+                          : duration == 180
+                          ? `${amount * 1.45}`
+                          : `${amount * 2.3}`}{" "}
+                           SRPAY</p>
                       </div>
                       <div className="summary-content">
                         <p>Start Date</p>
                         <p className="ssc3">:</p>
-                        <p className="sc">9/4/2022, 4:03:08 PM</p>
+                        <p className="sc">{new Date().toLocaleString()}</p>
                       </div>
                       <div className="summary-content">
                         <p>End Date</p>
                         <p className="ssc4">:</p>
-                        <p className="sc">12/3/2022, 3:53:08 PM</p>
+                        <p className="sc">{new Date(time + duration * 86400000).toLocaleString()}</p>
                       </div>
                     </div>
-                    <button className="d-block m-auto stake-btton">
+                    <button className="d-block m-auto stake-btton" onClick={()=>StakingToken()}>
                       {" "}
                       STAKE NOW
                     </button>
@@ -679,7 +799,7 @@ export default function AdminNav() {
                               fontWeight: "900",
                             }}
                           >
-                            0 GCex
+                            {stakeTotal} GCex
                           </Typography>
                         </Box>
                       </CardContent>
@@ -711,7 +831,7 @@ export default function AdminNav() {
                             component="div"
                             style={{ fontWeight: "900", fontSize: "17px" }}
                           >
-                            Total Reward Distributed
+                            Total Earn 
                           </Typography>
                           <Typography
                             sx={{
@@ -720,7 +840,7 @@ export default function AdminNav() {
                               fontWeight: "900",
                             }}
                           >
-                            0 GCex
+                            {reward} GCex
                           </Typography>
                         </Box>
                       </CardContent>
@@ -744,7 +864,7 @@ export default function AdminNav() {
                         ))}
                       </TableRow>
                     </TableHead>
-                    <TableBody>{rowsInfo.map(renderRows)}</TableBody>
+                    <TableBody>{events && events.map((item)=>renderRows(item))}</TableBody>
                     {/* <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -822,6 +942,7 @@ export default function AdminNav() {
           </Container>
         </TabPanel>
       </Box>
+      <Toaster />
     </Container>
   );
 }

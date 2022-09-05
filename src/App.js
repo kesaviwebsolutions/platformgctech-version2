@@ -167,7 +167,7 @@ function App() {
       }
       const id = await GetChainId();
       console.log(id);
-      if (Number(id) != 56) {
+      if (Number(id) != 4) {
         await window.ethereum.request({
           method: "wallet_switchEthereumChain",
           params: [{ chainId: "0x38" }], // chainId must be in hexadecimal numbers
@@ -254,8 +254,8 @@ function App() {
             path="/admin"
             element={<Admin account={acount} contractadmin={contractadmin} />}
           />
-          <Route path="/staking" element={<Staking />} />
-          <Route path="/staking/:ID" element={<Staking />} />
+          <Route path="/staking" element={<Staking account={acount}/>} />
+          <Route path="/staking/:ID" element={<Staking account={acount}/>} />
           <Route path="/admin/staker's-detail" element={<StakingTable />} />
           <Route exact path="/admin/referral-id" element={<Referralid />} />
           <Route

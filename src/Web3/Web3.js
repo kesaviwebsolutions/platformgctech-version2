@@ -366,7 +366,7 @@ export const getAdmin = async()=>{
         const data = await contract.methods.admin().call();
         return data;
     } catch (error) {
-        console.log(error)
+        // console.log(error)
     }
 }
 
@@ -402,6 +402,14 @@ export const ContractTokenBal = async(address)=>{
 }
 
 
+//////////////////Staking//////////////////
+//////////////////Staking//////////////////
+//////////////////Staking//////////////////
+//////////////////Staking//////////////////
+//////////////////Staking//////////////////
+
+
+
 export const Approveforstaking = async () => {
     try {
       const contract = new web3.eth.Contract(tokenBalance, stakingToken)
@@ -432,6 +440,7 @@ export const Allowforstaking = async()=>{
       console.log(a,du)
       const contract = new web3.eth.Contract(Staking, stakingAddress);
       const allow = await Allowforstaking();
+      console.log(allow)
       if(Number(allow) > 0){
         const data = await contract.methods.deposit(a,du).send({from:await getUserAddress()});
         return data;
@@ -564,6 +573,7 @@ export const Allowforstaking = async()=>{
     try {
       const contract = new web3.eth.Contract(Staking, stakingAddress);
       const data = await contract.methods.totalRewardsDistribution().call();
+      console.log("data", data)
       return data/10**18;
       } catch (error) {
       console.log(error)
