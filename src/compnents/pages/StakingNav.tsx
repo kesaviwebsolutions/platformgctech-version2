@@ -286,7 +286,7 @@ export default function AdminNav({ account }) {
   const StakingToken = async () => {
     // const data = await Stake(duration, amount);
     if (true) {
-      notify("Stake Successfully");
+      // notify("Stake Successfully");
       await addReferralUser()
       // const ts = await StakeBalace();
       // setStakeTotal(ts);
