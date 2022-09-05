@@ -216,6 +216,7 @@ button.stake-btton {
   font-weight: 400;
   padding: 10px;
   width: 100%;
+  border-radius: 10px;
 }
 h3.stakingSummary {
   color: #333;
@@ -275,4 +276,11 @@ p.sc {
   .css-19kzrtu {
     padding: 2rem 0px !important;
   }
+}
+.reff-id {
+  box-shadow: rgba(24, 23, 23, 0.15) 0px 4px 25px;
+  background-color: rgb(141, 0, 255);
+  padding: 1rem;
+  color: white;
+  border-radius: 10px;
 }

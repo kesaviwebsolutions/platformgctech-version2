@@ -2,6 +2,7 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Container, Box } from "@mui/system";
+import { AiOutlineCopy } from "react-icons/ai";
 import {
   Grid,
   Card,
@@ -16,20 +17,28 @@ import {
   TableBody,
   TablePagination,
   useScrollTrigger,
-  
 } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { useState, useEffect } from "react";
-import {FaQuestionCircle} from 'react-icons/fa'
+import { FaQuestionCircle } from "react-icons/fa";
 import axios from "axios";
-import { Stake, StakingtokenBalance, StakeBalace, tokenDistribute, totakRewardEarned, getDetails,emergencyaction,  unstake} from "./../../Web3/Web3";
+import {
+  Stake,
+  StakingtokenBalance,
+  StakeBalace,
+  tokenDistribute,
+  totakRewardEarned,
+  getDetails,
+  emergencyaction,
+  unstake,
+} from "./../../Web3/Web3";
 
-const url = "http://localhost:3030/isuser"
+const url = "http://localhost:3030/isuser";
 
 const time = new Date().getTime();
 
 const notify = (msg) => toast.success(msg);
-const warning = (msg) => toast.error(msg)
+const warning = (msg) => toast.error(msg);
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -176,8 +185,6 @@ const rows2 = [createData2("India", "IN", 1324171354, 1)];
 
 const rows3 = [createData3("India", "IN", 1324171354, 1)];
 
-
-
 function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
@@ -205,8 +212,7 @@ function a11yProps(index: number) {
   };
 }
 
-export default function AdminNav({account}) {
-
+export default function AdminNav({ account }) {
   const [value, setValue] = React.useState(0);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -220,19 +226,20 @@ export default function AdminNav({account}) {
   const [reward, setRewards] = useState(0);
   const [events, setEvents] = useState([]);
 
-  const getUserReferrals = async()=>{
-  
-  }
+  const getUserReferrals = async () => {};
 
   useEffect(() => {
     const init = async () => {
-      await axios.post(url,{
-        "user":account
-      }).then((res)=>{
-        console.log(res)
-      }).catch((e)=>{
-        console.log(e)
-      })
+      await axios
+        .post(url, {
+          user: account,
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
       // const bal = await StakingtokenBalance();
       // setBalance(bal);
       // const ts = await StakeBalace();
@@ -243,22 +250,20 @@ export default function AdminNav({account}) {
       // setRewards(rewards)
       // const event = await getDetails();
       // setEvents(event)
-     
     };
     init();
   }, [account]);
 
-
-  const StakingToken = async()=>{
+  const StakingToken = async () => {
     const data = await Stake(duration, amount);
     if (data.status) {
-      notify('Stake Successfully')
+      notify("Stake Successfully");
       const ts = await StakeBalace();
       setStakeTotal(ts);
       const bal = await StakingtokenBalance();
       setBalance(bal);
     }
-  }
+  };
 
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
@@ -279,59 +284,86 @@ export default function AdminNav({account}) {
   };
 
   const unStakeAmount = async (id, end) => {
-    console.log(Number(new Date().getTime()/1000).toFixed(0), Number(end))
-    if(new Date().getTime()/1000 < Number(end)){
-      warning("Can not unstake before end time")
+    console.log(Number(new Date().getTime() / 1000).toFixed(0), Number(end));
+    if (new Date().getTime() / 1000 < Number(end)) {
+      warning("Can not unstake before end time");
       return true;
     }
-    const data = await unstake(id)
+    const data = await unstake(id);
     if (data.status) {
-      notify('Staked Successfully')
+      notify("Staked Successfully");
       const rewards = await totakRewardEarned();
-      setRewards(rewards)
+      setRewards(rewards);
       const event = await getDetails();
-      setEvents(event)
+      setEvents(event);
     }
-  }
+  };
 
-  const upcommingDate=(time)=>{
-    var current = Math.round(new Date().getTime()/1000);
-    var seconds =  time-current 
-    if(seconds > 0){
-      const days = Math.floor(seconds/86400)
+  const upcommingDate = (time) => {
+    var current = Math.round(new Date().getTime() / 1000);
+    var seconds = time - current;
+    if (seconds > 0) {
+      const days = Math.floor(seconds / 86400);
       const hour = Math.floor(seconds / 3600) % 24;
       const min = Math.floor(seconds / 60) % 60;
       const sec = seconds % 60;
       // return days+"D :"+hour+"H :"+min+"M :"+sec+"S"
-      return days+"D " + hour + "H"
+      return days + "D " + hour + "H";
+    } else {
+      return "UNSTAKE";
     }
-    else{
-      return "UNSTAKE"
-    }
-  } 
-  const EmergencyUnstake =async(id)=>{
+  };
+  const EmergencyUnstake = async (id) => {
     const data = await emergencyaction(id);
-    if(data.status){
-      notify('Unstake Successfully')
+    if (data.status) {
+      notify("Unstake Successfully");
     }
-  }
+  };
 
   const renderRows = (rowsInfo, index) => {
     return (
       <>
         <TableRow key={index}>
           <TableCell>{rowsInfo.id}</TableCell>
-          <TableCell>{new Date(Number(rowsInfo.starttime)*1000).toLocaleDateString()}</TableCell>
-          <TableCell>{rowsInfo.amount/10**18}</TableCell>
-          <TableCell>{new Date(Number(rowsInfo.endtime)*1000).toLocaleDateString()}</TableCell>
-          {!rowsInfo.claimed ? <TableCell className='' onClick={()=>unStakeAmount(rowsInfo.id,rowsInfo.endtime)}>{upcommingDate(rowsInfo.endtime)}</TableCell> :
-                    <TableCell>UNSTAKED</TableCell>}
-          {!rowsInfo.claimed ? <TableCell><p className='emergency' data-tip="hello world"  onClick={()=>EmergencyUnstake(rowsInfo.id)}>Emergency Withdraw &nbsp;&nbsp;<span
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title="10% fee will be charged">
-                <FaQuestionCircle size={20}/>
-              </span></p></TableCell> : <TableCell><p>NOT AVAILABLE</p></TableCell>}
+          <TableCell>
+            {new Date(Number(rowsInfo.starttime) * 1000).toLocaleDateString()}
+          </TableCell>
+          <TableCell>{rowsInfo.amount / 10 ** 18}</TableCell>
+          <TableCell>
+            {new Date(Number(rowsInfo.endtime) * 1000).toLocaleDateString()}
+          </TableCell>
+          {!rowsInfo.claimed ? (
+            <TableCell
+              className=""
+              onClick={() => unStakeAmount(rowsInfo.id, rowsInfo.endtime)}
+            >
+              {upcommingDate(rowsInfo.endtime)}
+            </TableCell>
+          ) : (
+            <TableCell>UNSTAKED</TableCell>
+          )}
+          {!rowsInfo.claimed ? (
+            <TableCell>
+              <p
+                className="emergency"
+                data-tip="hello world"
+                onClick={() => EmergencyUnstake(rowsInfo.id)}
+              >
+                Emergency Withdraw &nbsp;&nbsp;
+                <span
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="top"
+                  title="10% fee will be charged"
+                >
+                  <FaQuestionCircle size={20} />
+                </span>
+              </p>
+            </TableCell>
+          ) : (
+            <TableCell>
+              <p>NOT AVAILABLE</p>
+            </TableCell>
+          )}
         </TableRow>
       </>
     );
@@ -368,9 +400,30 @@ export default function AdminNav({account}) {
             <Box
               style={{
                 boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
-                padding: "60px 20px 60px",
+                padding: "50px 20px 60px",
               }}
             >
+              <Grid
+                item
+                xs={12}
+                sm={12}
+                md={12}
+                lg={12}
+                xl={12}
+                sx={{
+                  fontSize: "1.5rem",
+                  marginBottom: "3rem",
+                  textAlign: "center",
+                  fontWeight: 800,
+                }}
+              >
+                <span className="reff-id">
+                  <span className="Refferal">Refferal-id </span>
+                  <span>
+                    <AiOutlineCopy />
+                  </span>
+                </span>
+              </Grid>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
                   <Box sx={{}}>
@@ -528,7 +581,13 @@ export default function AdminNav({account}) {
                       >
                         {" "}
                         <CardContent>
-                          <Box className="cardcontent2" onClick={()=>{setDuration(30); setAPY(35)}}>
+                          <Box
+                            className="cardcontent2"
+                            onClick={() => {
+                              setDuration(30);
+                              setAPY(35);
+                            }}
+                          >
                             <Typography
                               sx={{ fontSize: 14 }}
                               color="text.secondary"
@@ -565,7 +624,13 @@ export default function AdminNav({account}) {
                       >
                         {" "}
                         <CardContent>
-                          <Box className="cardcontent2" onClick={()=>{setDuration(90); setAPY(75)}}>
+                          <Box
+                            className="cardcontent2"
+                            onClick={() => {
+                              setDuration(90);
+                              setAPY(75);
+                            }}
+                          >
                             <Typography
                               sx={{ fontSize: 14 }}
                               color="text.secondary"
@@ -602,7 +667,13 @@ export default function AdminNav({account}) {
                       >
                         {" "}
                         <CardContent>
-                          <Box className="cardcontent2" onClick={()=>{setDuration(180); setAPY(90)}}>
+                          <Box
+                            className="cardcontent2"
+                            onClick={() => {
+                              setDuration(180);
+                              setAPY(90);
+                            }}
+                          >
                             <Typography
                               sx={{ fontSize: 14 }}
                               color="text.secondary"
@@ -628,7 +699,13 @@ export default function AdminNav({account}) {
                     </Box>
                   </Grid>
                   <Grid item xs={12} sm={12} md={6} lg={3} xl={3}>
-                    <Box sx={{ maxWidth: 300 }} onClick={()=>{setDuration(365); setAPY(130)}}>
+                    <Box
+                      sx={{ maxWidth: 300 }}
+                      onClick={() => {
+                        setDuration(365);
+                        setAPY(130);
+                      }}
+                    >
                       <Card
                         variant="outlined"
                         style={{
@@ -674,7 +751,7 @@ export default function AdminNav({account}) {
                     <div className="d-grid">
                       <input
                         type="number"
-                        onChange={(e)=>setAmount(e.target.value)}
+                        onChange={(e) => setAmount(e.target.value)}
                         placeholder="Enter amount"
                         className="stakedAmount"
                         value={amount}
@@ -719,14 +796,15 @@ export default function AdminNav({account}) {
                         <p>Estimated Return</p>
                         <p className="ssc2">:</p>
                         <p className="sc">
-                        {duration == 30
-                          ? `${amount * 1.0292}`
-                          : duration == 90
-                          ? `${amount * 1.1875}`
-                          : duration == 180
-                          ? `${amount * 1.45}`
-                          : `${amount * 2.3}`}{" "}
-                           SRPAY</p>
+                          {duration == 30
+                            ? `${amount * 1.0292}`
+                            : duration == 90
+                            ? `${amount * 1.1875}`
+                            : duration == 180
+                            ? `${amount * 1.45}`
+                            : `${amount * 2.3}`}{" "}
+                          SRPAY
+                        </p>
                       </div>
                       <div className="summary-content">
                         <p>Start Date</p>
@@ -736,10 +814,17 @@ export default function AdminNav({account}) {
                       <div className="summary-content">
                         <p>End Date</p>
                         <p className="ssc4">:</p>
-                        <p className="sc">{new Date(time + duration * 86400000).toLocaleString()}</p>
+                        <p className="sc">
+                          {new Date(
+                            time + duration * 86400000
+                          ).toLocaleString()}
+                        </p>
                       </div>
                     </div>
-                    <button className="d-block m-auto stake-btton" onClick={()=>StakingToken()}>
+                    <button
+                      className="d-block m-auto stake-btton"
+                      onClick={() => StakingToken()}
+                    >
                       {" "}
                       STAKE NOW
                     </button>
@@ -831,7 +916,7 @@ export default function AdminNav({account}) {
                             component="div"
                             style={{ fontWeight: "900", fontSize: "17px" }}
                           >
-                            Total Earn 
+                            Total Earn
                           </Typography>
                           <Typography
                             sx={{
@@ -864,7 +949,9 @@ export default function AdminNav({account}) {
                         ))}
                       </TableRow>
                     </TableHead>
-                    <TableBody>{events && events.map((item)=>renderRows(item))}</TableBody>
+                    <TableBody>
+                      {events && events.map((item) => renderRows(item))}
+                    </TableBody>
                     {/* <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
