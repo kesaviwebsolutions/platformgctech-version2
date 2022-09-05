@@ -255,6 +255,7 @@ function App() {
             element={<Admin account={acount} contractadmin={contractadmin} />}
           />
           <Route path="/staking" element={<Staking />} />
+          <Route path="/staking/:ID" element={<Staking />} />
           <Route path="/admin/staker's-detail" element={<StakingTable />} />
           <Route exact path="/admin/referral-id" element={<Referralid />} />
           <Route

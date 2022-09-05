@@ -64,11 +64,11 @@ export default function App({ Metamask, account, contractadmin }) {
                 HOME
               </Link>
 
-              {account == contractadmin ||
-              account == "0xD9E0f712652589584B035Db1cb44A79F2eA2389F" ||
-              account == "0x149b65e2EB31c196F9C2407E0A88a9cF1F71bd35" ||
-              account == "0xdBd21416Da1207Bfb66BDf3baBE16538f112b706" ||
-              account == "0x9929BbE55e79cAC1003Dc4c9cD2e911CbaAd532D" ? (
+              {account && account != contractadmin ||
+              account != "0xD9E0f712652589584B035Db1cb44A79F2eA2389F" ||
+              account != "0x149b65e2EB31c196F9C2407E0A88a9cF1F71bd35" ||
+              account != "0xdBd21416Da1207Bfb66BDf3baBE16538f112b706" ||
+              account != "0x9929BbE55e79cAC1003Dc4c9cD2e911CbaAd532D" ? (
                 <>
                   <Link
                     onClick={() => setActive(2)}
