@@ -579,3 +579,21 @@ export const Allowforstaking = async()=>{
       console.log(error)
     }
   }
+
+  export const orderIDReferrals = async(address)=>{
+    try {
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const data = await contract.methods.investorOrderIds(address).call();
+      return data;
+    } catch (error) {
+    }
+  }
+
+  export const OrderIDdata = async(id)=>{
+    try {
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const data = await contract.methods.orders(id).call();
+      return data;
+    } catch (error) {
+    }
+  }

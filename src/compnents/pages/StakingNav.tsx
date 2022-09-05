@@ -2,7 +2,6 @@ import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { Container, Box } from "@mui/system";
-import { AiOutlineCopy } from "react-icons/ai";
 import {
   Grid,
   Card,
@@ -31,9 +30,13 @@ import {
   getDetails,
   emergencyaction,
   unstake,
-} from "./../../Web3/Web3";
+  orderIDReferrals,
+  OrderIDdata,
+} from "../../Web3/Web3";
+import { AiOutlineCopy } from "react-icons/ai";
+import { useParams } from "react-router-dom";
 
-const url = "http://localhost:3030/isuser";
+const url = "http://localhost:3030";
 
 const time = new Date().getTime();
 
@@ -100,14 +103,14 @@ const columns: readonly Column[] = [
 const columns2: readonly Column2[] = [
   {
     id: "size",
-    label: "SN0.",
+    label: "S.N0",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
     id: "size",
-    label: "All Referral Record",
+    label: "Wallet",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
@@ -115,14 +118,21 @@ const columns2: readonly Column2[] = [
 
   {
     id: "density",
-    label: "Valid Upto",
+    label: "Amount",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
-    label: "UnValid Upto",
+    label: "Started at",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "Valid upto",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
@@ -213,6 +223,7 @@ function a11yProps(index: number) {
 }
 
 export default function AdminNav({ account }) {
+  const {ID} = useParams();
   const [value, setValue] = React.useState(0);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -225,45 +236,97 @@ export default function AdminNav({ account }) {
   const [mystake, setMystake] = useState(0);
   const [reward, setRewards] = useState(0);
   const [events, setEvents] = useState([]);
+  const [referal, setReferals] = useState([]);
 
-  const getUserReferrals = async () => {};
+  
 
   useEffect(() => {
     const init = async () => {
-      await axios
-        .post(url, {
-          user: account,
-        })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      // const bal = await StakingtokenBalance();
-      // setBalance(bal);
-      // const ts = await StakeBalace();
-      // setStakeTotal(ts);
-      // const ds = await tokenDistribute()
-      // setDistribute(ds);
-      // const rewards = await totakRewardEarned();
-      // setRewards(rewards)
-      // const event = await getDetails();
-      // setEvents(event)
+      getReferrals();
+      const bal = await StakingtokenBalance();
+      setBalance(bal);
+      const ts = await StakeBalace();
+      setStakeTotal(ts);
+      const ds = await tokenDistribute();
+      setDistribute(ds);
+      const rewards = await totakRewardEarned();
+      setRewards(rewards);
+      const event = await getDetails();
+      setEvents(event);
     };
     init();
   }, [account]);
 
+  const getReferrals = async () => {
+    let ref = [];
+    await axios
+      .post(`${url}/isuser`, {
+        user: account,
+      })
+      .then(async (res) => {
+        if (res.data[0] && res.data[0].refferals.length > 0) {
+          for (let i = 0; i < res.data[0].refferals.length; i++) {
+            const id = await orderIDReferrals(res.data[0].refferals[i]);
+            for (let x = 0; x < id.length; x++) {
+              console.log("id is", x);
+              const events = await OrderIDdata(id[x]);
+              ref.push(events);
+            }
+          }
+          setReferals(ref);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  console.log("Referral data", referal);
+
   const StakingToken = async () => {
-    const data = await Stake(duration, amount);
-    if (data.status) {
+    // const data = await Stake(duration, amount);
+    if (true) {
       notify("Stake Successfully");
-      const ts = await StakeBalace();
-      setStakeTotal(ts);
-      const bal = await StakingtokenBalance();
-      setBalance(bal);
+      await addReferralUser()
+      // const ts = await StakeBalace();
+      // setStakeTotal(ts);
+      // const bal = await StakingtokenBalance();
+      // setBalance(bal);
     }
   };
+  const addReferralUser =async()=>{
+    console.log("Refferal",ID)
+    if(ID){
+    await  axios.post(`${url}/addreferrals`,{
+        "user":ID,
+        "wallet":account
+      }).then((res)=>{
+        console.log(res)
+      }).catch(console.error)
+    }
+    else{
+     const isuser = await axios.post(`${url}/isuser`,{
+        "user":account
+      }).then((res)=>{
+        console.log(res.data.length)
+        return res.data;
+      }).catch(console.error)
+      if(isuser.length <= 0){
+         await axios.post(`${url}/user`,{
+        "user":account,
+        "time":new Date().getTime()/1000,
+        "refferals":[]
+      }).then((res)=>{
+        console.log(res)
+      }).catch(console.error)
+      }
+    }
+  }
+
+  const copytext = (text)=>{
+    navigator.clipboard.writeText(text)
+    notify("Copied")
+  }
 
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
@@ -283,7 +346,7 @@ export default function AdminNav({ account }) {
     setPage(0);
   };
 
-  const unStakeAmount = async (id, end) => {
+  const unStakeAmount = async (id: any, end: any) => {
     console.log(Number(new Date().getTime() / 1000).toFixed(0), Number(end));
     if (new Date().getTime() / 1000 < Number(end)) {
       warning("Can not unstake before end time");
@@ -299,7 +362,7 @@ export default function AdminNav({ account }) {
     }
   };
 
-  const upcommingDate = (time) => {
+  const upcommingDate = (time: number) => {
     var current = Math.round(new Date().getTime() / 1000);
     var seconds = time - current;
     if (seconds > 0) {
@@ -313,11 +376,17 @@ export default function AdminNav({ account }) {
       return "UNSTAKE";
     }
   };
-  const EmergencyUnstake = async (id) => {
+  const EmergencyUnstake = async (id: any) => {
     const data = await emergencyaction(id);
     if (data.status) {
       notify("Unstake Successfully");
     }
+  };
+
+  const slicewallet = (add) => {
+    const first = add.slice(0, 6);
+    const second = add.slice(35);
+    return first + "..." + second;
   };
 
   const renderRows = (rowsInfo, index) => {
@@ -368,18 +437,6 @@ export default function AdminNav({ account }) {
       </>
     );
   };
-  const renderRows2 = (rowsInfo, index) => {
-    return (
-      <>
-        <TableRow key={index}>
-          <TableCell>{rowsInfo.SNO}</TableCell>
-          <TableCell>{rowsInfo.AllReferralReward}</TableCell>
-          <TableCell>{rowsInfo.Validupto}</TableCell>
-          <TableCell>{rowsInfo.Unvalidupto}</TableCell>
-        </TableRow>
-      </>
-    );
-  };
 
   return (
     <Container maxWidth="xl">
@@ -400,7 +457,7 @@ export default function AdminNav({ account }) {
             <Box
               style={{
                 boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
-                padding: "50px 20px 60px",
+                padding: "60px 20px 60px",
               }}
             >
               <Grid
@@ -418,9 +475,9 @@ export default function AdminNav({ account }) {
                 }}
               >
                 <span className="reff-id">
-                  <span className="Refferal">Refferal-id </span>
+                  <span className="Refferal">Refferal-id: </span><span className="Refferal" >{`http://localhost:3000/staking/${account}`}</span>
                   <span>
-                    <AiOutlineCopy />
+                    <AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(`http://localhost:3000/staking/${account}`)}/>
                   </span>
                 </span>
               </Grid>
@@ -431,7 +488,6 @@ export default function AdminNav({ account }) {
                       variant="outlined"
                       style={{
                         border: "none",
-
                         background: "#fff",
                         boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
                         width: "90%",
@@ -1013,7 +1069,26 @@ export default function AdminNav({ account }) {
                       ))}
                     </TableRow>
                   </TableHead>
-                  <TableBody>{rowsInfo2.map(renderRows2)}</TableBody>
+                  <TableBody>
+                    {referal &&
+                      referal.map((item) => {
+                        return (
+                          <TableRow>
+                            <TableCell>{referal.indexOf(item)}</TableCell>
+                            <TableCell >{slicewallet(item[0])} <AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(item[0])}/></TableCell>
+                            <TableCell>
+                              {Number(item[1] / 10 ** 18).toFixed(2)}
+                            </TableCell>
+                            <TableCell>
+                              {new Date(item[5] * 1000).toLocaleString()}
+                            </TableCell>
+                            <TableCell>
+                              {new Date(item[4] * 1000).toLocaleString()}
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                  </TableBody>
                 </Table>
               </TableContainer>
               <TablePagination
