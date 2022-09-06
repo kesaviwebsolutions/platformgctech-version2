@@ -237,6 +237,7 @@ export default function AdminNav({ account }) {
   const [reward, setRewards] = useState(0);
   const [events, setEvents] = useState([]);
   const [referal, setReferals] = useState([]);
+  const [showID, setShowID] = useState(false)
 
   
 
@@ -264,6 +265,9 @@ export default function AdminNav({ account }) {
         user: account.toLowerCase(),
       })
       .then(async (res) => {
+        if(res.data[0]){
+          setShowID(true)
+        }
         if (res.data[0] && res.data[0].refferals.length > 0) {
           for (let i = 0; i < res.data[0].refferals.length; i++) {
             const id = await orderIDReferrals(res.data[0].refferals[i]);
@@ -304,6 +308,22 @@ export default function AdminNav({ account }) {
       }).then((res)=>{
         console.log(res)
       }).catch(console.error)
+      const isuser = await axios.post(`${url}/isuser`,{
+        "user":account.toLowerCase()
+      }).then((res)=>{
+        console.log(res.data.length)
+        return res.data;
+      }).catch(console.error)
+
+      if(isuser.length <= 0){
+         await axios.post(`${url}/user`,{
+        "user":account.toLowerCase(),
+        "time":new Date().getTime()/1000,
+        "refferals":[]
+      }).then((res)=>{
+        console.log(res)
+      }).catch(console.error)
+      }
     }
     else{
      const isuser = await axios.post(`${url}/isuser`,{
@@ -462,7 +482,7 @@ export default function AdminNav({ account }) {
                 padding: "60px 20px 60px",
               }}
             >
-              <Grid
+             {showID ?  <Grid
                 item
                 xs={12}
                 sm={12}
@@ -482,7 +502,7 @@ export default function AdminNav({ account }) {
                     <AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(`https://gc-staking.netlify.app/staking/${account}`)}/>
                   </span>
                 </span>
-              </Grid>
+              </Grid> : ''}
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
                   <Box sx={{}}>
@@ -642,7 +662,7 @@ export default function AdminNav({ account }) {
                           <Box
                             className="cardcontent2"
                             onClick={() => {
-                              setDuration(30);
+                              setDuration(1);
                               setAPY(35);
                             }}
                           >
@@ -656,7 +676,7 @@ export default function AdminNav({ account }) {
                               component="div"
                               style={{ fontWeight: "900", fontSize: "17px" }}
                             >
-                              30 Days
+                              1 Days
                             </Typography>
                             <Typography
                               sx={{
@@ -685,7 +705,7 @@ export default function AdminNav({ account }) {
                           <Box
                             className="cardcontent2"
                             onClick={() => {
-                              setDuration(90);
+                              setDuration(2);
                               setAPY(75);
                             }}
                           >
@@ -699,7 +719,7 @@ export default function AdminNav({ account }) {
                               component="div"
                               style={{ fontWeight: "900", fontSize: "17px" }}
                             >
-                              90 Days
+                              2 Days
                             </Typography>
                             <Typography
                               sx={{
@@ -728,7 +748,7 @@ export default function AdminNav({ account }) {
                           <Box
                             className="cardcontent2"
                             onClick={() => {
-                              setDuration(180);
+                              setDuration(3);
                               setAPY(90);
                             }}
                           >
@@ -742,7 +762,7 @@ export default function AdminNav({ account }) {
                               component="div"
                               style={{ fontWeight: "900", fontSize: "17px" }}
                             >
-                              180 Days
+                              3 Days
                             </Typography>
                             <Typography
                               sx={{
@@ -760,7 +780,7 @@ export default function AdminNav({ account }) {
                     <Box
                       sx={{ maxWidth: 300 }}
                       onClick={() => {
-                        setDuration(365);
+                        setDuration(4);
                         setAPY(130);
                       }}
                     >
@@ -785,7 +805,7 @@ export default function AdminNav({ account }) {
                               component="div"
                               style={{ fontWeight: "900", fontSize: "17px" }}
                             >
-                              365 Days
+                              4 Days
                             </Typography>
                             <Typography
                               sx={{
