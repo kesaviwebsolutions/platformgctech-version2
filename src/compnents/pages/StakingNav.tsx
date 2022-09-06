@@ -245,10 +245,6 @@ export default function AdminNav({ account }) {
   const [referal, setReferals] = useState([]);
   const [showID, setShowID] = useState(false)
 
-  
-
-  
-
   useEffect(() => {
     const init = async () => {
       getReferrals();
@@ -311,7 +307,7 @@ export default function AdminNav({ account }) {
   };
 
   const addReferralUser =async(ids,hash)=>{
-    console.log("Refferal",ID)
+    
     if(ID){
     await axios.post(`${url}/addreferrals`,{
         "user":ID.toLowerCase(),
