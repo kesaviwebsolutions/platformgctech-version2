@@ -271,6 +271,7 @@ export default function AdminNav({ account }) {
         user: account.toLowerCase(),
       })
       .then(async (res) => {
+        console.log(res)
         if(res.data[0]){
           setShowID(true)
         }
@@ -291,7 +292,7 @@ export default function AdminNav({ account }) {
       });
   };
 
-  console.log("Referral data", referal);
+  // console.log("Referral data", showID);
 
   const StakingToken = async () => {
     const data = await Stake(amount,duration);

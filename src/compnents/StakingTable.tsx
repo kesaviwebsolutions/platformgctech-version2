@@ -10,8 +10,9 @@ import TableRow from "@mui/material/TableRow";
 import { Container } from "@mui/system";
 import AdminNav from "./AdminNav";
 import axios from "axios";
-import { OrderIDdata,GetPendingRewards } from "../Web3/Web3";
+import { OrderIDdata,GetPendingRewards,StakeBalace,balanceofreferral } from "../Web3/Web3";
 import { Link } from "react-router-dom";
+import { AiOutlineCopy } from 'react-icons/ai'
 import toast, { Toaster } from "react-hot-toast";
 
 // const url = "https://refer.ap.ngrok.io";
@@ -193,29 +194,17 @@ const rowsInfo = [
     noofreferrals: "7",
   },
 ];
-const renderRows = (rowsInfo, index) => {
-  return (
-    <>
-      <TableRow key={index}>
-        <TableCell>{rowsInfo.tablecell}</TableCell>
-        <TableCell>{rowsInfo.walletaddress}</TableCell>
-      
-        <TableCell>
-          {" "}
-          <Link to="/">{rowsInfo.referralid}</Link>
-        </TableCell>
-        <TableCell>{rowsInfo.txhash}</TableCell>
-        <TableCell>{rowsInfo.timeofstake}</TableCell>
-        <TableCell>{rowsInfo.periodofstaking}</TableCell>
-        <TableCell>{rowsInfo.levelofstaker}</TableCell>
-        <TableCell>{rowsInfo.APY}</TableCell>
-        <TableCell>{rowsInfo.pendingreward}</TableCell>
-        <TableCell>{rowsInfo.claimedreward}</TableCell>
-        <TableCell>{rowsInfo.noofreferrals}</TableCell>
-      </TableRow>
-    </>
-  );
+const copytext = (text)=>{
+  navigator.clipboard.writeText(text)
+  notify("Copied")
+}
+
+const slicewallet = (add) => {
+  const first = add.slice(0, 6);
+  const second = add.slice(35);
+  return first + "..." + second;
 };
+
 
 const rows = [
   createData("India", "IN", 1324171354, 1),
@@ -239,6 +228,7 @@ export default function StakingTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [user, setUser] = useState([])
+  const [stakebalance, setStakeBalance] = useState(0)
 
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
@@ -249,36 +239,73 @@ export default function StakingTable() {
     setPage(0);
   };
 
+  useEffect(()=>{
+    const init =async()=>{
+      const stakebal = await StakeBalace();
+      setStakeBalance(stakebal)
+    }
+    init();
+  },[])
+
+  const getRefera =async(arra)=>{
+    let a = 0;
+    const stakebal = await StakeBalace();
+    for(let x = 0; x < arra.length; x++){
+      const bal = await balanceofreferral(arra[x])
+      if(Number(bal) >= Number(stakebal)){
+        a++
+      }
+    }
+    return a;
+  }
+
   useEffect(() => {
     const events = []
-    const data = Object();
+    let data;
     axios.get(`${url}/users`).then(async(res)=>{
       for(let i = 0; i < res.data.length; i++){
         const length  = res.data[i].IDs.length
-        for(let x = 0; x < Number(length); i++){
-          
-          // const data = await OrderIDdata(res.data[i].IDs[x]);
-          // const pending  = await GetPendingRewards(res.data[i].IDs[x])
-          // data.pending = pending
-          // events.push(data)
+        for(let x = 0; x < Number(length); x++){
+          data = await OrderIDdata(res.data[i].IDs[x]);
+          const pending  = await GetPendingRewards(res.data[i].IDs[x]);
+          data.pending = pending
+          const ref = await getRefera(res.data[i].refferals)
+          console.log("ref count ", ref)
+          data.refcount = ref
+          events.push(data)
         }
       }
-      console.log("events",events)
+      
+      setUser(events)
     })
   }, [])
-  
-
-
-  const copytext = (text)=>{
-    navigator.clipboard.writeText(text)
-    notify("Copied")
-  }
-
-  const slicewallet = (add) => {
-    const first = add.slice(0, 6);
-    const second = add.slice(35);
-    return first + "..." + second;
+  // console.log(user)
+  const renderRows = (rowsInfo, index) => {
+    return (
+      <>
+        <TableRow key={index}>
+          <TableCell>{index}</TableCell>
+          <TableCell>{slicewallet(rowsInfo.beneficiary)}<AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(rowsInfo.beneficiary)}/></TableCell>
+          <TableCell>
+            {" "}
+            <Link to="/">{slicewallet(rowsInfo.beneficiary)}</Link>
+          </TableCell>
+          <TableCell>{rowsInfo.amount/10**18}</TableCell>
+          <TableCell>{new Date(rowsInfo.starttime*100).toLocaleString()}</TableCell>
+          <TableCell>{rowsInfo.lockupDuration}</TableCell>
+          <TableCell>{stakebalance < 1000 ? "Entery Level" : stakebalance >= 1000 && stakebalance < 3000 ? "Level 2" : "Level 3" }</TableCell>
+          <TableCell>{rowsInfo.lockupDuration == 1 ? "35" : rowsInfo.lockupDuration == 2 ? "75" : rowsInfo.lockupDuration == 3 ? "90" : "130"}</TableCell>
+          <TableCell>{Number(rowsInfo.pending/10**18).toFixed(5)}</TableCell>
+          <TableCell>{rowsInfo.claimedReward/10**18}</TableCell>
+          <TableCell>{rowsInfo.refcount}</TableCell>
+        </TableRow>
+      </>
+    );
   };
+
+  // console.log("events",user)
+
+ 
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
@@ -299,7 +326,7 @@ export default function StakingTable() {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>{rowsInfo.map(renderRows)}</TableBody>
+            <TableBody>{user.map((res)=>renderRows(res, user.indexOf(res)))}</TableBody>
             {/* <TableBody>
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
