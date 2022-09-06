@@ -32,11 +32,16 @@ import {
   unstake,
   orderIDReferrals,
   OrderIDdata,
+  totalstakedinContract,
+  orderID,
 } from "../../Web3/Web3";
 import { AiOutlineCopy } from "react-icons/ai";
+import { BsCheckCircle } from "react-icons/bs"
+import  { ImCross } from "react-icons/im"
 import { useParams } from "react-router-dom";
 
-const url = "https://refer.ap.ngrok.io";
+// const url = "https://refer.ap.ngrok.io";
+const url = "http://localhost:3030";
 
 const time = new Date().getTime();
 
@@ -87,19 +92,20 @@ const columns: readonly Column[] = [
   },
   {
     id: "density",
-    label: "Action",
+    label: "Time Left",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
-    label: "Emergency",
+    label: "Action",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
 ];
+
 const columns2: readonly Column2[] = [
   {
     id: "size",
@@ -132,7 +138,7 @@ const columns2: readonly Column2[] = [
   },
   {
     id: "density",
-    label: "Valid upto",
+    label: "Ending at",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
@@ -241,12 +247,14 @@ export default function AdminNav({ account }) {
 
   
 
+  
+
   useEffect(() => {
     const init = async () => {
       getReferrals();
       const bal = await StakingtokenBalance();
       setBalance(bal);
-      const ts = await StakeBalace();
+      const ts = await totalstakedinContract();
       setStakeTotal(ts);
       const ds = await tokenDistribute();
       setDistribute(ds);
@@ -254,6 +262,8 @@ export default function AdminNav({ account }) {
       setRewards(rewards);
       const event = await getDetails();
       setEvents(event);
+      const myst = await StakeBalace();
+      setMystake(myst)
     };
     init();
   }, [account]);
@@ -290,8 +300,9 @@ export default function AdminNav({ account }) {
   const StakingToken = async () => {
     const data = await Stake(amount,duration);
     if (data.status) {
+      const ids = await orderID()
       notify("Stake Successfully");
-      await addReferralUser()
+      await addReferralUser(ids, data.transactionHash)
       const ts = await StakeBalace();
       setStakeTotal(ts);
       const bal = await StakingtokenBalance();
@@ -299,7 +310,7 @@ export default function AdminNav({ account }) {
     }
   };
 
-  const addReferralUser =async()=>{
+  const addReferralUser =async(ids,hash)=>{
     console.log("Refferal",ID)
     if(ID){
     await axios.post(`${url}/addreferrals`,{
@@ -317,9 +328,14 @@ export default function AdminNav({ account }) {
 
       if(isuser.length <= 0){
          await axios.post(`${url}/user`,{
-        "user":account.toLowerCase(),
-        "time":new Date().getTime()/1000,
-        "refferals":[]
+          "user":account.toLowerCase(),
+          "expire":new Date(time + duration * 86400000).getTime()/1000,
+          "Tx":hash,
+          "IDs":ids,
+          "Duration":duration,
+          "APY":apy,
+          "time":new Date().getTime()/1000,
+          "refferals":[]
       }).then((res)=>{
         console.log(res)
       }).catch(console.error)
@@ -336,6 +352,11 @@ export default function AdminNav({ account }) {
       if(isuser.length <= 0){
          await axios.post(`${url}/user`,{
         "user":account.toLowerCase(),
+        "expire":new Date(time + duration * 86400000).getTime()/1000,
+        "Tx":hash,
+        "IDs":ids,
+        "Duration":duration,
+        "APY":apy,
         "time":new Date().getTime()/1000,
         "refferals":[]
       }).then((res)=>{
@@ -842,7 +863,7 @@ export default function AdminNav({ account }) {
                 <div className="container" style={{ marginTop: "3rem" }}>
                   <div className="stake-summary-content">
                     <div className="stake">
-                      <h4 className="srpayBalance">Your Balance : SRPAY</h4>
+                      <h4 className="srpayBalance">Your Balance : {balance} Gcex</h4>
                     </div>
                     <button
                       className="d-block m-auto stake-btton"
@@ -868,7 +889,7 @@ export default function AdminNav({ account }) {
                       <div className="summary-content">
                         <p>Staked Amount</p>
                         <p className="ssc">:</p>
-                        <p className="sc">{amount} SRPAY</p>
+                        <p className="sc">{amount} Gcex</p>
                       </div>
                       <div className="summary-content">
                         <p>Estimated Return</p>
@@ -881,7 +902,7 @@ export default function AdminNav({ account }) {
                             : duration == 180
                             ? `${amount * 1.45}`
                             : `${amount * 2.3}`}{" "}
-                          SRPAY
+                          Gcex
                         </p>
                       </div>
                       <div className="summary-content">
@@ -922,6 +943,7 @@ export default function AdminNav({ account }) {
                 padding: "60px 20px 60px",
               }}
             >
+               <Typography style={{textAlign:'center',marginBottom:'2rem'}}><span className="levels">{mystake < 1000 ? "Entery Level" : mystake >= 1000 && mystake < 3000 ? "Level 2" : "Level 3" }</span></Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
@@ -962,7 +984,7 @@ export default function AdminNav({ account }) {
                               fontWeight: "900",
                             }}
                           >
-                            {stakeTotal} GCex
+                            {mystake} GCex
                           </Typography>
                         </Box>
                       </CardContent>
@@ -1012,6 +1034,7 @@ export default function AdminNav({ account }) {
                 </Grid>
               </Grid>
               <Container maxWidth="xl">
+               
                 <TableContainer sx={{ maxHeight: 440 }}>
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>

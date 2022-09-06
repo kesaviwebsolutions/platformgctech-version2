@@ -284,3 +284,14 @@ p.sc {
   color: white;
   border-radius: 10px;
 }
+
+
+.levels{
+  text-align: center;
+  padding: 1rem;
+  background-color: aqua;
+  font-size: 19px;
+  font-weight: 800;
+  border-radius: 10px;
+  color: #18382c;
+}

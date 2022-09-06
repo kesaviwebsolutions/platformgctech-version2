@@ -423,7 +423,8 @@ export const Approveforstaking = async () => {
     } catch (error) {
       console.log(error)
     }
-  }
+}
+
 export const Allowforstaking = async()=>{
     try {
     const contract = new web3.eth.Contract(tokenBalance, stakingToken);
@@ -518,6 +519,7 @@ export const Allowforstaking = async()=>{
     }
     return events;
   };
+
   
   export const unstake = async(id)=>{
     try {
@@ -594,6 +596,15 @@ export const Allowforstaking = async()=>{
       const contract = new web3.eth.Contract(Staking, stakingAddress);
       const data = await contract.methods.orders(id).call();
       return data;
+    } catch (error) {
+    }
+  }
+
+  export const GetPendingRewards = async(id)=>{
+    try {
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const data = await contract.methods.pendingRewards(id).call();
+      return data/10**18;
     } catch (error) {
     }
   }
