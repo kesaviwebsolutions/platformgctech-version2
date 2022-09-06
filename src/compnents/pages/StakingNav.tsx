@@ -477,9 +477,9 @@ export default function AdminNav({ account }) {
                 }}
               >
                 <span className="reff-id">
-                  <span className="Refferal">Refferal-id: </span><span className="Refferal" >{`http://localhost:3000/staking/${account}`}</span>
+                  <span className="Refferal">Refferal-id: </span><span className="Refferal" >{`https://gc-staking.netlify.app/staking/${account}`}</span>
                   <span>
-                    <AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(`http://localhost:3000/staking/${account}`)}/>
+                    <AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(`https://gc-staking.netlify.app/staking/${account}`)}/>
                   </span>
                 </span>
               </Grid>
