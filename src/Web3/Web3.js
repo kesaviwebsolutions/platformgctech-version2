@@ -434,20 +434,20 @@ export const Allowforstaking = async()=>{
     }
   }
 
-  export const Stake =async(du,amount)=> {
+  export const Stake =async(amount, dura)=> {
     try {
       const a = await towie(amount);
-      console.log(a,du)
+      console.log(a,dura)
       const contract = new web3.eth.Contract(Staking, stakingAddress);
       const allow = await Allowforstaking();
       console.log(allow)
       if(Number(allow) > 0){
-        const data = await contract.methods.deposit(a,du).send({from:await getUserAddress()});
+        const data = await contract.methods.deposit(a,dura).send({from:await getUserAddress()});
         return data;
       }
       else{
         await Approveforstaking();
-        const data = await contract.methods.deposit(a,du).send({from:await getUserAddress()});
+        const data = await contract.methods.deposit(a,dura).send({from:await getUserAddress()});
         return data;
       }
     } catch (error) {

@@ -36,7 +36,7 @@ import {
 import { AiOutlineCopy } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 
-const url = "http://localhost:3030";
+const url = "https://refer.ap.ngrok.io";
 
 const time = new Date().getTime();
 
@@ -261,7 +261,7 @@ export default function AdminNav({ account }) {
     let ref = [];
     await axios
       .post(`${url}/isuser`, {
-        user: account,
+        user: account.toLowerCase(),
       })
       .then(async (res) => {
         if (res.data[0] && res.data[0].refferals.length > 0) {
@@ -284,36 +284,38 @@ export default function AdminNav({ account }) {
   console.log("Referral data", referal);
 
   const StakingToken = async () => {
-    // const data = await Stake(duration, amount);
-    if (true) {
-      // notify("Stake Successfully");
+    const data = await Stake(amount,duration);
+    if (data.status) {
+      notify("Stake Successfully");
       await addReferralUser()
-      // const ts = await StakeBalace();
-      // setStakeTotal(ts);
-      // const bal = await StakingtokenBalance();
-      // setBalance(bal);
+      const ts = await StakeBalace();
+      setStakeTotal(ts);
+      const bal = await StakingtokenBalance();
+      setBalance(bal);
     }
   };
+
   const addReferralUser =async()=>{
     console.log("Refferal",ID)
     if(ID){
-    await  axios.post(`${url}/addreferrals`,{
-        "user":ID,
-        "wallet":account
+    await axios.post(`${url}/addreferrals`,{
+        "user":ID.toLowerCase(),
+        "wallet":account.toLowerCase()
       }).then((res)=>{
         console.log(res)
       }).catch(console.error)
     }
     else{
      const isuser = await axios.post(`${url}/isuser`,{
-        "user":account
+        "user":account.toLowerCase()
       }).then((res)=>{
         console.log(res.data.length)
         return res.data;
       }).catch(console.error)
+
       if(isuser.length <= 0){
          await axios.post(`${url}/user`,{
-        "user":account,
+        "user":account.toLowerCase(),
         "time":new Date().getTime()/1000,
         "refferals":[]
       }).then((res)=>{
