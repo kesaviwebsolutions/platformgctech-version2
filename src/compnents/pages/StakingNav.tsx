@@ -61,14 +61,14 @@ interface Column {
   id: "name" | "code" | "population" | "size" | "density";
   label: string;
   minWidth?: number;
-  align?: "center";
+   align: "center",
   format?: (value: number) => string;
 }
 interface Column2 {
   id: "name" | "code" | "population" | "size" | "density";
   label: string;
   minWidth?: number;
-  align?: "center";
+   align: "center",
   format?: (value: number) => string;
 }
 const columns: readonly Column[] = [
@@ -79,33 +79,33 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
   },
-  { id: "name", label: "Staking Date", minWidth: 170, align: "center" },
+  { id: "name", label: "Staking Date", minWidth: 170,  align: "center" },
   {
     id: "density",
     label: "Token Amount",
     minWidth: 170,
-    align: "center",
+     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Staking End",
     minWidth: 170,
-    align: "center",
+     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Time Left",
     minWidth: 170,
-    align: "center",
+     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Action",
     minWidth: 170,
-    align: "center",
+     align: "center",
     format: (value: number) => value.toFixed(2),
   },
 ];
@@ -115,14 +115,14 @@ const columns2: readonly Column2[] = [
     id: "size",
     label: "S.N0",
     minWidth: 170,
-    align: "center",
+     align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
     id: "size",
     label: "Wallet",
     minWidth: 170,
-    align: "center",
+     align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
   },
 
@@ -130,21 +130,21 @@ const columns2: readonly Column2[] = [
     id: "density",
     label: "Amount",
     minWidth: 170,
-    align: "center",
+     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Started at",
     minWidth: 170,
-    align: "center",
+     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Ending at",
     minWidth: 170,
-    align: "center",
+     align: "center",
     format: (value: number) => value.toFixed(2),
   },
 ];
@@ -1089,10 +1089,10 @@ export default function AdminNav({ account }) {
               </Grid>
               <Container maxWidth="xl">
                
-                <TableContainer sx={{ maxHeight: 440 }}>
+                <TableContainer sx={{ maxHeight: 440,textAlign:"left" }}>
                   {events && events.length > 0 ? <Table stickyHeader aria-label="sticky table">
                     <TableHead>
-                      <TableRow>
+                      <TableRow sx={{textAlign:"left"}}>
                         {columns.map((column) => (
                           <TableCell
                             key={column.id}
