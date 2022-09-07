@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import { Container } from "@mui/system";
 import AdminNav from "./AdminNav";
 import axios from "axios";
-import { OrderIDdata,GetPendingRewards,StakeBalace,balanceofreferral } from "../Web3/Web3";
+import { OrderIDdata,GetPendingRewards,StakeBalace,balanceofreferral,balanceofstake } from "../Web3/Web3";
 import { Link } from "react-router-dom";
 import { AiOutlineCopy } from 'react-icons/ai'
 import toast, { Toaster } from "react-hot-toast";
@@ -290,7 +290,7 @@ export default function StakingTable({account}) {
           <TableCell>{slicewallet(rowsInfo.beneficiary)}<AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(rowsInfo.beneficiary)}/></TableCell>
           <TableCell>
             {" "}
-            <Link to="/">{slicewallet(rowsInfo.beneficiary)}</Link>
+            <Link to={`/admin/referral-id/${rowsInfo.beneficiary}`}>{slicewallet(rowsInfo.beneficiary)}</Link>
           </TableCell>
           <TableCell>{rowsInfo.amount/10**18}</TableCell>
           <TableCell>{new Date(rowsInfo.starttime*100).toLocaleString()}</TableCell>

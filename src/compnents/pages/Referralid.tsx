@@ -9,7 +9,8 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { Container } from "@mui/system";
 import AdminNav from "../AdminNav";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import axios from "axios";
 
 interface Column {
   id: "name" | "code" | "population" | "size" | "density";
@@ -183,6 +184,8 @@ const rowsInfo = [
 ];
 
 const renderRows = (rowsInfo, index) => {
+  
+
   return (
     <>
       <TableRow key={index}>
@@ -226,6 +229,18 @@ const rows = [
 export default function StakingTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const {ref} = useParams();
+  const [referrals, setReferrals] = ReactuseState(0);
+
+  React.useEffect(()=>{
+      const init =async()=>{
+        
+      }
+  },[])
+
+  const getRef =async()=>{
+    
+  }
 
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
