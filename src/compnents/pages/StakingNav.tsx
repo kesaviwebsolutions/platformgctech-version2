@@ -1,6 +1,10 @@
 import * as React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 import { Container, Box } from "@mui/system";
 import {
   Grid,
@@ -36,11 +40,11 @@ import {
   orderID,
 } from "../../Web3/Web3";
 import { AiOutlineCopy } from "react-icons/ai";
-import { BsCheckCircle } from "react-icons/bs"
-import  { ImCross } from "react-icons/im"
+import { BsCheckCircle } from "react-icons/bs";
+import { ImCross } from "react-icons/im";
 import { useParams } from "react-router-dom";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 // const url = "https://refer.ap.ngrok.io";
 const url = "http://localhost:3030";
@@ -231,7 +235,7 @@ function a11yProps(index: number) {
 }
 
 export default function AdminNav({ account }) {
-  const {ID} = useParams();
+  const { ID } = useParams();
   const [value, setValue] = React.useState(0);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -245,7 +249,7 @@ export default function AdminNav({ account }) {
   const [reward, setRewards] = useState(0);
   const [events, setEvents] = useState([]);
   const [referal, setReferals] = useState();
-  const [showID, setShowID] = useState(false)
+  const [showID, setShowID] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -261,27 +265,26 @@ export default function AdminNav({ account }) {
       const event = await getDetails();
       setEvents(event);
       const myst = await StakeBalace();
-      setMystake(myst)
+      setMystake(myst);
     };
     init();
   }, [account]);
 
   const getReferrals = async () => {
     let ref = [];
-    
+
     await axios
       .post(`${url}/isuser`, {
         user: account.toLowerCase(),
       })
       .then(async (res) => {
-        console.log(res)
-        if(res.data.length > 0){
-          setShowID(true)
+        console.log(res);
+        if (res.data.length > 0) {
+          setShowID(true);
+        } else {
+          setShowID(false);
         }
-        else{
-          setShowID(false)
-        }
-        console.log("inside api",account)
+        console.log("inside api", account);
         setReferals(undefined);
         if (res.data[0] && res.data[0].refferals.length > 0) {
           for (let i = 0; i < res.data[0].refferals.length; i++) {
@@ -292,7 +295,6 @@ export default function AdminNav({ account }) {
               ref.push(events);
             }
           }
-          
         }
         setReferals(ref);
       })
@@ -304,11 +306,11 @@ export default function AdminNav({ account }) {
   // console.log("Referral data", showID);
 
   const StakingToken = async () => {
-    const data = await Stake(amount,duration);
+    const data = await Stake(amount, duration);
     if (data.status) {
-      const ids = await orderID()
+      const ids = await orderID();
       notify("Stake Successfully");
-      await addReferralUser(ids, data.transactionHash)
+      await addReferralUser(ids, data.transactionHash);
       const ts = await StakeBalace();
       setStakeTotal(ts);
       const bal = await StakingtokenBalance();
@@ -316,82 +318,99 @@ export default function AdminNav({ account }) {
     }
   };
 
-  const addReferralUser =async(ids,hash)=>{
-    
-    if(ID){
-    await axios.post(`${url}/addreferrals`,{
-        "user":ID.toLowerCase(),
-        "wallet":account.toLowerCase()
-      }).then((res)=>{
-        console.log(res)
-      }).catch(console.error)
-      const isuser = await axios.post(`${url}/isuser`,{
-        "user":account.toLowerCase()
-      }).then((res)=>{
-        console.log(res.data.length)
-        return res.data;
-      }).catch(console.error)
+  const addReferralUser = async (ids, hash) => {
+    if (ID) {
+      await axios
+        .post(`${url}/addreferrals`, {
+          user: ID.toLowerCase(),
+          wallet: account.toLowerCase(),
+        })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch(console.error);
+      const isuser = await axios
+        .post(`${url}/isuser`, {
+          user: account.toLowerCase(),
+        })
+        .then((res) => {
+          console.log(res.data.length);
+          return res.data;
+        })
+        .catch(console.error);
 
-      if(isuser.length <= 0){
-         await axios.post(`${url}/user`,{
-          "user":account.toLowerCase(),
-          "expire":new Date(time + duration * 86400000).getTime()/1000,
-          "Tx":hash,
-          "IDs":ids,
-          "Duration":duration,
-          "APY":apy,
-          "time":new Date().getTime()/1000,
-          "refferals":[]
-      }).then((res)=>{
-        console.log(res)
-      }).catch(console.error)
+      if (isuser.length <= 0) {
+        await axios
+          .post(`${url}/user`, {
+            user: account.toLowerCase(),
+            expire: new Date(time + duration * 86400000).getTime() / 1000,
+            Tx: hash,
+            IDs: ids,
+            Duration: duration,
+            APY: apy,
+            time: new Date().getTime() / 1000,
+            refferals: [],
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch(console.error);
+      } else {
+        await axios
+          .post(`${url}/updateuser`, {
+            user: account.toLowerCase(),
+            IDs: ids,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch(console.error);
       }
-      else{
-        await axios.post(`${url}/updateuser`,{
-          "user":account.toLowerCase(),
-          "IDs":ids,
-        }).then((res)=>{
-          console.log(res)
-        }).catch(console.error)
+    } else {
+      const isuser = await axios
+        .post(`${url}/isuser`, {
+          user: account.toLowerCase(),
+        })
+        .then((res) => {
+          console.log(res.data.length);
+          return res.data;
+        })
+        .catch(console.error);
+
+      if (isuser.length <= 0) {
+        await axios
+          .post(`${url}/user`, {
+            user: account.toLowerCase(),
+            expire: new Date(time + duration * 86400000).getTime() / 1000,
+            Tx: hash,
+            IDs: ids,
+            Duration: duration,
+            APY: apy,
+            time: new Date().getTime() / 1000,
+            refferals: [],
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch(console.error);
+      } else {
+        await axios
+          .post(`${url}/updateuser`, {
+            user: account.toLowerCase(),
+            IDs: ids,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch(console.error);
       }
     }
-    else{
-     const isuser = await axios.post(`${url}/isuser`,{
-        "user":account.toLowerCase()
-      }).then((res)=>{
-        console.log(res.data.length)
-        return res.data;
-      }).catch(console.error)
+  };
 
-      if(isuser.length <= 0){
-         await axios.post(`${url}/user`,{
-        "user":account.toLowerCase(),
-        "expire":new Date(time + duration * 86400000).getTime()/1000,
-        "Tx":hash,
-        "IDs":ids,
-        "Duration":duration,
-        "APY":apy,
-        "time":new Date().getTime()/1000,
-        "refferals":[]
-      }).then((res)=>{
-        console.log(res)
-      }).catch(console.error)
-      }
-      else{
-        await axios.post(`${url}/updateuser`,{
-          "user":account.toLowerCase(),
-          "IDs":ids,
-        }).then((res)=>{
-          console.log(res)
-        }).catch(console.error)
-      }
-    }
-  }
-
-  const copytext = (text)=>{
-    navigator.clipboard.writeText(text)
-    notify("Copied")
-  }
+  const copytext = (text) => {
+    navigator.clipboard.writeText(text);
+    notify("Copied");
+  };
 
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
@@ -525,27 +544,39 @@ export default function AdminNav({ account }) {
                 padding: "60px 20px 60px",
               }}
             >
-             {showID ?  <Grid
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-                xl={12}
-                sx={{
-                  fontSize: "1.5rem",
-                  marginBottom: "3rem",
-                  textAlign: "center",
-                  fontWeight: 800,
-                }}
-              >
-                <span className="reff-id">
-                  <span className="Refferal">Refferal-id: </span><span className="Refferal" >{`https://gc-staking.netlify.app/staking/${account}`}</span>
-                  <span>
-                    <AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(`https://gc-staking.netlify.app/staking/${account}`)}/>
+              {showID ? (
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  sx={{
+                    fontSize: "1.5rem",
+                    marginBottom: "3rem",
+                    textAlign: "center",
+                    fontWeight: 800,
+                  }}
+                >
+                  <span className="reff-id">
+                    <span className="Refferal">Refferal-id: </span>
+                    <span className="Refferal">{`https://gc-staking.netlify.app/staking/${account}`}</span>
+                    <span>
+                      <AiOutlineCopy
+                        style={{ cursor: "pointer" }}
+                        onClick={() =>
+                          copytext(
+                            `https://gc-staking.netlify.app/staking/${account}`
+                          )
+                        }
+                      />
+                    </span>
                   </span>
-                </span>
-              </Grid> : ''}
+                </Grid>
+              ) : (
+                ""
+              )}
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
                   <Box sx={{}}>
@@ -885,7 +916,9 @@ export default function AdminNav({ account }) {
                 <div className="container" style={{ marginTop: "3rem" }}>
                   <div className="stake-summary-content">
                     <div className="stake">
-                      <h4 className="srpayBalance">Your Balance : {balance} Gcex</h4>
+                      <h4 className="srpayBalance">
+                        Your Balance : {balance} Gcex
+                      </h4>
                     </div>
                     <button
                       className="d-block m-auto stake-btton"
@@ -965,7 +998,15 @@ export default function AdminNav({ account }) {
                 padding: "60px 20px 60px",
               }}
             >
-               <Typography style={{textAlign:'center',marginBottom:'2rem'}}><span className="levels">{mystake < 1000 ? "Entery Level" : mystake >= 1000 && mystake < 3000 ? "Level 2" : "Level 3" }</span></Typography>
+              <Typography style={{ textAlign: "center", marginBottom: "2rem" }}>
+                <span className="levels">
+                  {mystake < 1000
+                    ? "Entery Level"
+                    : mystake >= 1000 && mystake < 3000
+                    ? "Level 2"
+                    : "Level 3"}
+                </span>
+              </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
@@ -1056,27 +1097,30 @@ export default function AdminNav({ account }) {
                 </Grid>
               </Grid>
               <Container maxWidth="xl">
-               
                 <TableContainer sx={{ maxHeight: 440 }}>
-                  {events && events.length > 0 ? <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                      <TableRow>
-                        {columns.map((column) => (
-                          <TableCell
-                            key={column.id}
-                            align={column.align}
-                            style={{ minWidth: column.minWidth }}
-                          >
-                            {column.label}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    </TableHead>
-                    
-                    <TableBody>
-                      {events.map((item) => renderRows(item))}
-                    </TableBody>
-                  </Table>: <Skeleton count={5} width="100%"/>}
+                  {events && events.length > 0 ? (
+                    <Table stickyHeader aria-label="sticky table">
+                      <TableHead>
+                        <TableRow>
+                          {columns.map((column) => (
+                            <TableCell
+                              key={column.id}
+                              align={column.align}
+                              style={{ minWidth: column.minWidth }}
+                            >
+                              {column.label}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      </TableHead>
+
+                      <TableBody>
+                        {events.map((item) => renderRows(item))}
+                      </TableBody>
+                    </Table>
+                  ) : (
+                    <Skeleton count={5} width="100%" />
+                  )}
                 </TableContainer>
                 <TablePagination
                   rowsPerPageOptions={[10, 25, 100]}
@@ -1098,27 +1142,33 @@ export default function AdminNav({ account }) {
           <Container maxWidth="xl">
             <Container maxWidth="xl">
               <TableContainer sx={{ maxHeight: 440 }}>
-                {referal ? <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                    <TableRow>
-                      {columns2.map((column) => (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          style={{ minWidth: column.minWidth }}
-                        >
-                          {column.label}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {
-                      referal.map((item) => {
+                {referal ? (
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        {columns2.map((column) => (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            style={{ minWidth: column.minWidth }}
+                          >
+                            {column.label}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {referal.map((item) => {
                         return (
                           <TableRow>
                             <TableCell>{referal.indexOf(item)}</TableCell>
-                            <TableCell >{slicewallet(item[0])} <AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(item[0])}/></TableCell>
+                            <TableCell>
+                              {slicewallet(item[0])}{" "}
+                              <AiOutlineCopy
+                                style={{ cursor: "pointer" }}
+                                onClick={() => copytext(item[0])}
+                              />
+                            </TableCell>
                             <TableCell>
                               {Number(item[1] / 10 ** 18).toFixed(2)}
                             </TableCell>
@@ -1131,8 +1181,11 @@ export default function AdminNav({ account }) {
                           </TableRow>
                         );
                       })}
-                  </TableBody>
-                </Table> : <Skeleton count={5} width="100"/>}
+                    </TableBody>
+                  </Table>
+                ) : (
+                  <Skeleton count={5} width="100" />
+                )}
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}
@@ -1148,6 +1201,12 @@ export default function AdminNav({ account }) {
         </TabPanel>
       </Box>
       <Toaster />
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </Container>
   );
 }

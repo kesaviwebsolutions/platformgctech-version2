@@ -1,5 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./compnents/Navbar";
+import * as React from "react";
+import Backdrop from "@mui/material/Backdrop";
+import CircularProgress from "@mui/material/CircularProgress";
+import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import {
   XAUs_Totak_Supply,
@@ -200,7 +204,7 @@ function App() {
       window.location.reload();
     });
   } catch (error) {}
-
+  useEffect(() => {});
   return (
     <div className="App">
       {/* <<<<<<< Updated upstream
@@ -254,10 +258,17 @@ function App() {
             path="/admin"
             element={<Admin account={acount} contractadmin={contractadmin} />}
           />
-          <Route path="/staking" element={<Staking account={acount}/>} />
-          <Route path="/staking/:ID" element={<Staking account={acount}/>} />
-          <Route path="/admin/staker's-detail" element={<StakingTable account={acount}/>} />
-          <Route exact path="/admin/referral-id/:ref" element={<Referralid />} />
+          <Route path="/staking" element={<Staking account={acount} />} />
+          <Route path="/staking/:ID" element={<Staking account={acount} />} />
+          <Route
+            path="/admin/staker's-detail"
+            element={<StakingTable account={acount} />}
+          />
+          <Route
+            exact
+            path="/admin/referral-id/:ref"
+            element={<Referralid />}
+          />
           <Route
             exact
             path="/admin/000xxxx2323245"
