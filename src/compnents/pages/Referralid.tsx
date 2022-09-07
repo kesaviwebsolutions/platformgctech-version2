@@ -11,6 +11,12 @@ import { Container } from "@mui/system";
 import AdminNav from "../AdminNav";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import { orderIDofReferal, balanceofstake } from "../../Web3/Web3";
+import Skeleton from "react-loading-skeleton";
+import 'react-loading-skeleton/dist/skeleton.css';
+
+// const url = "https://refer.ap.ngrok.io";
+const url = "http://localhost:3030";
 
 interface Column {
   id: "name" | "code" | "population" | "size" | "density";
@@ -30,74 +36,74 @@ const columns: readonly Column[] = [
   },
   {
     id: "density",
-    label: "Referrer ID",
+    label: "Wallet Address",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
-    label: "Tx Hash",
+    label: "Staked amount",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
-    label: "Time of Stake",
+    label: "Time of staked",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
-  {
-    id: "density",
-    label: "NO. of Tokens Staked",
-    minWidth: 170,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
-  {
-    id: "density",
-    label: "Length of Stake",
-    minWidth: 170,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
-  {
-    id: "density",
-    label: "APY(%)",
-    minWidth: 170,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
-  {
-    id: "density",
-    label: "Referrer Bonus",
-    minWidth: 170,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
-  {
-    id: "density",
-    label: "No. of Tokens in Bonus",
-    minWidth: 200,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
-  {
-    id: "density",
-    label: "Due Date",
-    minWidth: 170,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
-  {
-    id: "density",
-    label: "Action",
-    minWidth: 170,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
+  // {
+  //   id: "density",
+  //   label: "NO. of Tokens Staked",
+  //   minWidth: 170,
+  //   align: "center",
+  //   format: (value: number) => value.toFixed(2),
+  // },
+  // {
+  //   id: "density",
+  //   label: "Length of Stake",
+  //   minWidth: 170,
+  //   align: "center",
+  //   format: (value: number) => value.toFixed(2),
+  // },
+  // {
+  //   id: "density",
+  //   label: "APY(%)",
+  //   minWidth: 170,
+  //   align: "center",
+  //   format: (value: number) => value.toFixed(2),
+  // },
+  // {
+  //   id: "density",
+  //   label: "Referrer Bonus",
+  //   minWidth: 170,
+  //   align: "center",
+  //   format: (value: number) => value.toFixed(2),
+  // },
+  // {
+  //   id: "density",
+  //   label: "No. of Tokens in Bonus",
+  //   minWidth: 200,
+  //   align: "center",
+  //   format: (value: number) => value.toFixed(2),
+  // },
+  // {
+  //   id: "density",
+  //   label: "Due Date",
+  //   minWidth: 170,
+  //   align: "center",
+  //   format: (value: number) => value.toFixed(2),
+  // },
+  // {
+  //   id: "density",
+  //   label: "Action",
+  //   minWidth: 170,
+  //   align: "center",
+  //   format: (value: number) => value.toFixed(2),
+  // },
 ];
 
 interface Data {
@@ -189,20 +195,10 @@ const renderRows = (rowsInfo, index) => {
   return (
     <>
       <TableRow key={index}>
-        <TableCell>{rowsInfo.tablecell}</TableCell>
-        <TableCell>
-          <Link to="/admin/000xxxx2323245" style={{ color: "#f144ec" }}>
-            {rowsInfo.Referrallink}
-          </Link>
-        </TableCell>
-        <TableCell>{rowsInfo.txhash}</TableCell>
-        <TableCell>{rowsInfo.timeofstake}</TableCell>
-        <TableCell>{rowsInfo.nooftokenstaked}</TableCell>
-        <TableCell>{rowsInfo.lengthofstake}</TableCell>
-        <TableCell>{rowsInfo.APY}</TableCell>
-        <TableCell>{rowsInfo.referrerbonus}</TableCell>
-        <TableCell>{rowsInfo.nooftokensinbonus}</TableCell>
-        <TableCell>{rowsInfo.duedate}</TableCell>
+        <TableCell>{index}</TableCell>
+        <TableCell>{rowsInfo.wallet}</TableCell>
+        <TableCell>{rowsInfo.stakeamount}</TableCell>
+        <TableCell>{rowsInfo.numberofstake}</TableCell>
       </TableRow>
     </>
   );
@@ -230,18 +226,38 @@ export default function StakingTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const {ref} = useParams();
-  const [referrals, setReferrals] = ReactuseState(0);
+  
+  const [referrals, setReferrals] = React.useState(undefined);
 
   React.useEffect(()=>{
       const init =async()=>{
-        
+        await getRef()
       }
+      init();
   },[])
 
   const getRef =async()=>{
-    
+    axios.post(`${url}/isuser`,{
+      user:ref.toLowerCase()
+    }).then(async(res)=>{
+      const event = []
+      const user = Object()
+      if(res.data[0]){
+        for(let x = 0; x < res.data[0].refferals.length; x++){
+          
+          const ids = await orderIDofReferal(res.data[0].refferals[x])
+          const bal = await balanceofstake(res.data[0].refferals[x])
+          user.wallet = res.data[0].refferals[x]
+          user.stakeamount = bal
+          user.numberofstake = ids.length
+          event.push(user)
+        }
+      }
+      setReferrals(event)
+    }).catch(console.error)
   }
 
+  console.log("Refferals",referrals)
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -256,7 +272,7 @@ export default function StakingTable() {
       <Container maxWidth="lg">
         <AdminNav />
         <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
+          {referrals ? <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -270,8 +286,8 @@ export default function StakingTable() {
                 ))}
               </TableRow>
             </TableHead>
-            <TableBody>{rowsInfo.map(renderRows)}</TableBody>
-          </Table>
+            <TableBody>{referrals.map((item)=>renderRows(item, referrals.indexOf(item)))}</TableBody>
+          </Table> : <Skeleton count={5} />}
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}

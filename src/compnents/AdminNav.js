@@ -43,7 +43,7 @@ export default function AdminNav() {
             >
               Staker's Details
             </Link>
-            <Link
+            {/* <Link
               id="link"
               onClick={() => setActive(1)}
               to="/admin/referral-id"
@@ -54,7 +54,7 @@ export default function AdminNav() {
               }
             >
               Referral Details
-            </Link>
+            </Link> */}
             <Link
               id="link"
               onClick={() => setActive(1)}

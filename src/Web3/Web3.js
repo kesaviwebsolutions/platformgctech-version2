@@ -506,11 +506,20 @@ export const Allowforstaking = async()=>{
     }
   }
 
+  export const orderIDofReferal = async(address)=>{
+    try {
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const data = await contract.methods.investorOrderIds(address).call();
+      return data;
+    } catch (error) {
+    }
+  }
+
   export const getDetails = async()=>{
     const events = []
     const contract = new web3.eth.Contract(Staking, stakingAddress);
     const ids = await orderID();
-    console.log("ID array",ids)
+    console.log("ID array",ids);
     for(let i = 0; i < ids.length; i++){
       const id = ids[i]
       const event = await contract.methods.orders(id).call();
