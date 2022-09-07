@@ -39,6 +39,8 @@ import { AiOutlineCopy } from "react-icons/ai";
 import { BsCheckCircle } from "react-icons/bs"
 import  { ImCross } from "react-icons/im"
 import { useParams } from "react-router-dom";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 // const url = "https://refer.ap.ngrok.io";
 const url = "http://localhost:3030";
@@ -242,7 +244,7 @@ export default function AdminNav({ account }) {
   const [mystake, setMystake] = useState(0);
   const [reward, setRewards] = useState(0);
   const [events, setEvents] = useState([]);
-  const [referal, setReferals] = useState([]);
+  const [referal, setReferals] = useState();
   const [showID, setShowID] = useState(false)
 
   useEffect(() => {
@@ -266,15 +268,21 @@ export default function AdminNav({ account }) {
 
   const getReferrals = async () => {
     let ref = [];
+    
     await axios
       .post(`${url}/isuser`, {
         user: account.toLowerCase(),
       })
       .then(async (res) => {
         console.log(res)
-        if(res.data[0]){
+        if(res.data.length > 0){
           setShowID(true)
         }
+        else{
+          setShowID(false)
+        }
+        console.log("inside api",account)
+        setReferals(undefined);
         if (res.data[0] && res.data[0].refferals.length > 0) {
           for (let i = 0; i < res.data[0].refferals.length; i++) {
             const id = await orderIDReferrals(res.data[0].refferals[i]);
@@ -284,8 +292,9 @@ export default function AdminNav({ account }) {
               ref.push(events);
             }
           }
-          setReferals(ref);
+          
         }
+        setReferals(ref);
       })
       .catch((e) => {
         console.log(e);
@@ -337,6 +346,14 @@ export default function AdminNav({ account }) {
         console.log(res)
       }).catch(console.error)
       }
+      else{
+        await axios.post(`${url}/updateuser`,{
+          "user":account.toLowerCase(),
+          "IDs":ids,
+        }).then((res)=>{
+          console.log(res)
+        }).catch(console.error)
+      }
     }
     else{
      const isuser = await axios.post(`${url}/isuser`,{
@@ -359,6 +376,14 @@ export default function AdminNav({ account }) {
       }).then((res)=>{
         console.log(res)
       }).catch(console.error)
+      }
+      else{
+        await axios.post(`${url}/updateuser`,{
+          "user":account.toLowerCase(),
+          "IDs":ids,
+        }).then((res)=>{
+          console.log(res)
+        }).catch(console.error)
       }
     }
   }
@@ -1033,7 +1058,7 @@ export default function AdminNav({ account }) {
               <Container maxWidth="xl">
                
                 <TableContainer sx={{ maxHeight: 440 }}>
-                  <Table stickyHeader aria-label="sticky table">
+                  {events && events.length > 0 ? <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                       <TableRow>
                         {columns.map((column) => (
@@ -1047,35 +1072,11 @@ export default function AdminNav({ account }) {
                         ))}
                       </TableRow>
                     </TableHead>
+                    
                     <TableBody>
-                      {events && events.map((item) => renderRows(item))}
+                      {events.map((item) => renderRows(item))}
                     </TableBody>
-                    {/* <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody> */}
-                  </Table>
+                  </Table>: <Skeleton count={5} width="100%"/>}
                 </TableContainer>
                 <TablePagination
                   rowsPerPageOptions={[10, 25, 100]}
@@ -1097,7 +1098,7 @@ export default function AdminNav({ account }) {
           <Container maxWidth="xl">
             <Container maxWidth="xl">
               <TableContainer sx={{ maxHeight: 440 }}>
-                <Table stickyHeader aria-label="sticky table">
+                {referal ? <Table stickyHeader aria-label="sticky table">
                   <TableHead>
                     <TableRow>
                       {columns2.map((column) => (
@@ -1112,7 +1113,7 @@ export default function AdminNav({ account }) {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {referal &&
+                    {
                       referal.map((item) => {
                         return (
                           <TableRow>
@@ -1131,7 +1132,7 @@ export default function AdminNav({ account }) {
                         );
                       })}
                   </TableBody>
-                </Table>
+                </Table> : <Skeleton count={5} width="100"/>}
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}

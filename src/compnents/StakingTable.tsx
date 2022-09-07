@@ -15,6 +15,9 @@ import { Link } from "react-router-dom";
 import { AiOutlineCopy } from 'react-icons/ai'
 import toast, { Toaster } from "react-hot-toast";
 
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
+
 // const url = "https://refer.ap.ngrok.io";
 const url = "http://localhost:3030";
 const notify = (msg) => toast.success(msg);
@@ -48,7 +51,7 @@ const columns: readonly Column[] = [
 
   {
     id: "density",
-    label: "Tx Hash",
+    label: "Amount",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
@@ -224,10 +227,10 @@ const rows = [
   createData("Brazil", "BR", 210147125, 15),
 ];
 
-export default function StakingTable() {
+export default function StakingTable({account}) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [user, setUser] = useState([])
+  const [user, setUser] = useState()
   const [stakebalance, setStakeBalance] = useState(0)
 
   const handleChangePage = (e: unknown, newPage: number) => {
@@ -245,7 +248,7 @@ export default function StakingTable() {
       setStakeBalance(stakebal)
     }
     init();
-  },[])
+  },[account])
 
   const getRefera =async(arra)=>{
     let a = 0;
@@ -270,7 +273,6 @@ export default function StakingTable() {
           const pending  = await GetPendingRewards(res.data[i].IDs[x]);
           data.pending = pending
           const ref = await getRefera(res.data[i].refferals)
-          console.log("ref count ", ref)
           data.refcount = ref
           events.push(data)
         }
@@ -278,7 +280,7 @@ export default function StakingTable() {
       
       setUser(events)
     })
-  }, [])
+  }, [account])
   // console.log(user)
   const renderRows = (rowsInfo, index) => {
     return (
@@ -312,7 +314,7 @@ export default function StakingTable() {
       <Container maxWidth="lg">
         <AdminNav />
         <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
+         { user ? <Table stickyHeader aria-label="sticky table">
             <TableHead>
               <TableRow>
                 {columns.map((column) => (
@@ -327,32 +329,7 @@ export default function StakingTable() {
               </TableRow>
             </TableHead>
             <TableBody>{user.map((res)=>renderRows(res, user.indexOf(res)))}</TableBody>
-            {/* <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody> */}
-          </Table>
+          </Table> : <Skeleton count={10} height='40' width='100'/>}
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}

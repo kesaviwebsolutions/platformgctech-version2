@@ -256,7 +256,7 @@ function App() {
           />
           <Route path="/staking" element={<Staking account={acount}/>} />
           <Route path="/staking/:ID" element={<Staking account={acount}/>} />
-          <Route path="/admin/staker's-detail" element={<StakingTable />} />
+          <Route path="/admin/staker's-detail" element={<StakingTable account={acount}/>} />
           <Route exact path="/admin/referral-id" element={<Referralid />} />
           <Route
             exact

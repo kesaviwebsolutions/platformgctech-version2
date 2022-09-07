@@ -551,10 +551,10 @@ export const Allowforstaking = async()=>{
     }
   }
 
-  export const balanceofstake = async()=>{
+  export const balanceofstake = async(address)=>{
     try {
       const contract = new web3.eth.Contract(Staking, stakingAddress);
-      const data = await contract.methods.balanceOf(await getUserAddress()).call();
+      const data = await contract.methods.balanceOf(address).call();
       console.log("MY STAKE",data)
       return data/10**18;
     } catch (error) {
