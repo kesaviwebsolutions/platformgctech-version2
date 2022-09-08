@@ -121,7 +121,7 @@ span.MuiButtonBase-root.MuiCheckbox-root.MuiCheckbox-colorPrimary.PrivateSwitchB
   display: table-cell;
   vertical-align: inherit;
   border-bottom: 1px solid rgba (224, 224, 224, 1);
-  text-align: center !important;
+  text-align: left !important;
   padding: 16px;
   color: rgba(0, 0, 0, 0.87);
 }

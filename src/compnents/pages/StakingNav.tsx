@@ -36,6 +36,10 @@ import {
   OrderIDdata,
   totalstakedinContract,
   orderID,
+  poeldata1,
+  poeldata2,
+  poeldata3,
+  poeldata4
 } from "../../Web3/Web3";
 import { AiOutlineCopy } from "react-icons/ai";
 import { BsCheckCircle } from "react-icons/bs"
@@ -61,14 +65,14 @@ interface Column {
   id: "name" | "code" | "population" | "size" | "density";
   label: string;
   minWidth?: number;
-   align: "center",
+   align: "left",
   format?: (value: number) => string;
 }
 interface Column2 {
   id: "name" | "code" | "population" | "size" | "density";
   label: string;
   minWidth?: number;
-   align: "center",
+   align: "left",
   format?: (value: number) => string;
 }
 const columns: readonly Column[] = [
@@ -76,36 +80,36 @@ const columns: readonly Column[] = [
     id: "size",
     label: "Order ID",
     minWidth: 170,
-    align: "center",
+    align: "left",
     format: (value: number) => value.toLocaleString("en-US"),
   },
-  { id: "name", label: "Staking Date", minWidth: 170,  align: "center" },
+  { id: "name", label: "Staking Date", minWidth: 170,  align: "left" },
   {
     id: "density",
     label: "Token Amount",
     minWidth: 170,
-     align: "center",
+     align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Staking End",
     minWidth: 170,
-     align: "center",
+     align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Time Left",
     minWidth: 170,
-     align: "center",
+     align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Action",
     minWidth: 170,
-     align: "center",
+     align: "left",
     format: (value: number) => value.toFixed(2),
   },
 ];
@@ -115,14 +119,14 @@ const columns2: readonly Column2[] = [
     id: "size",
     label: "S.N0",
     minWidth: 170,
-     align: "center",
+     align: "left",
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
     id: "size",
     label: "Wallet",
     minWidth: 170,
-     align: "center",
+     align: "left",
     format: (value: number) => value.toLocaleString("en-US"),
   },
 
@@ -130,21 +134,21 @@ const columns2: readonly Column2[] = [
     id: "density",
     label: "Amount",
     minWidth: 170,
-     align: "center",
+     align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Started at",
     minWidth: 170,
-     align: "center",
+     align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Ending at",
     minWidth: 170,
-     align: "center",
+     align: "left",
     format: (value: number) => value.toFixed(2),
   },
 ];
@@ -249,6 +253,10 @@ export default function AdminNav({ account }) {
   const [referal, setReferals] = useState();
   const [showID, setShowID] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [day1, setDay1] = useState(0);
+  const [day2, setDay2] = useState(0);
+  const [day3, setDay3] = useState(0);
+  const [day4, setDay4] = useState(0);
 
   useEffect(() => {
     const init = async () => {
@@ -264,7 +272,15 @@ export default function AdminNav({ account }) {
       const event = await getDetails();
       setEvents(event);
       const myst = await StakeBalace();
-      setMystake(myst)
+      setMystake(myst);
+      const fday = await poeldata1();
+      setDay1(fday)
+      const sday = await poeldata2()
+      setDay2(sday)
+      const tday = await poeldata3()
+      setDay3(tday)
+      const frday = await poeldata4()
+      setDay4(frday)
     };
     init();
   }, [account]);

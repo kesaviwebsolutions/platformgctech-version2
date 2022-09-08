@@ -628,3 +628,40 @@ export const Allowforstaking = async()=>{
       console.log(error)
     }
   }
+
+  export const poeldata1 = async()=>{
+    try {
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const data = await contract.methods.pooldata(1).call();
+      return data
+      } catch (error) {
+      console.log(error)
+    }
+  }
+  export const poeldata2 = async()=>{
+    try {
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const data = await contract.methods.pooldata(2).call();
+      return data
+      } catch (error) {
+      console.log(error)
+    }
+  }
+  export const poeldata3 = async()=>{
+    try {
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const data = await contract.methods.pooldata(3).call();
+      return data
+      } catch (error) {
+      console.log(error)
+    }
+  }
+  export const poeldata4 = async()=>{
+    try {
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const data = await contract.methods.pooldata(4).call();
+      return data;
+      } catch (error) {
+      console.log(error)
+    }
+  }
