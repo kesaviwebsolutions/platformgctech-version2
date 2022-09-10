@@ -665,3 +665,15 @@ export const Allowforstaking = async()=>{
       console.log(error)
     }
   }
+
+  export const getDetailsfoFirstStakeofuser = async()=>{
+   try {
+      const events = []
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const ids = await orderID();
+      const event = await contract.methods.orders(ids[0]).call();
+      return event;
+   } catch (error) {
+    console.log(error)
+   }
+  };

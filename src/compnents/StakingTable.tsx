@@ -105,6 +105,13 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
+  {
+    id: "density",
+    label: "Time Left",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
 ];
 
 interface Data {
@@ -267,21 +274,32 @@ export default function StakingTable({account}) {
     let data;
     axios.get(`${url}/users`).then(async(res)=>{
       for(let i = 0; i < res.data.length; i++){
-        const length  = res.data[i].IDs.length
-        for(let x = 0; x < Number(length); x++){
-          data = await OrderIDdata(res.data[i].IDs[x]);
-          const pending  = await GetPendingRewards(res.data[i].IDs[x]);
-          data.pending = pending
-          const ref = await getRefera(res.data[i].refferals)
-          data.refcount = ref
-          events.push(data)
-        }
+        data = await OrderIDdata(res.data[i].IDs[0]);
+        console.log(data,res.data[i].IDs[0])
+        const pending  = await GetPendingRewards(res.data[i].IDs[0]);
+        data.pending = pending
+        const ref = await getRefera(res.data[i].refferals)
+        data.refcount = ref
+        events.push(data)
       }
-      
       setUser(events)
     })
   }, [account])
   // console.log(user)
+
+  const countdown =(tab)=>{
+    var now = new Date().getTime();
+    const time = (tab*1000) + (2592000*1000)
+    var distance = time - now;
+  
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    return days +"D " + hours + "H " + minutes + "M " + seconds + "S "
+    }
+
+
   const renderRows = (rowsInfo, index) => {
     return (
       <>
@@ -300,6 +318,7 @@ export default function StakingTable({account}) {
           <TableCell>{Number(rowsInfo.pending/10**18).toFixed(5)}</TableCell>
           <TableCell>{rowsInfo.claimedReward/10**18}</TableCell>
           <TableCell>{rowsInfo.refcount}</TableCell>
+          <TableCell>{countdown(rowsInfo.starttime)}</TableCell>
         </TableRow>
       </>
     );
@@ -313,6 +332,7 @@ export default function StakingTable({account}) {
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <Container maxWidth="lg">
         <AdminNav />
+        <p>Stakers Details</p>
         <TableContainer sx={{ maxHeight: 440 }}>
          { user ? <Table stickyHeader aria-label="sticky table">
             <TableHead>

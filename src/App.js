@@ -21,6 +21,7 @@ import Home from "./compnents/pages/Home";
 import "./App.css";
 import CreateLevel from "./compnents/pages/CreateLevel.tsx";
 import Referralid from "./compnents/pages/Referralid.tsx";
+import Secondlevel from "./compnents/pages/Secondlevel.tsx"
 import StakingTable from "./compnents/StakingTable.tsx";
 import Staking from "./compnents/pages/StakingNav.tsx";
 import PersonalReferralId from "./compnents/pages/PersonalReferralId.tsx";
@@ -260,6 +261,8 @@ function App() {
           />
           <Route path="/staking" element={<Staking account={acount} />} />
           <Route path="/staking/:ID" element={<Staking account={acount} />} />
+          <Route path="/admin/referral-second/:secondref"element={<Secondlevel account={acount} />}
+          />
           <Route
             path="/admin/staker's-detail"
             element={<StakingTable account={acount} />}

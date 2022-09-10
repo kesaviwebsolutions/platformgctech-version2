@@ -43,13 +43,6 @@ const columns: readonly Column[] = [
   },
   {
     id: "density",
-    label: "ID",
-    minWidth: 170,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
-  {
-    id: "density",
     label: "Staked amount",
     minWidth: 170,
     align: "center",
@@ -196,17 +189,6 @@ const rowsInfo = [
   },
 ];
 
-const copytext = (text)=>{
-  navigator.clipboard.writeText(text)
-  
-}
-
-const slicewallet = (add) => {
-  const first = add.slice(0, 6);
-  const second = add.slice(35);
-  return first + "..." + second;
-};
-
 const renderRows = (rowsInfo, index) => {
   
 
@@ -215,14 +197,10 @@ const renderRows = (rowsInfo, index) => {
       <TableRow key={index}>
         <TableCell>{index}</TableCell>
         <TableCell>{rowsInfo.wallet}</TableCell>
-        <TableCell>
-        <Link to={`/admin/referral-second/${rowsInfo.wallet}`}>{slicewallet(rowsInfo.wallet)}</Link>
-          </TableCell>
         <TableCell>{rowsInfo.stakeamount/10**18}</TableCell>
         <TableCell>{rowsInfo.numberofstake}</TableCell>
         <TableCell>{(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? 35 : rowsInfo.duration  == 2 ? 75 : rowsInfo.duration  == 3 ? 90 : 130)/36500 * rowsInfo.duration * 2.5/100}</TableCell>
         <TableCell>{(rowsInfo.stakeamount/10**18)/100}</TableCell>
-       
       </TableRow>
     </>
   );
@@ -249,7 +227,7 @@ const rows = [
 export default function StakingTable() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const {ref} = useParams();
+  const {secondref} = useParams();
   
   const [referrals, setReferrals] = React.useState(undefined);
 
@@ -262,7 +240,7 @@ export default function StakingTable() {
 
   const getRef =async()=>{
     axios.post(`${url}/isuser`,{
-      user:ref.toLowerCase()
+      user:secondref.toLowerCase()
     }).then(async(res)=>{
       const event = []
       if(res.data[0]){  
@@ -295,7 +273,7 @@ export default function StakingTable() {
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <Container maxWidth="lg">
         <AdminNav />
-        <p>{"Stakers Details > Referral Details"}</p>
+        <p>{"Stakers Details > Referral Details > Seconds Level"}</p>
         <TableContainer sx={{ maxHeight: 440 }}>
           {referrals ? <Table stickyHeader aria-label="sticky table">
             <TableHead>

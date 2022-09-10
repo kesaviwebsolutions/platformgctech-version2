@@ -39,7 +39,8 @@ import {
   poeldata1,
   poeldata2,
   poeldata3,
-  poeldata4
+  poeldata4,
+  getDetailsfoFirstStakeofuser
 } from "../../Web3/Web3";
 import { AiOutlineCopy } from "react-icons/ai";
 import { BsCheckCircle } from "react-icons/bs"
@@ -151,6 +152,20 @@ const columns2: readonly Column2[] = [
      align: "left",
     format: (value: number) => value.toFixed(2),
   },
+  {
+    id: "density",
+    label: "Reward",
+    minWidth: 170,
+     align: "left",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "Bonas",
+    minWidth: 170,
+     align: "left",
+    format: (value: number) => value.toFixed(2),
+  },
 ];
 interface Data {
   name: string;
@@ -257,6 +272,21 @@ export default function AdminNav({ account }) {
   const [day2, setDay2] = useState(0);
   const [day3, setDay3] = useState(0);
   const [day4, setDay4] = useState(0);
+  const [returns, setReturns] = useState(0)
+
+  // useEffect(()=>{
+  //   const init = async()=>{
+  //     const id = await getDetailsfoFirstStakeofuser()
+  //     setInterval(()=>{
+  //       if(document.getElementById("countdown").innerHTML){
+  //         countdown((id[4]*100)+2592000);
+  //         console.log(id)
+  //       }
+        
+  //     },1000)
+  //   }
+  //   init();
+  // },[])
 
   useEffect(() => {
     const init = async () => {
@@ -290,7 +320,7 @@ export default function AdminNav({ account }) {
     
     await axios
       .post(`${url}/isuser`, {
-        user: account.toLowerCase(),
+        user: account.toLowerCase()
       })
       .then(async (res) => {
         console.log(res)
@@ -305,13 +335,10 @@ export default function AdminNav({ account }) {
         if (res.data[0] && res.data[0].refferals.length > 0) {
           for (let i = 0; i < res.data[0].refferals.length; i++) {
             const id = await orderIDReferrals(res.data[0].refferals[i]);
-            for (let x = 0; x < id.length; x++) {
-              console.log("id is", x);
-              const events = await OrderIDdata(id[x]);
+              const events = await OrderIDdata(id[0]);
+              console.log("id is", events);
               ref.push(events);
-            }
           }
-          
         }
         setReferals(ref);
       })
@@ -434,6 +461,18 @@ export default function AdminNav({ account }) {
       }
     }
     setLoading(false)
+  }
+
+  const countdown =(tab)=>{
+  var now = new Date().getTime();
+  const time = (tab*1000) + (2592000*1000)
+  var distance = time - now;
+
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  return days +"D " + hours + "H " + minutes + "M " + seconds + "S "
   }
 
   const copytext = (text)=>{
@@ -753,8 +792,9 @@ export default function AdminNav({ account }) {
                           <Box
                             className="cardcontent2"
                             onClick={() => {
-                              setDuration(1);
+                              setDuration(Number(day1[0]));
                               setAPY(35);
+                              setReturns(Number(day1[1]))
                             }}
                           >
                             <Typography
@@ -767,7 +807,7 @@ export default function AdminNav({ account }) {
                               component="div"
                               style={{ fontWeight: "900", fontSize: "17px" }}
                             >
-                              1 Days
+                              {day1[0]} Days
                             </Typography>
                             <Typography
                               sx={{
@@ -796,8 +836,9 @@ export default function AdminNav({ account }) {
                           <Box
                             className="cardcontent2"
                             onClick={() => {
-                              setDuration(2);
+                              setDuration(Number(day2[0]));
                               setAPY(75);
+                              setReturns(Number(day2[1]))
                             }}
                           >
                             <Typography
@@ -810,7 +851,7 @@ export default function AdminNav({ account }) {
                               component="div"
                               style={{ fontWeight: "900", fontSize: "17px" }}
                             >
-                              2 Days
+                              {day2[0]} Days
                             </Typography>
                             <Typography
                               sx={{
@@ -839,8 +880,9 @@ export default function AdminNav({ account }) {
                           <Box
                             className="cardcontent2"
                             onClick={() => {
-                              setDuration(3);
+                              setDuration(Number(day3[0]));
                               setAPY(90);
+                              setReturns(Number(day3[1]))
                             }}
                           >
                             <Typography
@@ -853,7 +895,7 @@ export default function AdminNav({ account }) {
                               component="div"
                               style={{ fontWeight: "900", fontSize: "17px" }}
                             >
-                              3 Days
+                              {day3[0]} Days
                             </Typography>
                             <Typography
                               sx={{
@@ -871,8 +913,9 @@ export default function AdminNav({ account }) {
                     <Box
                       sx={{ maxWidth: 300 }}
                       onClick={() => {
-                        setDuration(4);
+                        setDuration(Number(day4[0]));
                         setAPY(130);
+                        setReturns(Number(day4[1]))
                       }}
                     >
                       <Card
@@ -896,7 +939,7 @@ export default function AdminNav({ account }) {
                               component="div"
                               style={{ fontWeight: "900", fontSize: "17px" }}
                             >
-                              4 Days
+                              {day4[0]} Days
                             </Typography>
                             <Typography
                               sx={{
@@ -965,13 +1008,7 @@ export default function AdminNav({ account }) {
                         <p>Estimated Return</p>
                         <p className="ssc2">:</p>
                         <p className="sc">
-                          {duration == 30
-                            ? `${amount * 1.0292}`
-                            : duration == 90
-                            ? `${amount * 1.1875}`
-                            : duration == 180
-                            ? `${amount * 1.45}`
-                            : `${amount * 2.3}`}{" "}
+                          {amount * (1 + ((returns/365) * duration)/100)}{" "}
                           Gcex
                         </p>
                       </div>
@@ -1145,6 +1182,7 @@ export default function AdminNav({ account }) {
         <TabPanel value={value} index={2}>
           <Container maxWidth="xl">
             <Container maxWidth="xl">
+            <Typography style={{textAlign:'center',marginBottom:'2rem'}}><span className="levels">Expire in: {events[0] && countdown(Number(events[0].starttime))}</span></Typography>
               <TableContainer sx={{ maxHeight: 440 }}>
                 {referal ? <Table stickyHeader aria-label="sticky table">
                   <TableHead>
@@ -1175,6 +1213,12 @@ export default function AdminNav({ account }) {
                             </TableCell>
                             <TableCell>
                               {new Date(item[4] * 1000).toLocaleString()}
+                            </TableCell>
+                            <TableCell>
+                              {Number(item[1] / 10 ** 18) * (item[2] == day1[0] ? 35 : item[2] == day2[0] ? 75 : item[3] == day3[0] ? 90 : item[2] == day4[0] ?  130 : 35)/36500 * item[2] * 2.5/100}
+                            </TableCell>
+                            <TableCell>
+                             {Number(item[1] / 10 ** 18)/100}
                             </TableCell>
                           </TableRow>
                         );
