@@ -71,7 +71,7 @@ const columns: readonly Column[] = [
   },
   {
     id: "density",
-    label: "Bones",
+    label: "Bonus",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),

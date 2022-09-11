@@ -1050,7 +1050,7 @@ export default function AdminNav({ account }) {
                 padding: "60px 20px 60px",
               }}
             >
-               <Typography style={{textAlign:'center',marginBottom:'2rem'}}><span className="levels">{mystake < 1000 ? "Entery Level" : mystake >= 1000 && mystake < 3000 ? "Level 2" : "Level 3" }</span></Typography>
+               <Typography style={{textAlign:'center',marginBottom:'2rem'}}><span className="levels">{mystake < 1000 ? "Entry Level" : mystake >= 1000 && mystake < 3000 ? "Level 2" : "Level 3" }</span></Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
