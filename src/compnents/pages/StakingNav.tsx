@@ -1033,7 +1033,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                         <p>Estimated Return</p>
                         <p className="ssc2">:</p>
                         <p className="sc">
-                          {amount * (1 + ((returns / 365) * duration) / 100)}{" "}
+                          {amount * (1 + (((returns/100) / 365) * duration) / 100)}{" "}
                           GCS
                         </p>
                       </div>
