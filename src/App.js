@@ -59,7 +59,7 @@ function App() {
         .get(`https://apigctech.ap.ngrok.io/mmkprice`)
         .then(function (response) {
           response.data.reverse();
-          console.log(response.data[0].price);
+          // console.log(response.data[0].price);
           return response.data[0].price;
         })
         .catch(function (error) {
@@ -302,7 +302,7 @@ function App() {
             path="/admin/000xxxx2323245"
             element={<PersonalReferralId />}
           />
-          <Route exact path="/admin/create-level" element={<CreateLevel />} />
+          <Route exact path="/admin/create-level" element={<CreateLevel account={acount} />} />
         </Routes>
         <Footer />
       </Router>

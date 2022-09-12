@@ -114,6 +114,8 @@ export default function Admin({ account, contractadmin }) {
     }
   };
 
+  console.log(account)
+
   const setnewfee = async () => {
     const data = await newFee(fee);
     if (data.status) {
@@ -137,7 +139,7 @@ export default function Admin({ account, contractadmin }) {
   return (
     <>
       <Container maxWidth="lg">
-        <AdminNav />
+        <AdminNav account={account}/>
         <Grid
           container
           spacing={2}

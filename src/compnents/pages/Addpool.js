@@ -12,7 +12,7 @@ const url = "https://refer.ap.ngrok.io";
 
 const notify = (msg) => toast.success(msg);
 
-export default function Pool() {
+export default function Pool({account}) {
 
   const [duration, setDuration] = useState(0)
   const [returns, setReturns] = useState(0)
@@ -30,7 +30,7 @@ export default function Pool() {
 
   return (
     <Container maxWidth="lg">
-      <AdminNav />
+      <AdminNav account={account}/>
       <Box style={{ margin: "0px 0px 50px" }}>
         <Box style={{ margin: "70px 0px 0px" }}>
           <Typography paragraph>Duration</Typography>

@@ -338,7 +338,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <Container maxWidth="lg">
-        <AdminNav />
+        <AdminNav account={account}/>
         <p>{"Stakers Details > Referral Details"}</p>
         <TableContainer sx={{ maxHeight: 440 }}>
           {referrals ? <Table stickyHeader aria-label="sticky table">

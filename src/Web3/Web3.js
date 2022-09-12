@@ -696,3 +696,13 @@ export const Allowforstaking = async()=>{
      console.log(error)
     }
    };
+
+   export const getOwner = async()=>{
+    try {
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const data = await contract.methods.owner().call();
+      return data;
+      } catch (error) {
+      console.log(error)
+    }
+  }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MDBContainer,
   MDBNavbar,
@@ -12,12 +12,22 @@ import {
   MDBCardImage,
 } from "mdb-react-ui-kit";
 import { Link } from "react-router-dom";
+import { getOwner } from "../Web3/Web3";
 
-export default function AdminNav() {
+export default function AdminNav({account}) {
   const [showBasic, setShowBasic] = useState(false);
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState();
 
+  useEffect(()=>{
+    const init=async()=>{
+      const own = await getOwner()
+    
+      setActive(own)
+    }
+    init()
+  },[])
 
+ 
   return (
     <MDBNavbar expand="lg" light bgColor="transparent" className="adminnav">
       <MDBContainer>
@@ -34,7 +44,6 @@ export default function AdminNav() {
           <>
             <Link
               id="link"
-              onClick={() => setActive(1)}
               to="/admin/staker's-detail"
               className={
                 window.location.pathname === "/admin/staker's-detail"
@@ -47,7 +56,6 @@ export default function AdminNav() {
            
             <Link
               id="link"
-              onClick={() => setActive(1)}
               to="/admin/create-level"
               className={
                 window.location.pathname === "/admin/create-level"
@@ -57,9 +65,8 @@ export default function AdminNav() {
             >
               Create Level
             </Link>
-             <Link
+      { active && active == account ? <Link
               id="link"
-              onClick={() => setActive(1)}
               to="/admin/pool"
               className={
                 window.location.pathname === "/admin/referral-id"
@@ -68,7 +75,7 @@ export default function AdminNav() {
               }
             >
              Add Pool
-            </Link>
+            </Link> : ''}
           </>
         </MDBNavbarNav>
       </MDBContainer>
