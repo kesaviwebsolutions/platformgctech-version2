@@ -21,12 +21,12 @@ export default function AdminNav({account}) {
   useEffect(()=>{
     const init=async()=>{
       const own = await getOwner()
-    
       setActive(own)
     }
     init()
   },[])
 
+  console.log(account, active, active == account)
  
   return (
     <MDBNavbar expand="lg" light bgColor="transparent" className="adminnav">
