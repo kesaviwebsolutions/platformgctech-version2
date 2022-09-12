@@ -1196,7 +1196,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                       </TableBody>
                     </Table>
                   ) : (
-                    <Skeleton count={5} width="100%" />
+                    <Skeleton count={5} width="100%" style={{paddingTop:'10px'}}/>
                   )}
                 </TableContainer>
                 <TablePagination
@@ -1226,6 +1226,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
               </Typography>
               <TableContainer sx={{ maxHeight: 440 }}>
                 {referal ? (
+                  
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                       <TableRow>
@@ -1286,7 +1287,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     </TableBody>
                   </Table>
                 ) : (
-                  <Skeleton count={5} width="100" />
+                  <Skeleton count={5} width="100" style={{paddingTop:'10px'}}/>
                 )}
               </TableContainer>
               <TablePagination
