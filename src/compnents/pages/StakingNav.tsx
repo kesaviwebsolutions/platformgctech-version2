@@ -40,14 +40,14 @@ import {
   poeldata2,
   poeldata3,
   poeldata4,
-  getDetailsfoFirstStakeofuser
+  getDetailsfoFirstStakeofuser,
 } from "../../Web3/Web3";
 import { AiOutlineCopy } from "react-icons/ai";
-import { BsCheckCircle } from "react-icons/bs"
-import  { ImCross } from "react-icons/im"
+import { BsCheckCircle } from "react-icons/bs";
+import { ImCross } from "react-icons/im";
 import { useParams } from "react-router-dom";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const url = "https://refer.ap.ngrok.io";
 // const url = "http://localhost:3030";
@@ -66,14 +66,14 @@ interface Column {
   id: "name" | "code" | "population" | "size" | "density";
   label: string;
   minWidth?: number;
-   align: "left",
+  align: "left";
   format?: (value: number) => string;
 }
 interface Column2 {
   id: "name" | "code" | "population" | "size" | "density";
   label: string;
   minWidth?: number;
-   align: "left",
+  align: "left";
   format?: (value: number) => string;
 }
 const columns: readonly Column[] = [
@@ -84,33 +84,33 @@ const columns: readonly Column[] = [
     align: "left",
     format: (value: number) => value.toLocaleString("en-US"),
   },
-  { id: "name", label: "Staking Date", minWidth: 170,  align: "left" },
+  { id: "name", label: "Staking Date", minWidth: 170, align: "left" },
   {
     id: "density",
     label: "Token Amount",
     minWidth: 170,
-     align: "left",
+    align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Staking End",
     minWidth: 170,
-     align: "left",
+    align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Time Left",
     minWidth: 170,
-     align: "left",
+    align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Action",
     minWidth: 170,
-     align: "left",
+    align: "left",
     format: (value: number) => value.toFixed(2),
   },
 ];
@@ -120,14 +120,14 @@ const columns2: readonly Column2[] = [
     id: "size",
     label: "S.N0",
     minWidth: 170,
-     align: "left",
+    align: "left",
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
     id: "size",
     label: "Wallet",
     minWidth: 170,
-     align: "left",
+    align: "left",
     format: (value: number) => value.toLocaleString("en-US"),
   },
 
@@ -135,35 +135,35 @@ const columns2: readonly Column2[] = [
     id: "density",
     label: "Amount",
     minWidth: 170,
-     align: "left",
+    align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Started at",
     minWidth: 170,
-     align: "left",
+    align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Ending at",
     minWidth: 170,
-     align: "left",
+    align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Reward",
     minWidth: 170,
-     align: "left",
+    align: "left",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Bonas",
     minWidth: 170,
-     align: "left",
+    align: "left",
     format: (value: number) => value.toFixed(2),
   },
 ];
@@ -251,8 +251,8 @@ function a11yProps(index: number) {
   };
 }
 
-export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
-  const {ID} = useParams();
+export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
+  const { ID } = useParams();
   const [value, setValue] = React.useState(0);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -266,13 +266,14 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
   const [reward, setRewards] = useState(0);
   const [events, setEvents] = useState([]);
   const [referal, setReferals] = useState();
-  const [showID, setShowID] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [showID, setShowID] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [day1, setDay1] = useState(0);
   const [day2, setDay2] = useState(0);
   const [day3, setDay3] = useState(0);
   const [day4, setDay4] = useState(0);
-  const [returns, setReturns] = useState(0)
+  const [active, setActive] = useState(0);
+  const [returns, setReturns] = useState(0);
 
   // useEffect(()=>{
   //   const init = async()=>{
@@ -282,7 +283,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
   //         countdown((id[4]*100)+2592000);
   //         console.log(id)
   //       }
-        
+
   //     },1000)
   //   }
   //   init();
@@ -304,40 +305,39 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
       const myst = await StakeBalace();
       setMystake(myst);
       const fday = await poeldata1();
-      setDay1(fday)
-      const sday = await poeldata2()
-      setDay2(sday)
-      const tday = await poeldata3()
-      setDay3(tday)
-      const frday = await poeldata4()
-      setDay4(frday)
+      setDay1(fday);
+      const sday = await poeldata2();
+      setDay2(sday);
+      const tday = await poeldata3();
+      setDay3(tday);
+      const frday = await poeldata4();
+      setDay4(frday);
     };
     init();
   }, [account]);
 
   const getReferrals = async () => {
     let ref = [];
-    
+
     await axios
       .post(`${url}/isuser`, {
-        user: account.toLowerCase()
+        user: account.toLowerCase(),
       })
       .then(async (res) => {
-        console.log(res)
-        if(res.data.length > 0){
-          setShowID(true)
+        console.log(res);
+        if (res.data.length > 0) {
+          setShowID(true);
+        } else {
+          setShowID(false);
         }
-        else{
-          setShowID(false)
-        }
-        console.log("inside api",account)
+        console.log("inside api", account);
         setReferals(undefined);
         if (res.data[0] && res.data[0].refferals.length > 0) {
           for (let i = 0; i < res.data[0].refferals.length; i++) {
             const id = await orderIDReferrals(res.data[0].refferals[i]);
-              const events = await OrderIDdata(id[0]);
-              console.log("id is", events);
-              ref.push(events);
+            const events = await OrderIDdata(id[0]);
+            console.log("id is", events);
+            ref.push(events);
           }
         }
         setReferals(ref);
@@ -350,139 +350,158 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
   // console.log("Referral data", showID);
 
   const StakingToken = async () => {
-    setLoading(true)
-    const data = await Stake(amount,duration)
+    setLoading(true);
+    const data = await Stake(amount, duration);
     try {
       if (data.status) {
-        const ids = await orderID()
+        const ids = await orderID();
         notify("Stake Successfully");
-        await addReferralUser(ids, data.transactionHash)
+        await addReferralUser(ids, data.transactionHash);
         const ts = await totalstakedinContract();
         setStakeTotal(ts);
         const bal = await StakingtokenBalance();
         setBalance(bal);
       }
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
-  const addReferralUser =async(ids,hash)=>{
-    
-    if(ID){
-    await axios.post(`${url}/addreferrals`,{
-        "user":ID.toLowerCase(),
-        "wallet":account.toLowerCase()
-      }).then((res)=>{
-        console.log(res)
-      }).catch((e)=>{
-        console.log(e)
-        setLoading(false)
-      })
-      const isuser = await axios.post(`${url}/isuser`,{
-        "user":account.toLowerCase()
-      }).then((res)=>{
-        console.log(res.data.length)
-        return res.data;
-      }).catch((e)=>{
-        console.log(e)
-        setLoading(false)
-      })
-
-      if(isuser.length <= 0){
-         await axios.post(`${url}/user`,{
-          "user":account.toLowerCase(),
-          "expire":new Date(time + duration * 86400000).getTime()/1000,
-          "Tx":hash,
-          "IDs":ids,
-          "Duration":duration,
-          "APY":apy,
-          "paidReward":false,
-          "paidBonus":false,
-          "time":new Date().getTime()/1000,
-          "refferals":[]
-      }).then((res)=>{
-        console.log(res)
-        getReferrals();
-      }).catch((e)=>{
-        console.log(e)
-        setLoading(false)
-      })
-      }
-      else{
-        await axios.post(`${url}/updateuser`,{
-          "user":account.toLowerCase(),
-          "IDs":ids,
-        }).then((res)=>{
-          console.log(res)
-        }).catch((e)=>{
-          console.log(e)
-          setLoading(false)
+  const addReferralUser = async (ids, hash) => {
+    if (ID) {
+      await axios
+        .post(`${url}/addreferrals`, {
+          user: ID.toLowerCase(),
+          wallet: account.toLowerCase(),
         })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((e) => {
+          console.log(e);
+          setLoading(false);
+        });
+      const isuser = await axios
+        .post(`${url}/isuser`, {
+          user: account.toLowerCase(),
+        })
+        .then((res) => {
+          console.log(res.data.length);
+          return res.data;
+        })
+        .catch((e) => {
+          console.log(e);
+          setLoading(false);
+        });
+
+      if (isuser.length <= 0) {
+        await axios
+          .post(`${url}/user`, {
+            user: account.toLowerCase(),
+            expire: new Date(time + duration * 86400000).getTime() / 1000,
+            Tx: hash,
+            IDs: ids,
+            Duration: duration,
+            APY: apy,
+            paidReward: false,
+            paidBonus: false,
+            time: new Date().getTime() / 1000,
+            refferals: [],
+          })
+          .then((res) => {
+            console.log(res);
+            getReferrals();
+          })
+          .catch((e) => {
+            console.log(e);
+            setLoading(false);
+          });
+      } else {
+        await axios
+          .post(`${url}/updateuser`, {
+            user: account.toLowerCase(),
+            IDs: ids,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+            setLoading(false);
+          });
+      }
+    } else {
+      const isuser = await axios
+        .post(`${url}/isuser`, {
+          user: account.toLowerCase(),
+        })
+        .then((res) => {
+          console.log(res.data.length);
+          return res.data;
+        })
+        .catch((e) => {
+          console.log(e);
+          setLoading(false);
+        });
+
+      if (isuser.length <= 0) {
+        await axios
+          .post(`${url}/user`, {
+            user: account.toLowerCase(),
+            expire: new Date(time + duration * 86400000).getTime() / 1000,
+            Tx: hash,
+            IDs: ids,
+            Duration: duration,
+            APY: apy,
+            paidReward: false,
+            paidBonus: false,
+            time: new Date().getTime() / 1000,
+            refferals: [],
+          })
+          .then((res) => {
+            console.log(res);
+            getReferrals();
+          })
+          .catch((e) => {
+            console.log(e);
+            setLoading(false);
+          });
+      } else {
+        await axios
+          .post(`${url}/updateuser`, {
+            user: account.toLowerCase(),
+            IDs: ids,
+          })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((e) => {
+            console.log(e);
+            setLoading(false);
+          });
       }
     }
-    else{
-     const isuser = await axios.post(`${url}/isuser`,{
-        "user":account.toLowerCase()
-      }).then((res)=>{
-        console.log(res.data.length)
-        return res.data;
-      }).catch((e)=>{
-        console.log(e)
-        setLoading(false)
-      })
+    setLoading(false);
+  };
 
-      if(isuser.length <= 0){
-         await axios.post(`${url}/user`,{
-        "user":account.toLowerCase(),
-        "expire":new Date(time + duration * 86400000).getTime()/1000,
-        "Tx":hash,
-        "IDs":ids,
-        "Duration":duration,
-        "APY":apy,
-        "paidReward":false,
-        "paidBonus":false,
-        "time":new Date().getTime()/1000,
-        "refferals":[]
-      }).then((res)=>{
-        console.log(res)
-        getReferrals();
-      }).catch((e)=>{
-        console.log(e)
-        setLoading(false)
-      })
-      }
-      else{
-        await axios.post(`${url}/updateuser`,{
-          "user":account.toLowerCase(),
-          "IDs":ids,
-        }).then((res)=>{
-          console.log(res)
-        }).catch((e)=>{
-          console.log(e)
-          setLoading(false)
-        })
-      }
-    }
-    setLoading(false)
-  }
+  const countdown = (tab) => {
+    var now = new Date().getTime();
+    const time = tab * 1000 + 2592000 * 1000;
+    var distance = time - now;
 
-  const countdown =(tab)=>{
-  var now = new Date().getTime();
-  const time = (tab*1000) + (2592000*1000)
-  var distance = time - now;
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    return days + "D " + hours + "H " + minutes + "M " + seconds + "S ";
+  };
 
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  return days +"D " + hours + "H " + minutes + "M " + seconds + "S "
-  }
-
-  const copytext = (text)=>{
-    navigator.clipboard.writeText(text)
-    notify("Copied")
-  }
+  const copytext = (text) => {
+    navigator.clipboard.writeText(text);
+    notify("Copied");
+  };
 
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
@@ -603,7 +622,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="GCex Stake" {...a11yProps(0)} />
+            <Tab label="GCS Stake" {...a11yProps(0)} />
             <Tab label="My Stake" {...a11yProps(1)} />
             <Tab label="My Referrals" {...a11yProps(2)} />
           </Tabs>
@@ -616,27 +635,39 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                 padding: "60px 20px 60px",
               }}
             >
-             {showID ?  <Grid
-                item
-                xs={12}
-                sm={12}
-                md={12}
-                lg={12}
-                xl={12}
-                sx={{
-                  fontSize: "1.5rem",
-                  marginBottom: "3rem",
-                  textAlign: "center",
-                  fontWeight: 800,
-                }}
-              >
-                <span className="reff-id">
-                  <span className="Refferal">Refferal-id: </span><span className="Refferal" >{`https://gc-staking.netlify.app/staking/${account}`}</span>
-                  <span>
-                    <AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(`https://gc-staking.netlify.app/staking/${account}`)}/>
+              {showID ? (
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  sx={{
+                    fontSize: "1.5rem",
+                    marginBottom: "3rem",
+                    textAlign: "center",
+                    fontWeight: 800,
+                  }}
+                >
+                  <span className="reff-id">
+                    <span className="Refferal">Refferal-id: </span>
+                    <span className="Refferal">{`https://gc-staking.netlify.app/staking/${account}`}</span>
+                    <span>
+                      <AiOutlineCopy
+                        style={{ cursor: "pointer" }}
+                        onClick={() =>
+                          copytext(
+                            `https://gc-staking.netlify.app/staking/${account}`
+                          )
+                        }
+                      />
+                    </span>
                   </span>
-                </span>
-              </Grid> : ''}
+                </Grid>
+              ) : (
+                ""
+              )}
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
                   <Box sx={{}}>
@@ -676,7 +707,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                               fontWeight: "900",
                             }}
                           >
-                            {stakeTotal} GCex
+                            {stakeTotal} GCS
                           </Typography>
                         </Box>
                       </CardContent>
@@ -717,7 +748,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                               fontWeight: "900",
                             }}
                           >
-                            {distributed} GCex
+                            {distributed} GCS
                           </Typography>
                         </Box>
                       </CardContent>
@@ -758,7 +789,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                               fontWeight: "900",
                             }}
                           >
-                            0 GCex
+                            0 GCS
                           </Typography>
                         </Box>
                       </CardContent>
@@ -785,11 +816,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                     <Box sx={{ maxWidth: 300 }}>
                       <Card
                         variant="outlined"
-                        style={{
-                          border: "none",
-                          background: "#fff",
-                          boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
-                        }}
+                        className={active === 1 ? "active" : ""}
+                        onClick={() => setActive(1)}
                       >
                         {" "}
                         <CardContent>
@@ -798,7 +826,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                             onClick={() => {
                               setDuration(Number(day1[0]));
                               setAPY(aday1);
-                              setReturns(Number(day1[1]))
+                              setReturns(Number(day1[1]));
                             }}
                           >
                             <Typography
@@ -829,11 +857,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                     <Box sx={{ maxWidth: 300 }}>
                       <Card
                         variant="outlined"
-                        style={{
-                          border: "none",
-                          background: "#fff",
-                          boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
-                        }}
+                        className={active === 2 ? "active" : ""}
+                        onClick={() => setActive(2)}
                       >
                         {" "}
                         <CardContent>
@@ -842,7 +867,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                             onClick={() => {
                               setDuration(Number(day2[0]));
                               setAPY(aday2);
-                              setReturns(Number(day2[1]))
+                              setReturns(Number(day2[1]));
                             }}
                           >
                             <Typography
@@ -873,11 +898,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                     <Box sx={{ maxWidth: 300 }}>
                       <Card
                         variant="outlined"
-                        style={{
-                          border: "none",
-                          background: "#fff",
-                          boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
-                        }}
+                        className={active === 3 ? "active" : ""}
+                        onClick={() => setActive(3)}
                       >
                         {" "}
                         <CardContent>
@@ -886,7 +908,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                             onClick={() => {
                               setDuration(Number(day3[0]));
                               setAPY(aday3);
-                              setReturns(Number(day3[1]))
+                              setReturns(Number(day3[1]));
                             }}
                           >
                             <Typography
@@ -919,16 +941,13 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                       onClick={() => {
                         setDuration(Number(day4[0]));
                         setAPY(aday4);
-                        setReturns(Number(day4[1]))
+                        setReturns(Number(day4[1]));
                       }}
                     >
                       <Card
                         variant="outlined"
-                        style={{
-                          border: "none",
-                          background: "#fff",
-                          boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
-                        }}
+                        className={active === 4 ? "active" : ""}
+                        onClick={() => setActive(4)}
                       >
                         {" "}
                         <CardContent>
@@ -980,14 +999,16 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                 <div className="container" style={{ marginTop: "3rem" }}>
                   <div className="stake-summary-content">
                     <div className="stake">
-                      <h4 className="srpayBalance">Your Balance : {balance} Gcex</h4>
+                      <h4 className="srpayBalance">
+                        Your Balance : {balance} GCS
+                      </h4>
                     </div>
                     <button
                       className="d-block m-auto stake-btton"
                       style={{ marginTop: "2rem !important" }}
                     >
                       {" "}
-                      BUY GCex
+                      BUY GCS
                     </button>
                     <div className="stake">
                       <h3 className="stakingSummary">Staking Details</h3>
@@ -1006,14 +1027,14 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                       <div className="summary-content">
                         <p>Staked Amount</p>
                         <p className="ssc">:</p>
-                        <p className="sc">{amount} Gcex</p>
+                        <p className="sc">{amount} GCS</p>
                       </div>
                       <div className="summary-content">
                         <p>Estimated Return</p>
                         <p className="ssc2">:</p>
                         <p className="sc">
-                          {amount * (1 + ((returns/365) * duration)/100)}{" "}
-                          Gcex
+                          {amount * (1 + ((returns / 365) * duration) / 100)}{" "}
+                          GCS
                         </p>
                       </div>
                       <div className="summary-content">
@@ -1054,7 +1075,15 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                 padding: "60px 20px 60px",
               }}
             >
-               <Typography style={{textAlign:'center',marginBottom:'2rem'}}><span className="levels">{mystake < 1000 ? "Entry Level" : mystake >= 1000 && mystake < 3000 ? "Level 2" : "Level 3" }</span></Typography>
+              <Typography style={{ textAlign: "center", marginBottom: "2rem" }}>
+                <span className="levels">
+                  {mystake < 1000
+                    ? "Entry Level"
+                    : mystake >= 1000 && mystake < 3000
+                    ? "Level 2"
+                    : "Level 3"}
+                </span>
+              </Typography>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
@@ -1095,7 +1124,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                               fontWeight: "900",
                             }}
                           >
-                            {mystake} GCex
+                            {mystake} GCS
                           </Typography>
                         </Box>
                       </CardContent>
@@ -1136,7 +1165,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                               fontWeight: "900",
                             }}
                           >
-                            {reward} GCex
+                            {reward} GCS
                           </Typography>
                         </Box>
                       </CardContent>
@@ -1145,27 +1174,30 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                 </Grid>
               </Grid>
               <Container maxWidth="xl">
-               
-                <TableContainer sx={{ maxHeight: 440,textAlign:"left" }}>
-                  {events && events.length > 0 ? <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                      <TableRow sx={{textAlign:"left"}}>
-                        {columns.map((column) => (
-                          <TableCell
-                            key={column.id}
-                            align={column.align}
-                            style={{ minWidth: column.minWidth }}
-                          >
-                            {column.label}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    </TableHead>
-                    
-                    <TableBody>
-                      {events.map((item) => renderRows(item))}
-                    </TableBody>
-                  </Table>: <Skeleton count={5} width="100%"/>}
+                <TableContainer sx={{ maxHeight: 440, textAlign: "left" }}>
+                  {events && events.length > 0 ? (
+                    <Table stickyHeader aria-label="sticky table">
+                      <TableHead>
+                        <TableRow sx={{ textAlign: "left" }}>
+                          {columns.map((column) => (
+                            <TableCell
+                              key={column.id}
+                              align={column.align}
+                              style={{ minWidth: column.minWidth }}
+                            >
+                              {column.label}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      </TableHead>
+
+                      <TableBody>
+                        {events.map((item) => renderRows(item))}
+                      </TableBody>
+                    </Table>
+                  ) : (
+                    <Skeleton count={5} width="100%" />
+                  )}
                 </TableContainer>
                 <TablePagination
                   rowsPerPageOptions={[10, 25, 100]}
@@ -1186,29 +1218,40 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
         <TabPanel value={value} index={2}>
           <Container maxWidth="xl">
             <Container maxWidth="xl">
-            <Typography style={{textAlign:'center',marginBottom:'2rem'}}><span className="levels">Expire in: {events[0] && countdown(Number(events[0].starttime))}</span></Typography>
+              <Typography style={{ textAlign: "center", marginBottom: "2rem" }}>
+                <span className="levels">
+                  Expire in:{" "}
+                  {events[0] && countdown(Number(events[0].starttime))}
+                </span>
+              </Typography>
               <TableContainer sx={{ maxHeight: 440 }}>
-                {referal ? <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                    <TableRow>
-                      {columns2.map((column) => (
-                        <TableCell
-                          key={column.id}
-                          align={column.align}
-                          style={{ minWidth: column.minWidth }}
-                        >
-                          {column.label}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {
-                      referal.map((item) => {
+                {referal ? (
+                  <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                      <TableRow>
+                        {columns2.map((column) => (
+                          <TableCell
+                            key={column.id}
+                            align={column.align}
+                            style={{ minWidth: column.minWidth }}
+                          >
+                            {column.label}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {referal.map((item) => {
                         return (
                           <TableRow>
                             <TableCell>{referal.indexOf(item)}</TableCell>
-                            <TableCell >{slicewallet(item[0])} <AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(item[0])}/></TableCell>
+                            <TableCell>
+                              {slicewallet(item[0])}{" "}
+                              <AiOutlineCopy
+                                style={{ cursor: "pointer" }}
+                                onClick={() => copytext(item[0])}
+                              />
+                            </TableCell>
                             <TableCell>
                               {Number(item[1] / 10 ** 18).toFixed(2)}
                             </TableCell>
@@ -1219,16 +1262,32 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
                               {new Date(item[4] * 1000).toLocaleString()}
                             </TableCell>
                             <TableCell>
-                              {Number(item[1] / 10 ** 18) * (item[2] == day1[0] ? aday1 : item[2] == day2[0] ? aday2 : item[3] == day3[0] ? aday3 : item[2] == day4[0] ?  aday4 : aday1)/36500 * item[2] * 2.5/100}
+                              {(((Number(item[1] / 10 ** 18) *
+                                (item[2] == day1[0]
+                                  ? aday1
+                                  : item[2] == day2[0]
+                                  ? aday2
+                                  : item[3] == day3[0]
+                                  ? aday3
+                                  : item[2] == day4[0]
+                                  ? aday4
+                                  : aday1)) /
+                                36500) *
+                                item[2] *
+                                2.5) /
+                                100}
                             </TableCell>
                             <TableCell>
-                             {Number(item[1] / 10 ** 18)/100}
+                              {Number(item[1] / 10 ** 18) / 100}
                             </TableCell>
                           </TableRow>
                         );
                       })}
-                  </TableBody>
-                </Table> : <Skeleton count={5} width="100"/>}
+                    </TableBody>
+                  </Table>
+                ) : (
+                  <Skeleton count={5} width="100" />
+                )}
               </TableContainer>
               <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}

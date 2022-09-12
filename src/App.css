@@ -232,6 +232,16 @@ h4.srpayBalance {
   align-items: center;
   display: flex;
 }
+.MuiPaper-root.MuiPaper-outlined.MuiPaper-rounded.MuiCard-root.css-1v5z4dq-MuiPaper-root-MuiCard-root {
+  background: rgb(255, 255, 255);
+  box-shadow: rgb(51 51 51 / 15%) 0px 4px 25px;
+  cursor: pointer;
+}
+.MuiPaper-root.MuiPaper-outlined.MuiPaper-rounded.MuiCard-root.active.css-1v5z4dq-MuiPaper-root-MuiCard-root {
+  border: 1px solid #f300f9;
+  background: rgb(255, 255, 255);
+  box-shadow: rgb(51 51 51 / 15%) 0px 4px 25px;
+}
 .ssc3,
 .ssc4 {
   font-family: josefin-sans, sans-serif;
@@ -285,8 +295,7 @@ p.sc {
   border-radius: 10px;
 }
 
-
-.levels{
+.levels {
   text-align: center;
   padding: 1rem;
   background-color: aqua;
@@ -295,6 +304,6 @@ p.sc {
   border-radius: 10px;
   color: #18382c;
 }
-.css-dwuj3p-MuiTableCell-root{
+.css-dwuj3p-MuiTableCell-root {
   text-align: left !important ;
 }
