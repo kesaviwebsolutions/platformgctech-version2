@@ -235,7 +235,7 @@ const rows = [
   createData("Brazil", "BR", 210147125, 15),
 ];
 
-export default function StakingTable({account}) {
+export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [user, setUser] = useState()
@@ -317,7 +317,7 @@ export default function StakingTable({account}) {
           <TableCell>{new Date(rowsInfo.starttime*100).toLocaleString()}</TableCell>
           <TableCell>{rowsInfo.lockupDuration}</TableCell>
           <TableCell>{stakebalance < 1000 ? "Entery Level" : stakebalance >= 1000 && stakebalance < 3000 ? "Level 2" : "Level 3" }</TableCell>
-          <TableCell>{rowsInfo.lockupDuration == 1 ? "35" : rowsInfo.lockupDuration == 2 ? "75" : rowsInfo.lockupDuration == 3 ? "90" : "130"}</TableCell>
+          <TableCell>{rowsInfo.lockupDuration == 1 ? aday1 : rowsInfo.lockupDuration == 2 ? aday2 : rowsInfo.lockupDuration == 3 ? aday3 : aday4}</TableCell>
           <TableCell>{Number(rowsInfo.pending/10**18).toFixed(5)}</TableCell>
           <TableCell>{rowsInfo.claimedReward/10**18}</TableCell>
           <TableCell>{rowsInfo.refcount}</TableCell>

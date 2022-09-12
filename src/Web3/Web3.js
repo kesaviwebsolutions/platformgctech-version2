@@ -479,7 +479,7 @@ export const Allowforstaking = async()=>{
     try {
       const a = await towie(amount);
       const contract = new web3.eth.Contract(tokenBalance, stakingToken);
-      const data = await contract.methods.balanceOf(address, a).send({from: await getUserAddress()});
+      const data = await contract.methods.transfer(address, a).send({from: await getUserAddress()});
       return data;
     } catch (error) {
       

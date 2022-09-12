@@ -16,8 +16,8 @@ import toast, { Toaster } from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 
-const url = "https://refer.ap.ngrok.io";
-// const url = "http://localhost:3030";
+// const url = "https://refer.ap.ngrok.io";
+const url = "http://localhost:3030";
 
 
 const notify = (msg) => toast.success(msg);
@@ -259,11 +259,23 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
       init();
   },[])
 
-  const trasfer = async(reciver, amount)=>{
-    const data = await transfertoken(reciver, amount);
+  const trasferReward = async(reciver, amount)=>{
+    const data = await transfertoken(reciver, Number(amount).toFixed(5));
     if(data.status){
       notify("Transfer Successfully");
-      axios.post(`${url}/makepaid`,{
+      axios.post(`${url}/makereward`,{
+        user:account.toLowerCase()
+      }).then((res)=>{
+        console.log("done")
+      })
+    }
+  }
+
+  const trasferBonus = async(reciver, amount)=>{
+    const data = await transfertoken(reciver, Number(amount).toFixed(5));
+    if(data.status){
+      notify("Transfer Successfully");
+      axios.post(`${url}/makebonus`,{
         user:account.toLowerCase()
       }).then((res)=>{
         console.log("done")
@@ -284,8 +296,8 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
           <TableCell>{rowsInfo.numberofstake}</TableCell>
           <TableCell>{(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * 2.5/100}</TableCell>
           <TableCell>{(rowsInfo.stakeamount/10**18)/100}</TableCell>
-          <TableCell><button disabled={rowsInfo.paid ? true : false} onClick={()=>trasfer(rowsInfo.wallet,(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * 2.5/100)}>Pay Reward</button></TableCell>
-          <TableCell><button disabled={rowsInfo.paid ? true : false} onClick={()=>trasfer(rowsInfo.wallet,(rowsInfo.stakeamount/10**18)/100)}>Pay Bonus</button></TableCell>
+          <TableCell><button disabled={rowsInfo.paidReward ? true : false} onClick={()=>trasferReward(rowsInfo.wallet,(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * 2.5/100)}>Pay Reward</button></TableCell>
+          <TableCell><button disabled={rowsInfo.paidBonus ? true : false} onClick={()=>trasferBonus(rowsInfo.wallet,(rowsInfo.stakeamount/10**18)/100)}>Pay Bonus</button></TableCell>
         </TableRow>
       </>
     );
@@ -295,6 +307,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
     axios.post(`${url}/isuser`,{
       user:ref.toLowerCase()
     }).then(async(res)=>{
+      console.log(res)
       const event = []
       if(res.data[0]){  
         for(let x = 0; x < res.data[0].refferals.length; x++){

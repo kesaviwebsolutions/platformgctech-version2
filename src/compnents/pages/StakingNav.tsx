@@ -397,7 +397,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
           "IDs":ids,
           "Duration":duration,
           "APY":apy,
-          "paid":false,
+          "paidReward":false,
+          "paidBonus":false,
           "time":new Date().getTime()/1000,
           "refferals":[]
       }).then((res)=>{
@@ -439,7 +440,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
         "IDs":ids,
         "Duration":duration,
         "APY":apy,
-        "paid":false,
+        "paidReward":false,
+        "paidBonus":false,
         "time":new Date().getTime()/1000,
         "refferals":[]
       }).then((res)=>{
