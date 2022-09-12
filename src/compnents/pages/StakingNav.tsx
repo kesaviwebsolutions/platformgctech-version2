@@ -251,7 +251,7 @@ function a11yProps(index: number) {
   };
 }
 
-export default function AdminNav({ account }) {
+export default function AdminNav({ account, aday1, aday2, aday3, aday4}) {
   const {ID} = useParams();
   const [value, setValue] = React.useState(0);
   const [page, setPage] = React.useState(0);
@@ -397,6 +397,7 @@ export default function AdminNav({ account }) {
           "IDs":ids,
           "Duration":duration,
           "APY":apy,
+          "paid":false,
           "time":new Date().getTime()/1000,
           "refferals":[]
       }).then((res)=>{
@@ -438,6 +439,7 @@ export default function AdminNav({ account }) {
         "IDs":ids,
         "Duration":duration,
         "APY":apy,
+        "paid":false,
         "time":new Date().getTime()/1000,
         "refferals":[]
       }).then((res)=>{
@@ -793,7 +795,7 @@ export default function AdminNav({ account }) {
                             className="cardcontent2"
                             onClick={() => {
                               setDuration(Number(day1[0]));
-                              setAPY(35);
+                              setAPY(aday1);
                               setReturns(Number(day1[1]))
                             }}
                           >
@@ -814,7 +816,7 @@ export default function AdminNav({ account }) {
                                 mb: 1.5,
                               }}
                             >
-                              35% Apy
+                              {aday1}% APY
                             </Typography>
                           </Box>
                         </CardContent>
@@ -837,7 +839,7 @@ export default function AdminNav({ account }) {
                             className="cardcontent2"
                             onClick={() => {
                               setDuration(Number(day2[0]));
-                              setAPY(75);
+                              setAPY(aday2);
                               setReturns(Number(day2[1]))
                             }}
                           >
@@ -858,7 +860,7 @@ export default function AdminNav({ account }) {
                                 mb: 1.5,
                               }}
                             >
-                              75% APY
+                              {aday2}% APY
                             </Typography>
                           </Box>
                         </CardContent>
@@ -881,7 +883,7 @@ export default function AdminNav({ account }) {
                             className="cardcontent2"
                             onClick={() => {
                               setDuration(Number(day3[0]));
-                              setAPY(90);
+                              setAPY(aday3);
                               setReturns(Number(day3[1]))
                             }}
                           >
@@ -902,7 +904,7 @@ export default function AdminNav({ account }) {
                                 mb: 1.5,
                               }}
                             >
-                              90% Apy
+                              {aday3}% APY
                             </Typography>
                           </Box>
                         </CardContent>
@@ -914,7 +916,7 @@ export default function AdminNav({ account }) {
                       sx={{ maxWidth: 300 }}
                       onClick={() => {
                         setDuration(Number(day4[0]));
-                        setAPY(130);
+                        setAPY(aday4);
                         setReturns(Number(day4[1]))
                       }}
                     >
@@ -946,7 +948,7 @@ export default function AdminNav({ account }) {
                                 mb: 1.5,
                               }}
                             >
-                              130% Apy
+                              {aday4}% APY
                             </Typography>
                           </Box>
                         </CardContent>
@@ -1215,7 +1217,7 @@ export default function AdminNav({ account }) {
                               {new Date(item[4] * 1000).toLocaleString()}
                             </TableCell>
                             <TableCell>
-                              {Number(item[1] / 10 ** 18) * (item[2] == day1[0] ? 35 : item[2] == day2[0] ? 75 : item[3] == day3[0] ? 90 : item[2] == day4[0] ?  130 : 35)/36500 * item[2] * 2.5/100}
+                              {Number(item[1] / 10 ** 18) * (item[2] == day1[0] ? aday1 : item[2] == day2[0] ? aday2 : item[3] == day3[0] ? aday3 : item[2] == day4[0] ?  aday4 : aday1)/36500 * item[2] * 2.5/100}
                             </TableCell>
                             <TableCell>
                              {Number(item[1] / 10 ** 18)/100}

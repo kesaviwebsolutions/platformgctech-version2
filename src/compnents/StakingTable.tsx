@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import { Container } from "@mui/system";
 import AdminNav from "./AdminNav";
 import axios from "axios";
-import { OrderIDdata,GetPendingRewards,StakeBalace,balanceofreferral,balanceofstake } from "../Web3/Web3";
+import { OrderIDdata,GetPendingRewards,StakeBalace,balanceofreferral, balanceofstake, transfertoken } from "../Web3/Web3";
 import { Link } from "react-router-dom";
 import { AiOutlineCopy } from 'react-icons/ai'
 import toast, { Toaster } from "react-hot-toast";
@@ -20,6 +20,7 @@ import 'react-loading-skeleton/dist/skeleton.css'
 
 const url = "https://refer.ap.ngrok.io";
 // const url = "http://localhost:3030";
+
 const notify = (msg) => toast.success(msg);
 
 
@@ -298,6 +299,8 @@ export default function StakingTable({account}) {
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
     return days +"D " + hours + "H " + minutes + "M " + seconds + "S "
     }
+
+
 
 
   const renderRows = (rowsInfo, index) => {

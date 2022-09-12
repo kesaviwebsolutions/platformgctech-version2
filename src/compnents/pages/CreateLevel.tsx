@@ -21,7 +21,7 @@ export default function CreateLevel() {
         </Box>
         <Box>
           <Typography paragraph style={{ marginTop: "20px" }}>
-            APY(%)
+            Reward
           </Typography>
           <MDBInput label="2%%" id="form1" type="text" />
         </Box>
@@ -31,19 +31,6 @@ export default function CreateLevel() {
             NO. of referral required to quality
           </Typography>
           <MDBInput label="10" id="form1" type="text" />
-        </Box>
-        <Box>
-          <Typography paragraph style={{ marginTop: "20px" }}>
-            Minimum tokens to staked
-          </Typography>
-          <MDBInput label="500" id="form1" type="text" />
-        </Box>
-        <Box>
-          {" "}
-          <Typography paragraph style={{ marginTop: "20px" }}>
-            Length of staking
-          </Typography>
-          <MDBInput label="30 Days" id="form1" type="text" />
         </Box>
         <Button className="createbutton">Create</Button>
       </Box>

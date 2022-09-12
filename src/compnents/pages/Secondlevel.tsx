@@ -189,22 +189,6 @@ const rowsInfo = [
   },
 ];
 
-const renderRows = (rowsInfo, index) => {
-  
-
-  return (
-    <>
-      <TableRow key={index}>
-        <TableCell>{index}</TableCell>
-        <TableCell>{rowsInfo.wallet}</TableCell>
-        <TableCell>{rowsInfo.stakeamount/10**18}</TableCell>
-        <TableCell>{rowsInfo.numberofstake}</TableCell>
-        <TableCell>{(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? 35 : rowsInfo.duration  == 2 ? 75 : rowsInfo.duration  == 3 ? 90 : 130)/36500 * rowsInfo.duration * 2.5/100}</TableCell>
-        <TableCell>{(rowsInfo.stakeamount/10**18)/100}</TableCell>
-      </TableRow>
-    </>
-  );
-};
 
 const rows = [
   createData("India", "IN", 1324171354, 1),
@@ -224,12 +208,27 @@ const rows = [
   createData("Brazil", "BR", 210147125, 15),
 ];
 
-export default function StakingTable() {
+export default function StakingTable({aday1, aday2, aday3, aday4}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const {secondref} = useParams();
   
   const [referrals, setReferrals] = React.useState(undefined);
+
+  const renderRows = (rowsInfo, index) => {
+    return (
+      <>
+        <TableRow key={index}>
+          <TableCell>{index}</TableCell>
+          <TableCell>{rowsInfo.wallet}</TableCell>
+          <TableCell>{rowsInfo.stakeamount/10**18}</TableCell>
+          <TableCell>{rowsInfo.numberofstake}</TableCell>
+          <TableCell>{(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * 2.5/100}</TableCell>
+          <TableCell>{(rowsInfo.stakeamount/10**18)/100}</TableCell>
+        </TableRow>
+      </>
+    );
+  };
 
   React.useEffect(()=>{
       const init =async()=>{

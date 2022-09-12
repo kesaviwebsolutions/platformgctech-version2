@@ -25,6 +25,7 @@ import Secondlevel from "./compnents/pages/Secondlevel.tsx"
 import StakingTable from "./compnents/StakingTable.tsx";
 import Staking from "./compnents/pages/StakingNav.tsx";
 import PersonalReferralId from "./compnents/pages/PersonalReferralId.tsx";
+import { poeldata1, poeldata2, poeldata3, poeldata4 } from "./Web3/Web3"
 const url = "https://apigctech.ap.ngrok.io";
 
 function App() {
@@ -117,6 +118,25 @@ function App() {
       init();
     }, 10000);
   }, []);
+
+  const [day1, setDay1] = useState();
+  const [day2, setDay2] = useState(0);
+  const [day3, setDay3] = useState(0);
+  const [day4, setDay4] = useState(0);
+
+  useEffect(()=>{
+    const init=async()=>{
+      const fday = await poeldata1();
+      setDay1(fday[1]/100)
+      const sday = await poeldata2()
+      setDay2(sday[1]/100)
+      const tday = await poeldata3()
+      setDay3(tday[1]/100)
+      const frday = await poeldata4()
+      setDay4(frday[1]/100)
+    }
+    init();
+  })
   const [gcsmaketcap, setGcsSupplyCap] = useState(0);
   const [gcstousd, setGcstoUsd] = useState(0);
   const [gcsusdm, setGcsusdm] = useState(0);
@@ -259,18 +279,18 @@ function App() {
             path="/admin"
             element={<Admin account={acount} contractadmin={contractadmin} />}
           />
-          <Route path="/staking" element={<Staking account={acount} />} />
-          <Route path="/staking/:ID" element={<Staking account={acount} />} />
-          <Route path="/admin/referral-second/:secondref"element={<Secondlevel account={acount} />}
+          <Route path="/staking" element={<Staking account={acount} aday1={day1} aday2={day2} aday3={day3} aday4={day4}/>} />
+          <Route path="/staking/:ID" element={<Staking account={acount} aday1={day1} aday2={day2} aday3={day3} aday4={day4}/>} />
+          <Route path="/admin/referral-second/:secondref"element={<Secondlevel account={acount} aday1={day1} aday2={day2} aday3={day3} aday4={day4}/>}
           />
           <Route
             path="/admin/staker's-detail"
-            element={<StakingTable account={acount} />}
+            element={<StakingTable account={acount} aday1={day1} aday2={day2} aday3={day3} aday4={day4}/>}
           />
           <Route
             exact
             path="/admin/referral-id/:ref"
-            element={<Referralid />}
+            element={<Referralid aday1={day1} aday2={day2} aday3={day3} aday4={day4}/>}
           />
           <Route
             exact

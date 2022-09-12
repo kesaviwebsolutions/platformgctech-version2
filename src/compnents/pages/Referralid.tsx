@@ -11,13 +11,16 @@ import { Container } from "@mui/system";
 import AdminNav from "../AdminNav";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { orderIDofReferal, balanceofstake, OrderIDdata } from "../../Web3/Web3";
+import { orderIDofReferal, balanceofstake, OrderIDdata, transfertoken } from "../../Web3/Web3";
+import toast, { Toaster } from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 
 const url = "https://refer.ap.ngrok.io";
 // const url = "http://localhost:3030";
 
+
+const notify = (msg) => toast.success(msg);
 interface Column {
   id: "name" | "code" | "population" | "size" | "density";
   label: string;
@@ -72,6 +75,21 @@ const columns: readonly Column[] = [
   {
     id: "density",
     label: "Bonus",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "Pay Reward",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+
+  {
+    id: "density",
+    label: "Pay Bonus",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
@@ -207,26 +225,7 @@ const slicewallet = (add) => {
   return first + "..." + second;
 };
 
-const renderRows = (rowsInfo, index) => {
-  
 
-  return (
-    <>
-      <TableRow key={index}>
-        <TableCell>{index}</TableCell>
-        <TableCell>{rowsInfo.wallet}</TableCell>
-        <TableCell>
-        <Link to={`/admin/referral-second/${rowsInfo.wallet}`}>{slicewallet(rowsInfo.wallet)}</Link>
-          </TableCell>
-        <TableCell>{rowsInfo.stakeamount/10**18}</TableCell>
-        <TableCell>{rowsInfo.numberofstake}</TableCell>
-        <TableCell>{(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? 35 : rowsInfo.duration  == 2 ? 75 : rowsInfo.duration  == 3 ? 90 : 130)/36500 * rowsInfo.duration * 2.5/100}</TableCell>
-        <TableCell>{(rowsInfo.stakeamount/10**18)/100}</TableCell>
-       
-      </TableRow>
-    </>
-  );
-};
 
 const rows = [
   createData("India", "IN", 1324171354, 1),
@@ -246,7 +245,7 @@ const rows = [
   createData("Brazil", "BR", 210147125, 15),
 ];
 
-export default function StakingTable() {
+export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const {ref} = useParams();
@@ -259,6 +258,38 @@ export default function StakingTable() {
       }
       init();
   },[])
+
+  const trasfer = async(reciver, amount)=>{
+    const data = await transfertoken(reciver, amount);
+    if(data.status){
+      notify("Transfer Successfully");
+      axios.post(`${url}/makepaid`,{
+        user:account.toLowerCase()
+      }).then((res)=>{
+        console.log("done")
+      })
+    }
+  }
+
+  const renderRows = (rowsInfo, index) => {
+    return (
+      <>
+        <TableRow key={index}>
+          <TableCell>{index}</TableCell>
+          <TableCell>{rowsInfo.wallet}</TableCell>
+          <TableCell>
+          <Link to={`/admin/referral-second/${rowsInfo.wallet}`}>{slicewallet(rowsInfo.wallet)}</Link>
+            </TableCell>
+          <TableCell>{rowsInfo.stakeamount/10**18}</TableCell>
+          <TableCell>{rowsInfo.numberofstake}</TableCell>
+          <TableCell>{(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * 2.5/100}</TableCell>
+          <TableCell>{(rowsInfo.stakeamount/10**18)/100}</TableCell>
+          <TableCell><button disabled={rowsInfo.paid ? true : false} onClick={()=>trasfer(rowsInfo.wallet,(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * 2.5/100)}>Pay Reward</button></TableCell>
+          <TableCell><button disabled={rowsInfo.paid ? true : false} onClick={()=>trasfer(rowsInfo.wallet,(rowsInfo.stakeamount/10**18)/100)}>Pay Bonus</button></TableCell>
+        </TableRow>
+      </>
+    );
+  };
 
   const getRef =async()=>{
     axios.post(`${url}/isuser`,{
@@ -274,6 +305,7 @@ export default function StakingTable() {
           user1.stakeamount = bal[1]
           user1.duration = bal[2]
           user1.numberofstake = ids.length
+          
           event.push(user1)
         }
       }
@@ -324,6 +356,7 @@ export default function StakingTable() {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Container>
+      <Toaster />
     </Paper>
   );
 }
