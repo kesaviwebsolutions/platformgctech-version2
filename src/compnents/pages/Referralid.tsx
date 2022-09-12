@@ -307,7 +307,6 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
     axios.post(`${url}/isuser`,{
       user:ref.toLowerCase()
     }).then(async(res)=>{
-      console.log(res)
       const event = []
       if(res.data[0]){  
         for(let x = 0; x < res.data[0].refferals.length; x++){
@@ -326,7 +325,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
     }).catch(console.error)
   }
 
-  console.log("Refferals",referrals)
+  // console.log("Refferals",referrals)
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
   };

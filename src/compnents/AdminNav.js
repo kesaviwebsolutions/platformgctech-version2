@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 export default function AdminNav() {
   const [showBasic, setShowBasic] = useState(false);
   const [active, setActive] = useState(1);
-console.log(window.location.pathname)
+
 
   return (
     <MDBNavbar expand="lg" light bgColor="transparent" className="adminnav">

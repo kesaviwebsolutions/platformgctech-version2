@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import { Container } from "@mui/system";
 import AdminNav from "./AdminNav";
 import axios from "axios";
-import { OrderIDdata,GetPendingRewards,StakeBalace,balanceofreferral, balanceofstake, transfertoken } from "../Web3/Web3";
+import { OrderIDdata,GetPendingRewards,StakeBalace,balanceofreferral, balanceofstake, transfertoken, orderIDofReferal } from "../Web3/Web3";
 import { Link } from "react-router-dom";
 import { AiOutlineCopy } from 'react-icons/ai'
 import toast, { Toaster } from "react-hot-toast";
@@ -260,12 +260,14 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
 
   const getRefera =async(arra)=>{
     let a = 0;
+    console.log(arra)
     const stakebal = await StakeBalace();
     for(let x = 0; x < arra.length; x++){
-      const bal = await balanceofreferral(arra[x])
-      if(Number(bal) >= Number(stakebal)){
-        a++
-      }
+      const id = await orderIDofReferal(arra[x])
+     const userdata = await OrderIDdata(id[0]);
+     if(userdata[1]/10**18>1000){
+      a++
+     }
     }
     return a;
   }
@@ -276,7 +278,6 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
     axios.get(`${url}/users`).then(async(res)=>{
       for(let i = 0; i < res.data.length; i++){
         data = await OrderIDdata(res.data[i].IDs[0]);
-        console.log(data,res.data[i].IDs[0])
         const pending  = await GetPendingRewards(res.data[i].IDs[0]);
         data.pending = pending
         const ref = await getRefera(res.data[i].refferals)
