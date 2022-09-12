@@ -44,18 +44,7 @@ export default function AdminNav() {
             >
               Staker's Details
             </Link>
-            {/* <Link
-              id="link"
-              onClick={() => setActive(1)}
-              to="/admin/referral-id"
-              className={
-                window.location.pathname === "/admin/referral-id"
-                  ? "active"
-                  : ""
-              }
-            >
-              Referral Details
-            </Link> */}
+           
             <Link
               id="link"
               onClick={() => setActive(1)}
@@ -67,6 +56,18 @@ export default function AdminNav() {
               }
             >
               Create Level
+            </Link>
+             <Link
+              id="link"
+              onClick={() => setActive(1)}
+              to="/admin/pool"
+              className={
+                window.location.pathname === "/admin/referral-id"
+                  ? "active"
+                  : ""
+              }
+            >
+             Add Pool
             </Link>
           </>
         </MDBNavbarNav>

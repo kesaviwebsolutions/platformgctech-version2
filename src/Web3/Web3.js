@@ -686,3 +686,13 @@ export const Allowforstaking = async()=>{
     console.log(error)
    }
   };
+
+  export const Addpool = async(duration,returns)=>{
+    try {
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const data = await contract.methods.addPool(duration,returns).send({from:await getUserAddress()});
+      return data;
+    } catch (error) {
+     console.log(error)
+    }
+   };

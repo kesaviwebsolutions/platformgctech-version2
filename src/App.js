@@ -26,6 +26,7 @@ import StakingTable from "./compnents/StakingTable.tsx";
 import Staking from "./compnents/pages/StakingNav.tsx";
 import PersonalReferralId from "./compnents/pages/PersonalReferralId.tsx";
 import { poeldata1, poeldata2, poeldata3, poeldata4 } from "./Web3/Web3"
+import Pool from "./compnents/pages/Addpool";
 const url = "https://apigctech.ap.ngrok.io";
 
 function App() {
@@ -287,10 +288,14 @@ function App() {
             path="/admin/staker's-detail"
             element={<StakingTable account={acount} aday1={day1} aday2={day2} aday3={day3} aday4={day4}/>}
           />
+           <Route
+            path="/admin/pool"
+            element={<Pool account={acount} aday1={day1} aday2={day2} aday3={day3} aday4={day4}/>}
+          />
           <Route
             exact
             path="/admin/referral-id/:ref"
-            element={<Referralid aday1={day1} aday2={day2} aday3={day3} aday4={day4}/>}
+            element={<Referralid account={acount} aday1={day1} aday2={day2} aday3={day3} aday4={day4}/>}
           />
           <Route
             exact
