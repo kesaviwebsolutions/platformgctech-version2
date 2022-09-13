@@ -66,14 +66,14 @@ interface Column {
   id: "name" | "code" | "population" | "size" | "density";
   label: string;
   minWidth?: number;
-  align: "left";
+  align: "center";
   format?: (value: number) => string;
 }
 interface Column2 {
   id: "name" | "code" | "population" | "size" | "density";
   label: string;
   minWidth?: number;
-  align: "left";
+  align: "center";
   format?: (value: number) => string;
 }
 const columns: readonly Column[] = [
@@ -81,36 +81,36 @@ const columns: readonly Column[] = [
     id: "size",
     label: "Order ID",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
   },
-  { id: "name", label: "Staking Date", minWidth: 170, align: "left" },
+  { id: "name", label: "Staking Date", minWidth: 170, align: "center" },
   {
     id: "density",
     label: "Token Amount",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Staking End",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
-    label: "Time Left",
+    label: "Time center",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Action",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toFixed(2),
   },
 ];
@@ -120,14 +120,14 @@ const columns2: readonly Column2[] = [
     id: "size",
     label: "S.N0",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
   },
   {
     id: "size",
     label: "Wallet",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toLocaleString("en-US"),
   },
 
@@ -135,35 +135,35 @@ const columns2: readonly Column2[] = [
     id: "density",
     label: "Amount",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Started at",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Ending at",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Reward",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toFixed(2),
   },
   {
     id: "density",
     label: "Bonus",
     minWidth: 170,
-    align: "left",
+    align: "center",
     format: (value: number) => value.toFixed(2),
   },
 ];
@@ -1003,15 +1003,14 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                         Your Balance : {balance} GCS
                       </h4>
                     </div>
-                    <a href="https://www.gcex.lt/" target='_black'>
-                    <button
-                      className="d-block m-auto stake-btton"
-                      style={{ marginTop: "2rem !important" }}
-                      
-                    >
-                      {" "}
-                      BUY GCS
-                    </button>
+                    <a href="https://www.gcex.lt/" target="_black">
+                      <button
+                        className="d-block m-auto stake-btton"
+                        style={{ marginTop: "2rem !important" }}
+                      >
+                        {" "}
+                        BUY GCS
+                      </button>
                     </a>
                     <div className="stake">
                       <h3 className="stakingSummary">Staking Details</h3>
@@ -1036,7 +1035,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                         <p>Estimated Return</p>
                         <p className="ssc2">:</p>
                         <p className="sc">
-                          {amount * (1 + (((returns/100) / 365) * duration) / 100)}{" "}
+                          {amount *
+                            (1 + ((returns / 100 / 365) * duration) / 100)}{" "}
                           GCS
                         </p>
                       </div>
@@ -1177,11 +1177,11 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                 </Grid>
               </Grid>
               <Container maxWidth="xl">
-                <TableContainer sx={{ maxHeight: 440, textAlign: "left" }}>
+                <TableContainer sx={{ maxHeight: 440, textAlign: "center" }}>
                   {events && events.length > 0 ? (
                     <Table stickyHeader aria-label="sticky table">
                       <TableHead>
-                        <TableRow sx={{ textAlign: "left" }}>
+                        <TableRow sx={{ textAlign: "center" }}>
                           {columns.map((column) => (
                             <TableCell
                               key={column.id}
@@ -1199,7 +1199,11 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                       </TableBody>
                     </Table>
                   ) : (
-                    <Skeleton count={5} width="100%" style={{paddingTop:'10px'}}/>
+                    <Skeleton
+                      count={5}
+                      width="100%"
+                      style={{ paddingTop: "10px" }}
+                    />
                   )}
                 </TableContainer>
                 <TablePagination
@@ -1229,7 +1233,6 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
               </Typography>
               <TableContainer sx={{ maxHeight: 440 }}>
                 {referal ? (
-                  
                   <Table stickyHeader aria-label="sticky table">
                     <TableHead>
                       <TableRow>
@@ -1290,7 +1293,11 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     </TableBody>
                   </Table>
                 ) : (
-                  <Skeleton count={5} width="100" style={{paddingTop:'10px'}}/>
+                  <Skeleton
+                    count={5}
+                    width="100"
+                    style={{ paddingTop: "10px" }}
+                  />
                 )}
               </TableContainer>
               <TablePagination
