@@ -207,7 +207,7 @@ function App() {
   const Metamask = async () => {
     await login();
     const add = await getUserAddress();
-    console.log("Metamask", add);
+    // console.log("Metamask", add);
     setAccount(add);
   };
 

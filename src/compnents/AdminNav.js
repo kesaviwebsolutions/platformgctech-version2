@@ -26,7 +26,7 @@ export default function AdminNav({account}) {
     init()
   },[])
 
-  console.log(account, active, active == account)
+  // console.log(account, active, active == account)
  
   return (
     <MDBNavbar expand="lg" light bgColor="transparent" className="adminnav">

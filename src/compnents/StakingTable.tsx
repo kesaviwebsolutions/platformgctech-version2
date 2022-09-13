@@ -80,7 +80,7 @@ const columns: readonly Column[] = [
   },
   {
     id: "density",
-    label: "APY(%)",
+    label: "Estimated APY(%)",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
@@ -260,7 +260,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
 
   const getRefera =async(arra)=>{
     let a = 0;
-    console.log(arra)
+    // console.log(arra)
     const stakebal = await StakeBalace();
     for(let x = 0; x < arra.length; x++){
       const id = await orderIDofReferal(arra[x])
@@ -282,6 +282,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
         data.pending = pending
         const ref = await getRefera(res.data[i].refferals)
         data.refcount = ref
+        
         events.push(data)
       }
       setUser(events)
@@ -317,7 +318,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
           <TableCell>{rowsInfo.amount/10**18}</TableCell>
           <TableCell>{new Date(rowsInfo.starttime*100).toLocaleString()}</TableCell>
           <TableCell>{rowsInfo.lockupDuration}</TableCell>
-          <TableCell>{stakebalance < 1000 ? "Entery Level" : stakebalance >= 1000 && stakebalance < 3000 ? "Level 2" : "Level 3" }</TableCell>
+          <TableCell>{rowsInfo.amount/10**18 < 1000 ? "Entery Level" : rowsInfo.amount/10**18 >= 1000 && rowsInfo.amount/10**18 < 3000 ? "Level 2" : "Level 1" }</TableCell>
           <TableCell>{rowsInfo.lockupDuration == 1 ? aday1 : rowsInfo.lockupDuration == 2 ? aday2 : rowsInfo.lockupDuration == 3 ? aday3 : aday4}</TableCell>
           <TableCell>{Number(rowsInfo.pending/10**18).toFixed(5)}</TableCell>
           <TableCell>{rowsInfo.claimedReward/10**18}</TableCell>

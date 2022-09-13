@@ -59,7 +59,7 @@ export default function CreateLevel({account}) {
         <Box>
           {" "}
           <Typography paragraph style={{ marginTop: "20px" }}>
-            NO. of referral required to quality
+            NO. of referral required to qualify
           </Typography>
           <MDBInput label="10" id="form1" type="Number" onChange={(e)=>setRef(e.target.value)}/>
         </Box>

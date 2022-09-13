@@ -161,7 +161,7 @@ const columns2: readonly Column2[] = [
   },
   {
     id: "density",
-    label: "Bonas",
+    label: "Bonus",
     minWidth: 170,
     align: "left",
     format: (value: number) => value.toFixed(2),
@@ -707,7 +707,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                               fontWeight: "900",
                             }}
                           >
-                            {stakeTotal} GCS
+                            {Number(stakeTotal).toFixed(0)} GCS
                           </Typography>
                         </Box>
                       </CardContent>
@@ -748,7 +748,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                               fontWeight: "900",
                             }}
                           >
-                            {distributed} GCS
+                            {Number(distributed).toFixed(0)} GCS
                           </Typography>
                         </Box>
                       </CardContent>
@@ -846,7 +846,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                 mb: 1.5,
                               }}
                             >
-                              {aday1}% APY
+                              {aday1}% ESTIMATED APY
                             </Typography>
                           </Box>
                         </CardContent>
@@ -887,7 +887,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                 mb: 1.5,
                               }}
                             >
-                              {aday2}% APY
+                              {aday2}% ESTIMATED APY
                             </Typography>
                           </Box>
                         </CardContent>
@@ -928,7 +928,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                 mb: 1.5,
                               }}
                             >
-                              {aday3}% APY
+                              {aday3}% ESTIMATED APY
                             </Typography>
                           </Box>
                         </CardContent>
@@ -969,7 +969,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                 mb: 1.5,
                               }}
                             >
-                              {aday4}% APY
+                              {aday4}% ESTIMATED APY
                             </Typography>
                           </Box>
                         </CardContent>
@@ -1020,9 +1020,9 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                         <p className="sc">{duration} Days</p>
                       </div>
                       <div className="summary-content">
-                        <p>APY</p>
-                        <p className="ssc5">:</p>
-                        <p className="sc">{apy} %</p>
+                        <p>Estimated APY</p>
+                        <p className="ssc">:</p>
+                        <p className="sc">{apy}%</p>
                       </div>
                       <div className="summary-content">
                         <p>Staked Amount</p>
@@ -1124,7 +1124,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                               fontWeight: "900",
                             }}
                           >
-                            {mystake} GCS
+                            {Number(mystake).toFixed(0)} GCS
                           </Typography>
                         </Box>
                       </CardContent>
