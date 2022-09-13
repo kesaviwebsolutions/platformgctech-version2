@@ -49,8 +49,8 @@ import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-const url = "https://refer.ap.ngrok.io";
-// const url = "http://localhost:3030";
+// const url = "https://refer.ap.ngrok.io";
+const url = "http://localhost:3030";
 
 const time = new Date().getTime();
 
@@ -1003,13 +1003,16 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                         Your Balance : {balance} GCS
                       </h4>
                     </div>
+                    <a href="https://www.gcex.lt/" target='_black'>
                     <button
                       className="d-block m-auto stake-btton"
                       style={{ marginTop: "2rem !important" }}
+                      
                     >
                       {" "}
                       BUY GCS
                     </button>
+                    </a>
                     <div className="stake">
                       <h3 className="stakingSummary">Staking Details</h3>
                     </div>

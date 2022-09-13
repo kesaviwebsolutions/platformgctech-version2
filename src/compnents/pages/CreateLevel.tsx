@@ -6,8 +6,8 @@ import AdminNav from "../AdminNav";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
-const url = "https://refer.ap.ngrok.io";
-// const url = "http://localhost:3030";
+// const url = "https://refer.ap.ngrok.io";
+const url = "http://localhost:3030";
 
 const notify = (msg) => toast.success(msg);
 
@@ -20,8 +20,6 @@ export default function CreateLevel({account}) {
 
   useEffect(()=>{
     
-
-   
   },[])
 
   const CreateLevel =async()=>{
