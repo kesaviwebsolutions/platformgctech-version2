@@ -356,7 +356,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
       if (data.status) {
         const ids = await orderID();
         notify("Stake Successfully");
-        await addReferralUser(ids, data.transactionHash);
+        await addReferralUser(ids, data.transactionHash, amount);
         const ts = await totalstakedinContract();
         setStakeTotal(ts);
         const bal = await StakingtokenBalance();
@@ -366,8 +366,23 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
       setLoading(false);
     }
   };
+  const [level1amount, setLevel1amount] = useState(0)
+  const [level2amount, setLevel2amount] = useState(0)
+  const [level3amount, setLevel3amount] = useState(0)
 
-  const addReferralUser = async (ids, hash) => {
+  useEffect(()=>{
+    const init =async()=>{
+      axios.get(`${url}/levels`).then((res)=>{
+        console.log(res.data)
+        setLevel1amount(res.data[0].NoRefReq)
+        setLevel2amount(res.data[1].NoRefReq)
+        setLevel3amount(res.data[2].NoRefReq)
+      })
+    }
+    init()
+  })
+  // console.log(level1amount,level2amount,level3amount)
+  const addReferralUser = async (ids, hash, amount) => {
     if (ID) {
       await axios
         .post(`${url}/addreferrals`, {
@@ -395,12 +410,14 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
         });
 
       if (isuser.length <= 0) {
+        // console.log(Number(amount) < level3amount,amount)
         await axios
           .post(`${url}/user`, {
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
             IDs: ids,
+            level: (Number(amount) < level3amount ? 3 : Number(amount) >= level3amount && Number(amount) < level2amount ? 2 : 1 ),
             Duration: duration,
             APY: apy,
             paidReward: false,
@@ -453,6 +470,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             IDs: ids,
             Duration: duration,
             APY: apy,
+            level: (amount < level3amount ? 3 : amount >= level3amount && amount < level2amount ? 2 : 1 ),
             paidReward: false,
             paidBouns: false,
             time: new Date().getTime() / 1000,

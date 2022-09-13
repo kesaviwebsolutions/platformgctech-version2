@@ -240,6 +240,9 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [user, setUser] = useState()
   const [stakebalance, setStakeBalance] = useState(0)
+  const [level1amount, setLevel1amount] = useState(0)
+  const [level2amount, setLevel2amount] = useState(0)
+  const [level3amount, setLevel3amount] = useState(0)
 
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
@@ -271,14 +274,41 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
     }
     return a;
   }
+  
+  // useEffect(()=>{
+  //   const init =async()=>{
+  //     axios.get(`${url}/levels`).then((res)=>{
+  //       console.log(res.data)
+  //       setLevel1amount(res.data[0].NoRefReq)
+  //       setLevel2amount(res.data[1].NoRefReq)
+  //       setLevel3amount(res.data[2].NoRefReq)
+  //       console.log(res.data[0].NoRefReq)
+  //       console.log(res.data[1].NoRefReq)
+  //       console.log(res.data[2].NoRefReq)
+  //     })
+  //   }
+  //   init()
+  // })
 
   useEffect(() => {
-    const events = []
+    const init =async()=>{
+      const events = []
     let data;
+    axios.get(`${url}/levels`).then((res)=>{
+      console.log(res.data)
+      setLevel1amount(res.data[0].NoRefReq)
+      setLevel2amount(res.data[1].NoRefReq)
+      setLevel3amount(res.data[2].NoRefReq)
+      console.log(res.data[0].NoRefReq)
+      console.log(res.data[1].NoRefReq)
+      console.log(res.data[2].NoRefReq)
+    })
+
     axios.get(`${url}/users`).then(async(res)=>{
       for(let i = 0; i < res.data.length; i++){
         data = await OrderIDdata(res.data[i].IDs[0]);
         const pending  = await GetPendingRewards(res.data[i].IDs[0]);
+        data.level = res.data[i].level
         data.pending = pending
         const ref = await getRefera(res.data[i].refferals)
         data.refcount = ref
@@ -287,6 +317,8 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
       }
       setUser(events)
     })
+    }
+    init()
   }, [account])
   // console.log(user)
 
@@ -318,7 +350,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
           <TableCell>{rowsInfo.amount/10**18}</TableCell>
           <TableCell>{new Date(rowsInfo.starttime*100).toLocaleString()}</TableCell>
           <TableCell>{rowsInfo.lockupDuration}</TableCell>
-          <TableCell>{rowsInfo.amount/10**18 < 1000 ? "Entery Level" : rowsInfo.amount/10**18 >= 1000 && rowsInfo.amount/10**18 < 3000 ? "Level 2" : "Level 1" }</TableCell>
+          <TableCell>{rowsInfo.level == 3 ? "Entry Level" : rowsInfo.level == 2 ? "Level 2" : "Level 1"}</TableCell>
           <TableCell>{rowsInfo.lockupDuration == 1 ? aday1 : rowsInfo.lockupDuration == 2 ? aday2 : rowsInfo.lockupDuration == 3 ? aday3 : aday4}</TableCell>
           <TableCell>{Number(rowsInfo.pending/10**18).toFixed(5)}</TableCell>
           <TableCell>{rowsInfo.claimedReward/10**18}</TableCell>

@@ -57,11 +57,22 @@ export default function CreateLevel({ account }) {
 
   const handleChange = (event) => {
     setAge(event.target.value);
-    console.log(event.target.value);
+    if(event.target.value == "Level 1")
+    {
+      setLevelId(level1)
+    }
+    else if(event.target.value == "Level 2"){
+      setLevelId(level2)
+    }
+    else{
+      setLevelId(level3)
+    }
+    console.log(event.target.value)
   };
+
   const updatelevel = async () => {
     axios
-      .put(`${url}/levelcreate/${levelid}`, {
+      .put(`${url}/Updatelevel/${levelid}`, {
         Bonus: bonus,
         Reward: reward,
         NoRefReq: ref,
@@ -90,9 +101,9 @@ export default function CreateLevel({ account }) {
               label="Age"
               onChange={handleChange}
             >
-              <MenuItem value={10}>Level 1</MenuItem>
-              <MenuItem value={20}>Level 2</MenuItem>
-              <MenuItem value={30}>Entry Level</MenuItem>
+              <MenuItem value={"Level 1"}>Level 1</MenuItem>
+              <MenuItem value={"Level 2"}>Level 2</MenuItem>
+              <MenuItem value={"Entry Level"}>Entry Level</MenuItem>
             </Select>
           </FormControl>
           {/* <MDBInput label="Ex. Level 1" id="form1" type="Number" onChange={(e)=>setName(e.target.value)}/> */}
@@ -113,7 +124,7 @@ export default function CreateLevel({ account }) {
             Reward
           </Typography>
           <MDBInput
-            label="2%%"
+            label="2%"
             id="form1"
             type="Number"
             onChange={(e) => setReward(e.target.value)}
@@ -122,7 +133,7 @@ export default function CreateLevel({ account }) {
         <Box>
           {" "}
           <Typography paragraph style={{ marginTop: "20px" }}>
-            NO. of referral required to qualify
+            Require Amount
           </Typography>
           <MDBInput
             label="10"

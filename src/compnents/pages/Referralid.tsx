@@ -276,12 +276,15 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
     if(data.status){
       notify("Transfer Successfully");
       axios.post(`${url}/makebonus`,{
-        user:account.toLowerCase()
+        user:reciver.toLowerCase()
       }).then((res)=>{
         console.log("done")
       })
     }
   }
+
+
+  
 
   const renderRows = (rowsInfo, index) => {
     return (
@@ -294,14 +297,29 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
             </TableCell>
           <TableCell>{rowsInfo.stakeamount/10**18}</TableCell>
           <TableCell>{rowsInfo.numberofstake}</TableCell>
-          <TableCell>{(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * 2.5/100}</TableCell>
+          <TableCell>{(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * (rowsInfo.level == 3 ? reward3 : rowsInfo.level == 2 ? reward2 : reward1)/100}</TableCell>
           <TableCell>{(rowsInfo.stakeamount/10**18)/100}</TableCell>
-          <TableCell><button disabled={rowsInfo.paidReward ? true : false} onClick={()=>trasferReward(rowsInfo.wallet,(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * 2.5/100)}>Pay Reward</button></TableCell>
+          <TableCell><button disabled={rowsInfo.paidReward ? true : false} onClick={()=>trasferReward(rowsInfo.wallet,(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * (rowsInfo.level == 3 ? reward3 : rowsInfo.level == 2 ? reward2 : reward1)/100)}>Pay Reward</button></TableCell>
           <TableCell><button disabled={rowsInfo.paidBonus ? true : false} onClick={()=>trasferBonus(rowsInfo.wallet,(rowsInfo.stakeamount/10**18)/100)}>Pay Bonus</button></TableCell>
         </TableRow>
       </>
     );
   };
+  const [reward1, setReward1] = React.useState(0)
+  const [reward2, setReward2] = React.useState(0)
+  const [reward3, setReward3] = React.useState(0)
+
+    React.useLayoutEffect(()=>{
+    const init =async()=>{
+      axios.get(`${url}/levels`).then((res)=>{
+        // console.log(res.data)
+        setReward1(res.data[0].Reward)
+        setReward2(res.data[1].Reward)
+        setReward3(res.data[2].Reward)
+      })
+    }
+    init()
+  })
 
   const getRef =async()=>{
     axios.post(`${url}/isuser`,{
@@ -312,7 +330,19 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
         for(let x = 0; x < res.data[0].refferals.length; x++){
           const user1 = Object();
           const ids = await orderIDofReferal(res.data[0].refferals[x])
+          const level = await axios.post(`${url}/isuser`,{
+            user:res.data[0].refferals[x]
+          }).then((res)=> {return res.data[0].level})
+          const paidbous = await axios.post(`${url}/isuser`,{
+            user:res.data[0].refferals[x]
+          }).then((res)=> {return res.data[0].paidBouns})
+          const paidreward = await axios.post(`${url}/isuser`,{
+            user:res.data[0].refferals[x]
+          }).then((res)=> {return res.data[0].paidReward})
           const bal = await OrderIDdata(ids[0])
+          user1.paidBonus = paidbous
+          user1.paidReward = paidreward
+          user1.level = level
           user1.wallet = res.data[0].refferals[x]
           user1.stakeamount = bal[1]
           user1.duration = bal[2]
@@ -325,7 +355,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
     }).catch(console.error)
   }
 
-  // console.log("Refferals",referrals)
+  console.log("Refferals",referrals)
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
   };
