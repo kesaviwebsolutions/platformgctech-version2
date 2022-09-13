@@ -1,5 +1,5 @@
 
-export const stakingAddress = '0xB69ECd1F16517C33ed419f0E42A4BE3Cc7887F82'
+export const stakingAddress = '0xE363f554aA57E77e40328b621EB956e1304C63b9'
 // export const stakingAddress = '0x5A60f121A00bd5b54a7C901Bdd2AeBA21dD9005f'
 export const Staking = [
   {
