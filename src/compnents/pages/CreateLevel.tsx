@@ -23,19 +23,16 @@ const MenuProps = {
   },
 };
 const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
+  "Level 1",
+  "Level 2",
+  "Entry Level",
 ];
 // const url = "https://refer.ap.ngrok.io";
 const url = "http://localhost:3030";
+
+const level3 = "63202016d019bbf56a0f7892"
+const level2 = "63201ff3d019bbf56a0f7890"
+const level1 = "631e97abfeacda54e1339958"
 
 const notify = (msg) => toast.success(msg);
 
@@ -53,6 +50,7 @@ export default function CreateLevel({ account }) {
   const [bonus, setBonus] = useState(0);
   const [reward, setReward] = useState(0);
   const [ref, setRef] = useState(0);
+  const [levelid, setLevelId] = useState('')
 
   useEffect(() => {}, []);
 
@@ -71,15 +69,46 @@ export default function CreateLevel({ account }) {
   };
   const theme = useTheme();
   const [personName, setPersonName] = React.useState([]);
+
   const handleChange = (event) => {
     const {
       target: { value },
     } = event;
     setPersonName(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
+      
     );
+    if(event.target.value[0] == "Level 1")
+    {
+      setLevelId(level1)
+      // setPersonName("Level 1")
+
+    }
+    else if(event.target.value[0] == "Level 2"){
+      setLevelId(level2)
+      // setPersonName("Level 2")
+    }
+    else{
+      setLevelId(level3)
+      // setPersonName("Entry Level")
+    }
+    
+    console.log(event.target.value[0])
   };
+
+
+  const updatelevel = async()=>{
+    axios.put(`${url}/levelcreate/${levelid}`,{
+      Bonus:bonus,
+      Reward:reward,
+      NoRefReq:ref
+    }).then((res)=>{
+      console.log(res)
+      notify("Successfull level updated")
+    }).catch((e)=>{
+      console.log(e)
+    })
+  }
+
 
   return (
     <Container maxWidth="lg">
@@ -145,8 +174,8 @@ export default function CreateLevel({ account }) {
             onChange={(e) => setRef(e.target.value)}
           />
         </Box>
-        <Button className="createbutton" onClick={() => CreateLevel()}>
-          Create
+        <Button className="createbutton" onClick={() => updatelevel()}>
+          Post
         </Button>
       </Box>
       <Toaster />
