@@ -12,27 +12,13 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-const names = [
-  "Level 1",
-  "Level 2",
-  "Entry Level",
-];
+
 // const url = "https://refer.ap.ngrok.io";
 const url = "http://localhost:3030";
 
-const level3 = "63202016d019bbf56a0f7892"
-const level2 = "63201ff3d019bbf56a0f7890"
-const level1 = "631e97abfeacda54e1339958"
+const level3 = "63202016d019bbf56a0f7892";
+const level2 = "63201ff3d019bbf56a0f7890";
+const level1 = "631e97abfeacda54e1339958";
 
 const notify = (msg) => toast.success(msg);
 
@@ -50,7 +36,7 @@ export default function CreateLevel({ account }) {
   const [bonus, setBonus] = useState(0);
   const [reward, setReward] = useState(0);
   const [ref, setRef] = useState(0);
-  const [levelid, setLevelId] = useState('')
+  const [levelid, setLevelId] = useState("");
 
   useEffect(() => {}, []);
 
@@ -67,48 +53,27 @@ export default function CreateLevel({ account }) {
         notify("Successfull level created");
       });
   };
-  const theme = useTheme();
-  const [personName, setPersonName] = React.useState([]);
+  const [age, setAge] = React.useState("");
 
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPersonName(
-      
-    );
-    if(event.target.value[0] == "Level 1")
-    {
-      setLevelId(level1)
-      // setPersonName("Level 1")
-
-    }
-    else if(event.target.value[0] == "Level 2"){
-      setLevelId(level2)
-      // setPersonName("Level 2")
-    }
-    else{
-      setLevelId(level3)
-      // setPersonName("Entry Level")
-    }
-    
-    console.log(event.target.value[0])
+    setAge(event.target.value);
+    console.log(event.target.value);
   };
-
-
-  const updatelevel = async()=>{
-    axios.put(`${url}/levelcreate/${levelid}`,{
-      Bonus:bonus,
-      Reward:reward,
-      NoRefReq:ref
-    }).then((res)=>{
-      console.log(res)
-      notify("Successfull level updated")
-    }).catch((e)=>{
-      console.log(e)
-    })
-  }
-
+  const updatelevel = async () => {
+    axios
+      .put(`${url}/levelcreate/${levelid}`, {
+        Bonus: bonus,
+        Reward: reward,
+        NoRefReq: ref,
+      })
+      .then((res) => {
+        console.log(res);
+        notify("Successfull level updated");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   return (
     <Container maxWidth="lg">
@@ -116,26 +81,18 @@ export default function CreateLevel({ account }) {
       <Box style={{ margin: "0px 0px 50px" }}>
         <Box style={{ margin: "70px 0px 0px" }}>
           <Typography paragraph>Select level</Typography>
-          <FormControl sx={{ m: 1, width: "100%" }}>
-            <InputLabel id="demo-multiple-name-label">Level</InputLabel>
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Level</InputLabel>
             <Select
-              labelId="demo-multiple-name-label"
-              id="demo-multiple-name"
-              multiple
-              value={personName}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={age}
+              label="Age"
               onChange={handleChange}
-              input={<OutlinedInput label="Name" />}
-              MenuProps={MenuProps}
             >
-              {names.map((name) => (
-                <MenuItem
-                  key={name}
-                  value={name}
-                  style={getStyles(name, personName, theme)}
-                >
-                  {name}
-                </MenuItem>
-              ))}
+              <MenuItem value={10}>Level 1</MenuItem>
+              <MenuItem value={20}>Level 2</MenuItem>
+              <MenuItem value={30}>Entry Level</MenuItem>
             </Select>
           </FormControl>
           {/* <MDBInput label="Ex. Level 1" id="form1" type="Number" onChange={(e)=>setName(e.target.value)}/> */}
