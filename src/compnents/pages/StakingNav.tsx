@@ -1195,7 +1195,13 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                 </Grid>
               </Grid>
               <Container maxWidth="xl">
-                <TableContainer sx={{ maxHeight: 440, textAlign: "center" }}>
+                <TableContainer
+                  sx={{
+                    maxHeight: 440,
+                    textAlign: "center",
+                    marginTop: "3rem",
+                  }}
+                >
                   {events && events.length > 0 ? (
                     <Table stickyHeader aria-label="sticky table">
                       <TableHead>
