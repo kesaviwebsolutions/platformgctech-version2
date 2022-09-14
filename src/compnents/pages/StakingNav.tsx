@@ -361,6 +361,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
         setStakeTotal(ts);
         const bal = await StakingtokenBalance();
         setBalance(bal);
+        const event = await getDetails();
+        setEvents(event);
       }
     } catch (error) {
       setLoading(false);
