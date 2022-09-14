@@ -272,7 +272,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   const [day2, setDay2] = useState(0);
   const [day3, setDay3] = useState(0);
   const [day4, setDay4] = useState(0);
-  const [active, setActive] = useState(0);
+  const [active, setActive] = useState(1);
   const [returns, setReturns] = useState(0);
 
   // useEffect(()=>{
@@ -834,7 +834,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     <Box sx={{ maxWidth: 300 }}>
                       <Card
                         variant="outlined"
-                        className={active === 1 ? "active" : ""}
+                        className={active == 1 ? "active" : ""}
                         onClick={() => setActive(1)}
                       >
                         {" "}
@@ -875,7 +875,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     <Box sx={{ maxWidth: 300 }}>
                       <Card
                         variant="outlined"
-                        className={active === 2 ? "active" : ""}
+                        className={active == 2 ? "active" : ""}
                         onClick={() => setActive(2)}
                       >
                         {" "}
@@ -916,7 +916,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     <Box sx={{ maxWidth: 300 }}>
                       <Card
                         variant="outlined"
-                        className={active === 3 ? "active" : ""}
+                        className={active == 3 ? "active" : ""}
                         onClick={() => setActive(3)}
                       >
                         {" "}
@@ -964,7 +964,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     >
                       <Card
                         variant="outlined"
-                        className={active === 4 ? "active" : ""}
+                        className={active == 4 ? "active" : ""}
                         onClick={() => setActive(4)}
                       >
                         {" "}
@@ -1102,7 +1102,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     ? "Entry Level"
                     : mystake >= 1000 && mystake < 3000
                     ? "Level 2"
-                    : "Level 3"}
+                    : "Level 1"}
                 </span>
               </Typography>
               <Grid container spacing={2}>
