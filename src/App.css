@@ -289,20 +289,22 @@ p.sc {
 }
 .reff-id {
   box-shadow: rgba(24, 23, 23, 0.15) 0px 4px 25px;
-  background-color: rgb(141, 0, 255);
+  background-color: rgb(229, 229, 229);
   padding: 1rem;
-  color: white;
+  color: rgb(31, 31, 31);
   border-radius: 10px;
 }
 
 .levels {
   text-align: center;
   padding: 1rem;
-  background-color: aqua;
-  font-size: 19px;
-  font-weight: 800;
+  font-size: 17px;
+  width: fit-content;
+  background-color: #8d00ff;
+  font-weight: 500;
   border-radius: 10px;
-  color: #18382c;
+  margin: 0px;
+  color: #dddddd;
 }
 /* .css-dwuj3p-MuiTableCell-root {
   text-align: center !important ;

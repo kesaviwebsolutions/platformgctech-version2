@@ -274,6 +274,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   const [day4, setDay4] = useState(0);
   const [active, setActive] = useState(1);
   const [returns, setReturns] = useState(0);
+  const [level, setLevel] = useState();
 
   // useEffect(()=>{
   //   const init = async()=>{
@@ -325,6 +326,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
       })
       .then(async (res) => {
         console.log(res);
+        setLevel(res.data[0].level)
         if (res.data.length > 0) {
           setShowID(true);
         } else {
@@ -333,6 +335,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
         console.log("inside api", account);
         setReferals(undefined);
         if (res.data[0] && res.data[0].refferals.length > 0) {
+          
           for (let i = 0; i < res.data[0].refferals.length; i++) {
             const id = await orderIDReferrals(res.data[0].refferals[i]);
             const events = await OrderIDdata(id[0]);
@@ -347,7 +350,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
       });
   };
 
-  // console.log("Referral data", showID);
+  console.log("Referral data", level);
 
   const StakingToken = async () => {
     setLoading(true);
@@ -515,7 +518,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
     );
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    return days + "D " + hours + "H " + minutes + "M " + seconds + "S ";
+    return days + " Days " + hours + " Hours " + minutes + " Minutes " + seconds + " Seconds ";
   };
 
   const copytext = (text) => {
@@ -664,7 +667,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                   lg={12}
                   xl={12}
                   sx={{
-                    fontSize: "1.5rem",
+                    fontSize: "1rem",
                     marginBottom: "3rem",
                     textAlign: "center",
                     fontWeight: 800,
@@ -1251,10 +1254,44 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
         <TabPanel value={value} index={2}>
           <Container maxWidth="xl">
             <Container maxWidth="xl">
+            {showID ? (
+                <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  sx={{
+                    fontSize: "1rem",
+                    marginBottom: "3rem",
+                    textAlign: "center",
+                    fontWeight: 800,
+                  }}
+                >
+                  <span className="reff-id">
+                    <span className="Refferal">Refferal-id: </span>
+                    <span className="Refferal">{`https://gc-staking.netlify.app/staking/${account}`}</span>
+                    <span>
+                      <AiOutlineCopy
+                        style={{ cursor: "pointer" }}
+                        onClick={() =>
+                          copytext(
+                            `https://gc-staking.netlify.app/staking/${account}`
+                          )
+                        }
+                      />
+                    </span>
+                  </span>
+                </Grid>
+              ) : (
+                ""
+              )}
               <Typography style={{ textAlign: "center", marginBottom: "2rem" }}>
-                <span className="levels">
-                  Expire in:{" "}
-                  {events[0] && countdown(Number(events[0].starttime))}
+                <span className="">
+                 { events[0] && <span className="reff-id">{countdown(Number(events[0].starttime))}</span>}
+                 <br/><br/>
+                  <span className="reff-id">to get 10 or more referrals of level {level} to qualify for 1% direct bonus and 2.5% rewards</span>
                 </span>
               </Typography>
               <TableContainer sx={{ maxHeight: 440 }}>
