@@ -378,7 +378,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   useEffect(()=>{
     const init =async()=>{
       axios.get(`${url}/levels`).then((res)=>{
-        console.log(res.data)
+        // console.log(res.data)
         setLevel1amount(res.data[0].NoRefReq)
         setLevel2amount(res.data[1].NoRefReq)
         setLevel3amount(res.data[2].NoRefReq)
@@ -386,7 +386,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
     }
     init()
   })
-  // console.log(level1amount,level2amount,level3amount)
+  console.log(level1amount,level2amount,level3amount)
   const addReferralUser = async (ids, hash, amount) => {
     if (ID) {
       await axios
@@ -422,7 +422,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
             IDs: ids,
-            level: (Number(amount) < level3amount ? 3 : Number(amount) >= level3amount && Number(amount) < level2amount ? 2 : 1 ),
+            level:(Number(amount) < level2amount ? 3 : Number(amount) >= level2amount && Number(amount) < level1amount ? 2 : 1 ),
             Duration: duration,
             APY: apy,
             paidReward: false,
@@ -475,7 +475,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             IDs: ids,
             Duration: duration,
             APY: apy,
-            level: (amount < level3amount ? 3 : amount >= level3amount && amount < level2amount ? 2 : 1 ),
+            level: (Number(amount) < level2amount ? 3 : Number(amount) >= level2amount && Number(amount) < level1amount ? 2 : 1 ),
             paidReward: false,
             paidBouns: false,
             time: new Date().getTime() / 1000,
