@@ -666,14 +666,16 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                   md={12}
                   lg={12}
                   xl={12}
+                  className="reff-id"
                   sx={{
                     fontSize: "1rem",
                     marginBottom: "3rem",
                     textAlign: "center",
                     fontWeight: 800,
+                    overflow:"hidden"
                   }}
                 >
-                  <span className="reff-id">
+                  <span >
                     <span className="Refferal">Refferal-id: </span>
                     <span className="Refferal">{`https://gc-staking.netlify.app/staking/${account}`}</span>
                     <span>
@@ -1262,16 +1264,20 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                   md={12}
                   lg={12}
                   xl={12}
+                  className="reff-id"
                   sx={{
                     fontSize: "1rem",
                     marginBottom: "3rem",
                     textAlign: "center",
                     fontWeight: 800,
+                    width:"100%",
+               overflow:"hidden"
+
                   }}
                 >
-                  <span className="reff-id">
-                    <span className="Refferal">Refferal-id: </span>
-                    <span className="Refferal">{`https://gc-staking.netlify.app/staking/${account}`}</span>
+                  <span >
+                    <span className="">Refferal-id: </span>
+                    <Typography className="" >{`https://gc-staking.netlify.app/staking/${account}`}</Typography>
                     <span>
                       <AiOutlineCopy
                         style={{ cursor: "pointer" }}
@@ -1287,11 +1293,11 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
               ) : (
                 ""
               )}
-              <Typography style={{ textAlign: "center", marginBottom: "2rem" }}>
+              <Typography style={{ textAlign: "center", marginBottom: "2rem" }} className="reff-id">
                 <span className="">
-                 { events[0] && <span className="reff-id">{countdown(Number(events[0].starttime))}</span>}
+                 { events[0] && <span >{countdown(Number(events[0].starttime))}</span>}
                  <br/><br/>
-                  <span className="reff-id">to get 10 or more referrals of level {level} to qualify for 1% direct bonus and 2.5% rewards</span>
+                  <span >to get 10 or more referrals of level {level} to qualify for 1% direct bonus and 2.5% rewards</span>
                 </span>
               </Typography>
               <TableContainer sx={{ maxHeight: 440 }}>
