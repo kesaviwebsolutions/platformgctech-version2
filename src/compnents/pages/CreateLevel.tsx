@@ -101,9 +101,21 @@ export default function CreateLevel({ account }) {
               label="Age"
               onChange={handleChange}
             >
-              <MenuItem value={"Level 1"}>Level 1</MenuItem>
-              <MenuItem value={"Level 2"}>Level 2</MenuItem>
-              <MenuItem value={"Entry Level"}>Entry Level</MenuItem>
+        
+              <MenuItem value={"Level 14"}>Plan name</MenuItem>
+              <MenuItem value={"Level 13"}>Asset name (token to be staked)</MenuItem>
+              <MenuItem value={"Level 12"}>Tenure (stake time in number of days)</MenuItem>
+              <MenuItem value={"Level 11"}>APY (yield for staking)</MenuItem>
+              <MenuItem value={"Level 10"}>Payout period (no of days)</MenuItem>
+              <MenuItem value={"Level 9"}>L1 min amount to stake</MenuItem>
+              <MenuItem value={"Level 8"}>Direct Bonus for L1 (%)</MenuItem>
+              <MenuItem value={"Level 7"}>Profit share per yield (%)</MenuItem>
+              <MenuItem value={"Level 6"}>Min L2 referral required (int)</MenuItem>
+              <MenuItem value={"Level 5"}>L2 min amount to stake</MenuItem>
+              <MenuItem value={"Level 4"}>Direct Bonus for L2</MenuItem>
+              <MenuItem value={"Level 3"}>Profit share per yield</MenuItem>
+              <MenuItem value={"Level 2"}>Min Entry level referral required</MenuItem>
+              <MenuItem value={"Entry Level"}>Min tokens stake for Entry level</MenuItem>
             </Select>
           </FormControl>
           {/* <MDBInput label="Ex. Level 1" id="form1" type="Number" onChange={(e)=>setName(e.target.value)}/> */}
