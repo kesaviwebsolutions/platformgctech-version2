@@ -1,23 +1,100 @@
-
-export const stakingAddress = '0xE363f554aA57E77e40328b621EB956e1304C63b9'
-// export const stakingAddress = '0x5A60f121A00bd5b54a7C901Bdd2AeBA21dD9005f'
+export const stakingAddress = "0x6cF49B52Db50b8989e199F0bBae89b026bf24809";
 export const Staking = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_token",
+        internalType: "uint256",
+        name: "_APY",
+        type: "uint256",
+      },
+      {
+        internalType: "contract IBEP20",
+        name: "_lpToken",
         type: "address",
       },
       {
-        internalType: "bool",
-        name: "_started",
-        type: "bool",
+        internalType: "uint16",
+        name: "_depositFeeBP",
+        type: "uint16",
+      },
+      {
+        internalType: "uint16",
+        name: "_penatly",
+        type: "uint16",
       },
       {
         internalType: "uint256",
-        name: "_emergencyWithdrawFees",
+        name: "_duration",
         type: "uint256",
+      },
+      {
+        internalType: "uint8",
+        name: "_payoutPeriod",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "_minStakeAmntEntryLvl",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_minStakeAmntL2",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_minStakeAmntL1",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "_status",
+        type: "bool",
+      },
+    ],
+    name: "addPool",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_pid",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    name: "deposit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_pid",
+        type: "uint256",
+      },
+    ],
+    name: "emergencyWithdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_treasuryAddress",
+        type: "address",
       },
     ],
     stateMutability: "nonpayable",
@@ -35,19 +112,13 @@ export const Staking = [
       {
         indexed: true,
         internalType: "uint256",
-        name: "lockupDuration",
+        name: "pid",
         type: "uint256",
       },
       {
         indexed: false,
         internalType: "uint256",
         name: "amount",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "returnPer",
         type: "uint256",
       },
     ],
@@ -66,7 +137,7 @@ export const Staking = [
       {
         indexed: true,
         internalType: "uint256",
-        name: "lockupDuration",
+        name: "pid",
         type: "uint256",
       },
       {
@@ -75,14 +146,33 @@ export const Staking = [
         name: "amount",
         type: "uint256",
       },
+    ],
+    name: "EmergencyWithdraw",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "caller",
+        type: "address",
+      },
       {
         indexed: false,
         internalType: "uint256",
-        name: "returnPer",
+        name: "previousAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newAmount",
         type: "uint256",
       },
     ],
-    name: "MappedInvestment",
+    name: "EmissionRateUpdated",
     type: "event",
   },
   {
@@ -105,6 +195,20 @@ export const Staking = [
     type: "event",
   },
   {
+    inputs: [],
+    name: "recoverBNB",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -114,21 +218,132 @@ export const Staking = [
         type: "address",
       },
       {
+        indexed: true,
+        internalType: "uint256",
+        name: "pid",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amountLockedUp",
+        type: "uint256",
+      },
+    ],
+    name: "RewardLockedUp",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_pid",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_APY",
+        type: "uint256",
+      },
+      {
+        internalType: "uint16",
+        name: "_depositFeeBP",
+        type: "uint16",
+      },
+      {
+        internalType: "uint256",
+        name: "_duration",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_payoutPeriod",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_minStakeAmntEntryLvl",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_minStakeAmntL2",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_minStakeAmntL1",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "_status",
+        type: "bool",
+      },
+    ],
+    name: "setPool",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_treasuryAddress",
+        type: "address",
+      },
+    ],
+    name: "setTreasuryAddress",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_pid",
+        type: "uint256",
+      },
+    ],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "pid",
+        type: "uint256",
+      },
+      {
         indexed: false,
         internalType: "uint256",
         name: "amount",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "reward",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "total",
         type: "uint256",
       },
     ],
@@ -136,113 +351,26 @@ export const Staking = [
     type: "event",
   },
   {
-    anonymous: false,
     inputs: [
       {
-        indexed: true,
         internalType: "address",
-        name: "user",
+        name: "_token",
         type: "address",
       },
       {
-        indexed: false,
         internalType: "uint256",
         name: "amount",
         type: "uint256",
       },
     ],
-    name: "WithdrawAll",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_lockupDuration",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_returnPer",
-        type: "uint256",
-      },
-    ],
-    name: "addPool",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    name: "balanceOf",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address payable",
-        name: "_reciever",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
-    ],
-    name: "bnbLiquidity",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_amount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_lockupDuration",
-        type: "uint256",
-      },
-    ],
-    name: "deposit",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "orderId",
-        type: "uint256",
-      },
-    ],
-    name: "emergencyWithdraw",
+    name: "WithdrawOtherTokens",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [],
-    name: "emergencyWithdrawFees",
+    name: "BONUS_MULTIPLIER",
     outputs: [
       {
         internalType: "uint256",
@@ -283,6 +411,11 @@ export const Staking = [
     name: "orders",
     outputs: [
       {
+        internalType: "uint256",
+        name: "poolId",
+        type: "uint256",
+      },
+      {
         internalType: "address",
         name: "beneficiary",
         type: "address",
@@ -299,7 +432,7 @@ export const Staking = [
       },
       {
         internalType: "uint256",
-        name: "returnPer",
+        name: "APY",
         type: "uint256",
       },
       {
@@ -311,16 +444,6 @@ export const Staking = [
         internalType: "uint256",
         name: "endtime",
         type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "claimedReward",
-        type: "uint256",
-      },
-      {
-        internalType: "bool",
-        name: "claimed",
-        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -343,8 +466,13 @@ export const Staking = [
     inputs: [
       {
         internalType: "uint256",
-        name: "_orderId",
+        name: "_pid",
         type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "_user",
+        type: "address",
       },
     ],
     name: "pendingRewards",
@@ -366,62 +494,61 @@ export const Staking = [
         type: "uint256",
       },
     ],
-    name: "pooldata",
+    name: "poolInfo",
     outputs: [
       {
-        internalType: "uint256",
-        name: "lockupDuration",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "returnPer",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_emergencyWithdrawFees",
-        type: "uint256",
-      },
-    ],
-    name: "setEmergencyWithdrawalFees",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "contract IERC20",
-        name: "_token",
+        internalType: "contract IBEP20",
+        name: "lpToken",
         type: "address",
       },
-    ],
-    name: "setToken",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "started",
-    outputs: [
+      {
+        internalType: "uint256",
+        name: "lastRewardBlock",
+        type: "uint256",
+      },
+      {
+        internalType: "uint16",
+        name: "depositFeeBP",
+        type: "uint16",
+      },
+      {
+        internalType: "uint16",
+        name: "penalty",
+        type: "uint16",
+      },
+      {
+        internalType: "uint256",
+        name: "payoutPeriod",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "APY",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "minStakeAmntEntryLvl",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "minStakeAmntL2",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "minStakeAmntL1",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "duration",
+        type: "uint256",
+      },
       {
         internalType: "bool",
-        name: "",
+        name: "status",
         type: "bool",
       },
     ],
@@ -429,146 +556,76 @@ export const Staking = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "bool",
-        name: "_start",
-        type: "bool",
-      },
-    ],
-    name: "toggleStaking",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
-    name: "token",
+    name: "poolLength",
     outputs: [
       {
-        internalType: "contract IERC20",
+        internalType: "uint256",
         name: "",
-        type: "address",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
+    inputs: [],
+    name: "totalLockedUpRewards",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "treasuryAddress",
+    outputs: [
       {
         internalType: "address",
         name: "",
         type: "address",
       },
     ],
-    name: "totalRewardEarn",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalRewardPending",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalRewardsDistribution",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalStake",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalWithdrawal",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
       {
         internalType: "address",
-        name: "newOwner",
+        name: "",
         type: "address",
       },
     ],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
+    name: "userInfo",
+    outputs: [
       {
         internalType: "uint256",
-        name: "orderId",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "rewardLockedUp",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "stakeDuration",
         type: "uint256",
       },
     ],
-    name: "withdraw",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "contract IERC20",
-        name: "_token",
-        type: "address",
-      },
-    ],
-    name: "withdrawOtherTokens",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "withdrawToken",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
 ];

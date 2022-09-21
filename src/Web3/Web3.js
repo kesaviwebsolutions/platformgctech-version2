@@ -402,19 +402,15 @@ export const ContractTokenBal = async(address)=>{
 }
 
 
-//////////////////Staking//////////////////
-//////////////////Staking//////////////////
-//////////////////Staking//////////////////
-//////////////////Staking//////////////////
-//////////////////Staking//////////////////
 
 
 
-export const Approveforstaking = async () => {
+
+
+export const Approveforstaking = async (token) => {
     try {
-      const contract = new web3.eth.Contract(tokenBalance, stakingToken)
-    const data = await contract.methods
-      .approve(
+      const contract = new web3.eth.Contract(tokenBalance, token)
+      const data = await contract.methods.approve(
         stakingAddress,
         115792089237316195423570985008687907853269984665640564039457584007913129639935n,
       )
@@ -425,9 +421,9 @@ export const Approveforstaking = async () => {
     }
 }
 
-export const Allowforstaking = async()=>{
+export const Allowforstaking = async(token)=>{
     try {
-    const contract = new web3.eth.Contract(tokenBalance, stakingToken);
+    const contract = new web3.eth.Contract(tokenBalance, token);
     const data = await contract.methods.allowance(await getUserAddress(), stakingAddress).call();
     return data;
     } catch (error) {
@@ -435,26 +431,7 @@ export const Allowforstaking = async()=>{
     }
   }
 
-  export const Stake =async(amount, dura)=> {
-    try {
-      const a = await towie(amount);
-      console.log(a,dura)
-      const contract = new web3.eth.Contract(Staking, stakingAddress);
-      const allow = await Allowforstaking();
-      console.log(allow)
-      if(Number(allow) > 0){
-        const data = await contract.methods.deposit(a,dura).send({from:await getUserAddress()});
-        return data;
-      }
-      else{
-        await Approveforstaking();
-        const data = await contract.methods.deposit(a,dura).send({from:await getUserAddress()});
-        return data;
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
+ 
 
   export const totalstakedinContract = async()=>{
     try {
@@ -687,22 +664,83 @@ export const Allowforstaking = async()=>{
    }
   };
 
-  export const Addpool = async(duration,returns)=>{
-    try {
-      const contract = new web3.eth.Contract(Staking, stakingAddress);
-      const data = await contract.methods.addPool(duration,returns).send({from:await getUserAddress()});
-      return data;
-    } catch (error) {
-     console.log(error)
-    }
-   };
 
-   export const getOwner = async()=>{
-    try {
-      const contract = new web3.eth.Contract(Staking, stakingAddress);
-      const data = await contract.methods.owner().call();
-      return data;
-      } catch (error) {
-      console.log(error)
-    }
+
+
+
+//////////////////New Staking//////////////////
+//////////////////New Staking//////////////////
+//////////////////New Staking//////////////////
+//////////////////New Staking//////////////////
+//////////////////New Staking//////////////////
+//////////////////New Staking//////////////////
+//////////////////New Staking//////////////////
+//////////////////New Staking//////////////////
+//////////////////New Staking//////////////////
+//////////////////New Staking//////////////////
+//////////////////New Staking//////////////////
+//////////////////New Staking//////////////////
+
+
+export const Addpool = async(rewardblock, tokem, fee, penalty,duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv3)=>{
+  try {
+    const a = await towie(Number(rewardblock).toFixed(8))
+    const contract = new web3.eth.Contract(Staking, stakingAddress);
+    const data = await contract.methods.addPool(a, tokem, fee, penalty, duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv3, true).send({from:await getUserAddress()});
+    return data;
+  } catch (error) {
+   console.log(error)
   }
+ };
+
+ export const getOwner = async()=>{
+  try {
+    const contract = new web3.eth.Contract(Staking, stakingAddress);
+    const data = await contract.methods.owner().call();
+    return data;
+    } catch (error) {
+    console.log(error)
+  }
+}
+
+export const poollength = async()=>{
+  try {
+    const contract = new web3.eth.Contract(Staking, stakingAddress);
+    const data = await contract.methods.poolLength().call();
+    return data;
+    } catch (error) {
+    console.log(error)
+  }
+}
+
+export const assetSymbol = async(token)=>{
+  try {
+    const contract = new web3.eth.Contract(tokenBalance, token);
+    const data = await contract.methods.symbol().call();
+    return data;
+    } catch (error) {
+    console.log(error)
+  }
+}
+
+export const Stake =async(amount, id, lptoken)=> {
+  try {
+    const a = await towie(amount);
+    const contract = new web3.eth.Contract(Staking, stakingAddress);
+    const allow = await Allowforstaking(lptoken);
+    console.log("pool id", id)
+    if(Number(allow) > 0){
+      const data = await contract.methods.deposit(id, a).send({from:await getUserAddress()});
+      return data;
+    }
+    else{
+      const data2 = await Approveforstaking(lptoken);
+      if(data2.status){
+        const data = await contract.methods.deposit(id, a).send({from:await getUserAddress()});
+        return data;
+      }
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}

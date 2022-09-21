@@ -5,7 +5,7 @@ import { Button, Typography } from "@mui/material";
 import AdminNav from "../AdminNav";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-
+import { Addpool } from './../../Web3/Web3'
 import { useTheme } from "@mui/material/styles";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
@@ -13,8 +13,8 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const url = "https://refer.ap.ngrok.io";
-// const url = "http://localhost:3030";
+// const url = "https://refer.ap.ngrok.io";
+const url = "http://localhost:3030";
 
 const level3 = "63202016d019bbf56a0f7892";
 const level2 = "63201ff3d019bbf56a0f7890";
@@ -33,125 +33,219 @@ function getStyles(name, personName, theme) {
 
 export default function CreateLevel({ account }) {
   const [name, setName] = useState(0);
-  const [bonus, setBonus] = useState(0);
-  const [reward, setReward] = useState(0);
-  const [ref, setRef] = useState(0);
-  const [levelid, setLevelId] = useState("");
+  const [rewardperblock, setRewardPerBlock] = useState(0)
+  const [lptoken, setLPToken] = useState("")
+  const [fee, setFee] = useState(0)
+  const [duration, setDuration] = useState(0)
+  const [payoutPeriod, setPayoutPeriod] = useState(0)
+  const [minStakelevel1, setMinStakeLevel1] = useState(0);
+  const [minStakelevel2, setMinStakeLevel2] = useState(0);
+  const [minStakelevel3, setMinStakeLevel3] = useState(0);
+  const [bonuslevel1, setBonuslevel1] = useState(0);
+  const [bonuslevel2, setBonuslevel2] = useState(0);
+  const [bonuslevel3, setBonuslevel3] = useState(0);
+  const [rewardlevel1, setRewardlevel1] = useState(0);
+  const [rewardlevel2, setRewardlevel2] = useState(0);
+  const [rewardlevel3, setRewardlevel3] = useState(0);
+  const [penalty, setpenalty] = useState(0);
 
-  useEffect(() => {}, []);
-
-  const CreateLevel = async () => {
-    axios
-      .post(`${url}/levelcreate`, {
-        Name: name,
-        Bonus: bonus,
-        Reward: reward,
-        NoRefReq: ref,
-      })
-      .then((res) => {
-        console.log(res);
-        notify("Successfull level created");
-      });
-  };
-  const [age, setAge] = React.useState("");
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-    if(event.target.value == "Level 1")
-    {
-      setLevelId(level1)
-    }
-    else if(event.target.value == "Level 2"){
-      setLevelId(level2)
-    }
-    else{
-      setLevelId(level3)
-    }
-    console.log(event.target.value)
-  };
 
   const updatelevel = async () => {
-    axios
-      .put(`${url}/Updatelevel/${levelid}`, {
-        Bonus: bonus,
-        Reward: reward,
-        NoRefReq: ref,
+    const data = await Addpool(rewardperblock, lptoken, fee, penalty, duration, payoutPeriod, minStakelevel1, minStakelevel2, minStakelevel3)
+    if(data.status){
+     axios.post(`${url}/levelcreate`, {
+      Duration: duration,
+      APY: Number(rewardperblock),
+      assertName: lptoken,
+      payout:payoutPeriod,
+      fee:fee,
+      penalty:penalty,
+      leveloneMinAmount:minStakelevel1,
+      rewardforlevelone:rewardlevel1,
+      bonusforlevelone:bonuslevel1,
+      rewardforleveltwo:rewardlevel2,
+      leveltwoMinAmount:minStakelevel2,
+      bonusforleveltwo:bonuslevel2,
+      levelthreeMinAmount:minStakelevel3,
+      bonusforlevelthree:bonuslevel3,
+      rewardforlevelthree:rewardlevel3,
       })
-      .then((res) => {
-        console.log(res);
-        notify("Successfull level updated");
-      })
+        .then((res) => {
+          console.log(res);
+          notify("Successfull level updated");
+        })
       .catch((e) => {
         console.log(e);
       });
+    }
   };
 
   return (
     <Container maxWidth="lg">
       <AdminNav account={account} />
       <Box style={{ margin: "0px 0px 50px" }}>
-        <Box style={{ margin: "70px 0px 0px" }}>
-          <Typography paragraph>Select level</Typography>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Level</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={age}
-              label="Age"
-              onChange={handleChange}
-            >
-        
-              <MenuItem value={"Level 14"}>Plan name</MenuItem>
-              <MenuItem value={"Level 13"}>Asset name (token to be staked)</MenuItem>
-              <MenuItem value={"Level 12"}>Tenure (stake time in number of days)</MenuItem>
-              <MenuItem value={"Level 11"}>APY (yield for staking)</MenuItem>
-              <MenuItem value={"Level 10"}>Payout period (no of days)</MenuItem>
-              <MenuItem value={"Level 9"}>L1 min amount to stake</MenuItem>
-              <MenuItem value={"Level 8"}>Direct Bonus for L1 (%)</MenuItem>
-              <MenuItem value={"Level 7"}>Profit share per yield (%)</MenuItem>
-              <MenuItem value={"Level 6"}>Min L2 referral required (int)</MenuItem>
-              <MenuItem value={"Level 5"}>L2 min amount to stake</MenuItem>
-              <MenuItem value={"Level 4"}>Direct Bonus for L2</MenuItem>
-              <MenuItem value={"Level 3"}>Profit share per yield</MenuItem>
-              <MenuItem value={"Level 2"}>Min Entry level referral required</MenuItem>
-              <MenuItem value={"Entry Level"}>Min tokens stake for Entry level</MenuItem>
-            </Select>
-          </FormControl>
-          {/* <MDBInput label="Ex. Level 1" id="form1" type="Number" onChange={(e)=>setName(e.target.value)}/> */}
-        </Box>
         <Box>
           <Typography paragraph style={{ marginTop: "20px" }}>
-            Bonus(%)
-          </Typography>
-          <MDBInput
-            label="2%"
-            id="form1"
-            type="Number"
-            onChange={(e) => setBonus(e.target.value)}
-          />
-        </Box>
-        <Box>
-          <Typography paragraph style={{ marginTop: "20px" }}>
-            Reward
-          </Typography>
-          <MDBInput
-            label="2%"
-            id="form1"
-            type="Number"
-            onChange={(e) => setReward(e.target.value)}
-          />
-        </Box>
-        <Box>
-          {" "}
-          <Typography paragraph style={{ marginTop: "20px" }}>
-            Require Amount
+            APY(%)
           </Typography>
           <MDBInput
             label="10"
             id="form1"
             type="Number"
-            onChange={(e) => setRef(e.target.value)}
+            onChange={(e) => setRewardPerBlock(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+            LP Token
+          </Typography>
+          <MDBInput
+            label="0xD8bd2f81FB990F206268d35fc4DffbcDc003a8B0"
+            id="form1"
+            onChange={(e) => setLPToken(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+            Fee(%)
+          </Typography>
+          <MDBInput
+            label="100"
+            id="form1"
+            type="Number"
+            onChange={(e) => setFee(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+            Penalty
+          </Typography>
+          <MDBInput
+            label="100"
+            id="form1"
+            type="Number"
+            onChange={(e) => setpenalty(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+            Duration
+          </Typography>
+          <MDBInput
+            label="30"
+            id="form1"
+            type="Number"
+            onChange={(e) => setDuration(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+            Payout Period
+          </Typography>
+          <MDBInput
+            label="30"
+            id="form1"
+            type="Number"
+            onChange={(e) => setPayoutPeriod(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+            Minimum stake amount for Level 1
+          </Typography>
+          <MDBInput
+            label="3000"
+            id="form1"
+            type="Number"
+            onChange={(e) => setMinStakeLevel1(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+          Minimum stake amount for Level 2
+          </Typography>
+          <MDBInput
+            label="2000"
+            id="form1"
+            type="Number"
+            onChange={(e) => setMinStakeLevel2(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+          Minimum stake amount for Entry Level
+          </Typography>
+          <MDBInput
+            label="1000"
+            id="form1"
+            type="Number"
+            onChange={(e) => setMinStakeLevel3(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+          Bonus for Level 1(%)
+          </Typography>
+          <MDBInput
+            label="1"
+            id="form1"
+            type="Number"
+            onChange={(e) => setBonuslevel1(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+          Bonus for Level 2(%)
+          </Typography>
+          <MDBInput
+            label="1"
+            id="form1"
+            type="Number"
+            onChange={(e) => setBonuslevel2(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+          Bonus for Entry Level(%)
+          </Typography>
+          <MDBInput
+            label="1"
+            id="form1"
+            type="Number"
+            onChange={(e) => setBonuslevel3(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+          Reward for Level 1(%)
+          </Typography>
+          <MDBInput
+            label="1"
+            id="form1"
+            type="Number"
+            onChange={(e) => setRewardlevel1(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+          Reward for Level 2(%)
+          </Typography>
+          <MDBInput
+            label="1"
+            id="form1"
+            type="Number"
+            onChange={(e) => setRewardlevel2(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+          Reward for Entry Level(%)
+          </Typography>
+          <MDBInput
+            label="1"
+            id="form1"
+            type="Number"
+            onChange={(e) => setRewardlevel3(e.target.value)}
           />
         </Box>
         <Button className="createbutton" onClick={() => updatelevel()}>

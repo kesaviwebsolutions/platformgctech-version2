@@ -183,7 +183,6 @@ function App() {
     setXaustousdm(xaustousdm);
   };
 
-  const [user, setUser] = useState();
   const [acount, setAccount] = useState();
 
   useEffect(() => {
@@ -192,11 +191,11 @@ function App() {
         await Metamask();
       }
       const id = await GetChainId();
-      console.log(id);
-      if (Number(id) != 4) {
+      console.log("Chain ID is ",id);
+      if (Number(id) != 5) {
         await window.ethereum.request({
           method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0x38" }], // chainId must be in hexadecimal numbers
+          params: [{ chainId: "0x5" }], // chainId must be in hexadecimal numbers
         });
       }
     };
