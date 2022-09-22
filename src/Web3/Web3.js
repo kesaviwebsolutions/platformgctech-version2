@@ -516,15 +516,7 @@ export const Allowforstaking = async(token)=>{
   };
 
   
-  export const unstake = async(id)=>{
-    try {
-      const contract = new web3.eth.Contract(Staking, stakingAddress);
-      const data = await contract.methods.withdraw(id).send({from:await getUserAddress()});
-      return data;
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  
 
   export const pendingrewards = async()=>{
     try {
@@ -744,3 +736,43 @@ export const Stake =async(amount, id, lptoken)=> {
     console.log(error)
   }
 }
+
+export const PendingRewards = async(id,address)=>{
+  try {
+    const contract = new web3.eth.Contract(Staking, stakingAddress);
+    const data = await contract.methods.pendingRewards(id,address).call();
+    return data/10**18;
+  } catch (error) {
+  }
+}
+
+export const unstake = async(id)=>{
+  try {
+    const contract = new web3.eth.Contract(Staking, stakingAddress);
+    const data = await contract.methods.withdraw(id).send({from:await getUserAddress()});
+    return data;
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+
+export const getallTokenBalancegcs =async(address)=>{
+  try {
+      const contract = new web3.eth.Contract(tokenBalance, address);
+      const data = await contract.methods.balanceOf(await getUserAddress()).call();
+      return data/10**18;
+  } catch (error) {
+      console.log(error)
+  }
+}
+export const totallocked =async()=>{
+  try {
+      const contract = new web3.eth.Contract(Staking, stakingAddress);
+      const data = await contract.methods.totalLockedUpRewards().call();
+      return data/10**18;
+  } catch (error) {
+      console.log(error)
+  }
+}
+

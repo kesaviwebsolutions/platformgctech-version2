@@ -15,8 +15,8 @@ import { orderIDofReferal, balanceofstake, OrderIDdata } from "../../Web3/Web3";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 
-const url = "https://refer.ap.ngrok.io";
-// const url = "http://localhost:3030";
+// const url = "https://refer.ap.ngrok.io";
+const url = "http://localhost:3030";
 
 interface Column {
   id: "name" | "code" | "population" | "size" | "density";
@@ -48,13 +48,13 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
-  {
-    id: "density",
-    label: "Time of staked",
-    minWidth: 170,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
+  // {
+  //   id: "density",
+  //   label: "Time of staked",
+  //   minWidth: 170,
+  //   align: "center",
+  //   format: (value: number) => value.toFixed(2),
+  // },
   {
     id: "density",
     label: "Reward",
@@ -220,11 +220,11 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
       <>
         <TableRow key={index}>
           <TableCell>{index}</TableCell>
-          <TableCell>{rowsInfo.wallet}</TableCell>
-          <TableCell>{rowsInfo.stakeamount/10**18}</TableCell>
-          <TableCell>{rowsInfo.numberofstake}</TableCell>
-          <TableCell>{(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * 2.5/100}</TableCell>
-          <TableCell>{(rowsInfo.stakeamount/10**18)/100}</TableCell>
+          <TableCell>{rowsInfo.user}</TableCell>
+          <TableCell>{rowsInfo.amount}</TableCell>
+          {/* <TableCell>{rowsInfo.numberofstake}</TableCell> */}
+          <TableCell>{(rowsInfo.amount * rowsInfo.APY)/((36500 * rowsInfo.Duration * 2.5)/100)}</TableCell>
+          <TableCell>{(rowsInfo.amount)/100}</TableCell>
         </TableRow>
       </>
     );
@@ -244,14 +244,13 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
       const event = []
       if(res.data[0]){  
         for(let x = 0; x < res.data[0].refferals.length; x++){
-          const user1 = Object();
-          const ids = await orderIDofReferal(res.data[0].refferals[x])
-          const bal = await OrderIDdata(ids[0])
-          user1.wallet = res.data[0].refferals[x]
-          user1.stakeamount = bal[1]
-          user1.duration = bal[2]
-          user1.numberofstake = ids.length
-          event.push(user1)
+          const level = await axios.post(`${url}/isuser`,{
+            user:res.data[0].refferals[x]
+          }).then((response)=>{
+            return response.data[0]
+          })
+          // console.log(level)
+          event.push(level)
         }
       }
       setReferrals(event)

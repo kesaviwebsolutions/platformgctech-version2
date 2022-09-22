@@ -10,7 +10,7 @@ import TableRow from "@mui/material/TableRow";
 import { Container } from "@mui/system";
 import AdminNav from "./AdminNav";
 import axios from "axios";
-import { OrderIDdata,GetPendingRewards,StakeBalace,balanceofreferral, balanceofstake, transfertoken, orderIDofReferal } from "../Web3/Web3";
+import { OrderIDdata,GetPendingRewards,StakeBalace,balanceofreferral, balanceofstake, transfertoken, orderIDofReferal, PendingRewards } from "../Web3/Web3";
 import { Link } from "react-router-dom";
 import { AiOutlineCopy } from 'react-icons/ai'
 import toast, { Toaster } from "react-hot-toast";
@@ -18,8 +18,8 @@ import toast, { Toaster } from "react-hot-toast";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-const url = "https://refer.ap.ngrok.io";
-// const url = "http://localhost:3030";
+// const url = "https://refer.ap.ngrok.io";
+const url = "http://localhost:3030";
 
 const notify = (msg) => toast.success(msg);
 
@@ -94,7 +94,7 @@ const columns: readonly Column[] = [
   },
   {
     id: "density",
-    label: "Claimed Reward",
+    label: "Number of Staked pool",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
@@ -292,35 +292,21 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
 
   useEffect(() => {
     const init =async()=>{
-      const events = []
-    let data;
-    axios.get(`${url}/levels`).then((res)=>{
-      console.log(res.data)
-      setLevel1amount(res.data[0].NoRefReq)
-      setLevel2amount(res.data[1].NoRefReq)
-      setLevel3amount(res.data[2].NoRefReq)
-      console.log(res.data[0].NoRefReq)
-      console.log(res.data[1].NoRefReq)
-      console.log(res.data[2].NoRefReq)
-    })
-
-    axios.get(`${url}/users`).then(async(res)=>{
-      for(let i = 0; i < res.data.length; i++){
-        data = await OrderIDdata(res.data[i].IDs[0]);
-        const pending  = await GetPendingRewards(res.data[i].IDs[0]);
-        data.level = res.data[i].level
-        data.pending = pending
-        const ref = await getRefera(res.data[i].refferals)
-        data.refcount = ref
-        
-        events.push(data)
-      }
-      setUser(events)
+       axios.get(`${url}/users`).then(async(res)=>{
+        const staker = []
+        for(let i = 0; i < res.data.length; i++){
+          const data = res.data[i]
+          const pending = await PendingRewards(res.data[i].poolID, res.data[i].user)
+          data.pending = pending
+          console.log(data)
+          staker.push(data)
+        }
+        setUser(staker)
     })
     }
     init()
   }, [account])
-  // console.log(user)
+  console.log(user)
 
   const countdown =(tab)=>{
     var now = new Date().getTime();
@@ -341,21 +327,21 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
     return (
       <>
         <TableRow key={index}>
-          <TableCell>{index}</TableCell>
-          <TableCell>{slicewallet(rowsInfo.beneficiary)}<AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(rowsInfo.beneficiary)}/></TableCell>
+          <TableCell>{user.indexOf(rowsInfo)+1}</TableCell>
+          <TableCell>{slicewallet(rowsInfo.user)}<AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(rowsInfo.beneficiary)}/></TableCell>
           <TableCell>
             {" "}
-            <Link to={`/admin/referral-id/${rowsInfo.beneficiary}`}>{slicewallet(rowsInfo.beneficiary)}</Link>
+            <Link to={`/admin/referral-id/${rowsInfo.user}`}>{slicewallet(rowsInfo.user)}</Link>
           </TableCell>
-          <TableCell>{rowsInfo.amount/10**18}</TableCell>
-          <TableCell>{new Date(rowsInfo.starttime*100).toLocaleString()}</TableCell>
-          <TableCell>{rowsInfo.lockupDuration}</TableCell>
+          <TableCell>{rowsInfo.amount}</TableCell>
+          <TableCell>{new Date(rowsInfo.time).toLocaleString()}</TableCell>
+          <TableCell>{rowsInfo.Duration}</TableCell>
           <TableCell>{rowsInfo.level == 3 ? "Entry Level" : rowsInfo.level == 2 ? "Level 2" : "Level 1"}</TableCell>
-          <TableCell>{rowsInfo.lockupDuration == 1 ? aday1 : rowsInfo.lockupDuration == 2 ? aday2 : rowsInfo.lockupDuration == 3 ? aday3 : aday4}</TableCell>
-          <TableCell>{Number(rowsInfo.pending/10**18).toFixed(5)}</TableCell>
-          <TableCell>{rowsInfo.claimedReward/10**18}</TableCell>
-          <TableCell>{rowsInfo.refcount}</TableCell>
-          <TableCell>{countdown(rowsInfo.starttime)}</TableCell>
+          <TableCell>{rowsInfo.APY}</TableCell>
+          <TableCell>{Number(rowsInfo.pending).toFixed(2)}</TableCell>
+          <TableCell>{rowsInfo.stakedpool.length}</TableCell>
+          <TableCell>{rowsInfo.refferals.length}</TableCell>
+          <TableCell>{countdown(rowsInfo.time)}</TableCell>
         </TableRow>
       </>
     );

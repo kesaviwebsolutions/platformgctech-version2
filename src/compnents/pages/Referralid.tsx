@@ -16,8 +16,8 @@ import toast, { Toaster } from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
 
-const url = "https://refer.ap.ngrok.io";
-// const url = "http://localhost:3030";
+// const url = "https://refer.ap.ngrok.io";
+const url = "http://localhost:3030";
 
 
 const notify = (msg) => toast.success(msg);
@@ -58,13 +58,7 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
-  {
-    id: "density",
-    label: "Time of staked",
-    minWidth: 170,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
+
   {
     id: "density",
     label: "Reward",
@@ -290,37 +284,21 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
     return (
       <>
         <TableRow key={index}>
-          <TableCell>{index}</TableCell>
-          <TableCell>{rowsInfo.wallet}</TableCell>
+          <TableCell>{index+1}</TableCell>
+          <TableCell>{rowsInfo.user}</TableCell>
           <TableCell>
-          <Link to={`/admin/referral-second/${rowsInfo.wallet}`}>{slicewallet(rowsInfo.wallet)}</Link>
+          <Link to={`/admin/referral-second/${rowsInfo.user}`}>{slicewallet(rowsInfo.user)}</Link>
             </TableCell>
-          <TableCell>{rowsInfo.stakeamount/10**18}</TableCell>
-          <TableCell>{rowsInfo.numberofstake}</TableCell>
-          <TableCell>{(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * (rowsInfo.level == 3 ? reward3 : rowsInfo.level == 2 ? reward2 : reward1)/100}</TableCell>
-          <TableCell>{(rowsInfo.stakeamount/10**18)/100}</TableCell>
-          <TableCell><button disabled={rowsInfo.paidReward ? true : false} onClick={()=>trasferReward(rowsInfo.wallet,(rowsInfo.stakeamount/10**18) * (rowsInfo.duration  == 1 ? aday1 : rowsInfo.duration  == 2 ? aday2 : rowsInfo.duration  == 3 ? aday3 : aday4)/36500 * rowsInfo.duration * (rowsInfo.level == 3 ? reward3 : rowsInfo.level == 2 ? reward2 : reward1)/100)}>Pay Reward</button></TableCell>
-          <TableCell><button disabled={rowsInfo.paidBonus ? true : false} onClick={()=>trasferBonus(rowsInfo.wallet,(rowsInfo.stakeamount/10**18)/100)}>Pay Bonus</button></TableCell>
+          <TableCell>{rowsInfo.amount}</TableCell>
+          <TableCell>{(rowsInfo.amount * rowsInfo.APY)/((36500 * rowsInfo.Duration * 2.5)/100)}</TableCell>
+          <TableCell>{(rowsInfo.amount)/100}</TableCell>
+          <TableCell><button disabled={rowsInfo.paidReward ? true : false} onClick={()=>trasferReward(rowsInfo.user,((rowsInfo.amount * rowsInfo.APY)/((36500 * rowsInfo.Duration * 2.5)/100)))}>Pay Reward</button></TableCell>
+          <TableCell><button disabled={rowsInfo.paidBonus ? true : false} onClick={()=>trasferBonus(rowsInfo.user,(rowsInfo.amount)/100)}>Pay Bonus</button></TableCell>
         </TableRow>
       </>
     );
   };
-  const [reward1, setReward1] = React.useState(0)
-  const [reward2, setReward2] = React.useState(0)
-  const [reward3, setReward3] = React.useState(0)
-
-    React.useLayoutEffect(()=>{
-    const init =async()=>{
-      axios.get(`${url}/levels`).then((res)=>{
-        // console.log(res.data)
-        setReward1(res.data[0].Reward)
-        setReward2(res.data[1].Reward)
-        setReward3(res.data[2].Reward)
-      })
-    }
-    init()
-  })
-
+ 
   const getRef =async()=>{
     axios.post(`${url}/isuser`,{
       user:ref.toLowerCase()
@@ -328,27 +306,13 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
       const event = []
       if(res.data[0]){  
         for(let x = 0; x < res.data[0].refferals.length; x++){
-          const user1 = Object();
-          const ids = await orderIDofReferal(res.data[0].refferals[x])
           const level = await axios.post(`${url}/isuser`,{
             user:res.data[0].refferals[x]
-          }).then((res)=> {return res.data[0].level})
-          const paidbous = await axios.post(`${url}/isuser`,{
-            user:res.data[0].refferals[x]
-          }).then((res)=> {return res.data[0].paidBouns})
-          const paidreward = await axios.post(`${url}/isuser`,{
-            user:res.data[0].refferals[x]
-          }).then((res)=> {return res.data[0].paidReward})
-          const bal = await OrderIDdata(ids[0])
-          user1.paidBonus = paidbous
-          user1.paidReward = paidreward
-          user1.level = level
-          user1.wallet = res.data[0].refferals[x]
-          user1.stakeamount = bal[1]
-          user1.duration = bal[2]
-          user1.numberofstake = ids.length
-          
-          event.push(user1)
+          }).then((response)=>{
+            return response.data[0]
+          })
+          event.push(level)
+
         }
       }
       setReferrals(event)
