@@ -69,6 +69,7 @@ export default function CreateLevel({ account }) {
       levelthreeMinAmount:minStakelevel3,
       bonusforlevelthree:bonuslevel3,
       rewardforlevelthree:rewardlevel3,
+      poolstatus:false
       })
         .then((res) => {
           console.log(res);
