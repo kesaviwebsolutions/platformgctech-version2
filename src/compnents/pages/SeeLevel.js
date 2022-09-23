@@ -75,6 +75,9 @@ export default function SeeLevel({ account }) {
         <Typography variant="span">pool status:</Typography>
         <Typography variant="span">true</Typography>
       </Box>
+      <Box>
+      <Button>Button</Button>
+      </Box>
       <Toaster />
     </Container>
   );
