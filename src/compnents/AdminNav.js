@@ -74,19 +74,8 @@ export default function AdminNav({account}) {
                   : ""
               }
             >
-              See Level
+              Levels
             </Link>
-      { active && active == account ? <Link
-              id="link"
-              to="/admin/pool"
-              className={
-                window.location.pathname === "/admin/referral-id"
-                  ? "active"
-                  : ""
-              }
-            >
-             Add Pool
-            </Link> : ''}
           </>
         </MDBNavbarNav>
       </MDBContainer>

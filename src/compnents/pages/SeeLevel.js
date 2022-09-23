@@ -6,6 +6,7 @@ import AdminNav from "../AdminNav";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { assetSymbol } from "../../Web3/Web3";
+import { AiOutlineCopy } from "react-icons/ai";
 
 const url = "https://refer.ap.ngrok.io";
 // const url = "http://localhost:3030";
@@ -69,6 +70,17 @@ export default function SeeLevel({ account }) {
       });
   };
 
+  const copytext = (text)=>{
+    navigator.clipboard.writeText(text)
+    notify("Copied")
+  }
+
+  const slicewallet = (add) => {
+    const first = add.slice(0, 3);
+    const second = add.slice(39);
+    return first + "..." + second;
+  };
+
   return (
     <>
       <Container maxWidth="lg">
@@ -95,7 +107,29 @@ export default function SeeLevel({ account }) {
                           borderRadius: "10px",
                         }}
                       >
-                     <Box style={{width:"85% ",margin:"1rem auto"}}>
+                     <Box style={{margin:"1rem auto"}} className="inner-box">
+                        <Box>
+                          <Grid container>
+                            <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                              <Typography variant="span">LP Token:</Typography>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                              <Typography
+                                variant="span"
+                                style={{
+                                  fontWeight: "800",
+                                  paddingLeft:"3rem"
+                                }}
+                                className="value12"
+                                id="value13"
+                                
+                              >
+                                {slicewallet(res.assertName)}<AiOutlineCopy style={{cursor:'pointer'}} onClick={()=>copytext(res.assertName)}/>
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                        </Box>
+
                         <Box>
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>

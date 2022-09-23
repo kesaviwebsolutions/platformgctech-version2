@@ -310,10 +310,24 @@ p.sc {
   text-align: center !important ;
 } */
 .value12{
-  padding-left: 5rem;
+  padding-left: 3rem;
 }
+span.MuiTypography-root.MuiTypography-span.value123.css-37jdci-MuiTypography-root {
+  padding-left: 3rem !important;
+}
+
 @media screen and (max-width:700px) {
   .value12{
-    padding-left: 1.5rem;
+    padding-left: 0rem;
   }
+  .inner-box{
+    width:98%;
+  }
+  span.MuiTypography-root.MuiTypography-span.value123.css-37jdci-MuiTypography-root {
+    padding-left: 0rem !important;
+  }
+}
+
+.inner-box{
+  width:85%;
 }
