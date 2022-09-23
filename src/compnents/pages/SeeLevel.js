@@ -101,8 +101,8 @@ export default function SeeLevel({ account }) {
                       <Box
                         style={{
                           boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
-                          padding: "1rem",
-                          paddingLeft: "2rem",
+                          paddingTop: "1rem",
+                          paddingLeft: "1rem",
                           marginTop: "1rem",
                           borderRadius: "10px",
                         }}
@@ -118,7 +118,7 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft:"3rem"
+                               
                                 }}
                                 className="value12"
                                 id="value13"
