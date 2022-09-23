@@ -979,7 +979,12 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     return <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                     <Box
                       sx={{ maxWidth: 500,alignItems:"center",margin:"0 auto" }}
+                      
                       onClick={() => {
+                        if(!item.poolstatus){
+                          warning("Pool is not active")
+                          return true
+                        }
                         setDuration(item.Duration);
                         setAPY(item.APY);
                         setReturns(item.APY);
@@ -1002,7 +1007,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     >
                       <Card
                         variant="outlined"
-                        className={active == plans.indexOf(item) ? "active" : ""}
+                        className={active == plans.indexOf(item) && item.poolstatus ? "active" : ""}
                         onClick={() => setActive(plans.indexOf(item))}  style={{boxShadow:"rgb(51 51 51 / 15%) 0px 4px 25px"}}
                       >
                         {" "}
