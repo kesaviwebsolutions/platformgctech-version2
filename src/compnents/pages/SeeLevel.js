@@ -95,7 +95,7 @@ export default function SeeLevel({ account }) {
                           borderRadius: "10px",
                         }}
                       >
-                     <Box style={{width:"85% ",margin:"1.5rem auto"}}>
+                     <Box style={{width:"85% ",margin:"1rem auto"}}>
                         <Box>
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
@@ -106,8 +106,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.Duration}
                               </Typography>
@@ -125,8 +126,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.APY}
                               </Typography>
@@ -145,8 +147,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.symbol}
                               </Typography>
@@ -163,8 +166,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.payout}
                               </Typography>
@@ -181,8 +185,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.penalty}
                               </Typography>
@@ -201,8 +206,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.leveloneMinAmount}
                               </Typography>
@@ -221,8 +227,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.bonusforlevelone}
                               </Typography>
@@ -241,8 +248,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.rewardforleveltwo}
                               </Typography>
@@ -261,8 +269,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.leveltwoMinAmount}
                               </Typography>
@@ -281,8 +290,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.levelthreeMinAmount}
                               </Typography>
@@ -301,8 +311,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.rewardforlevelone}
                               </Typography>
@@ -321,8 +332,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.bonusforleveltwo}
                               </Typography>
@@ -341,8 +353,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.bonusforlevelthree}
                               </Typography>
@@ -361,8 +374,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.rewardforlevelthree}
                               </Typography>
@@ -381,8 +395,9 @@ export default function SeeLevel({ account }) {
                                 variant="span"
                                 style={{
                                   fontWeight: "800",
-                                  paddingLeft: "5rem",
+                                  
                                 }}
+                                className="value12"
                               >
                                 {res.poolstatus.toString()}
                               </Typography>

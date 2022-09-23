@@ -309,3 +309,11 @@ p.sc {
 /* .css-dwuj3p-MuiTableCell-root {
   text-align: center !important ;
 } */
+.value12{
+  padding-left: 5rem;
+}
+@media screen and (max-width:700px) {
+  .value12{
+    padding-left: 1.5rem;
+  }
+}
