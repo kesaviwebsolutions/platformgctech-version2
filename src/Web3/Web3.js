@@ -676,9 +676,20 @@ export const Allowforstaking = async(token)=>{
 
 export const Addpool = async(rewardblock, tokem, fee, penalty,duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv3)=>{
   try {
-    const a = await towie(Number(rewardblock).toFixed(8))
+    // const a = await towie(Number(rewardblock).toFixed(8))
     const contract = new web3.eth.Contract(Staking, stakingAddress);
-    const data = await contract.methods.addPool(a, tokem, fee, penalty, duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv3, true).send({from:await getUserAddress()});
+    const data = await contract.methods.addPool(rewardblock, tokem, fee, penalty, duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv3, true).send({from:await getUserAddress()});
+    return data;
+  } catch (error) {
+   console.log(error)
+  }
+ };
+
+ export const editpool = async(poolid, apy, fee, duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv1, tab)=>{
+  try {
+    console.log(poolid, apy, fee, duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv1, tab)
+    const contract = new web3.eth.Contract(Staking, stakingAddress);
+    const data = await contract.methods.setPool(poolid, apy, fee, duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv1, tab).send({from:await getUserAddress()});
     return data;
   } catch (error) {
    console.log(error)

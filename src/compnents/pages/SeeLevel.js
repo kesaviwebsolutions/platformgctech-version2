@@ -5,7 +5,7 @@ import { Button, Typography, Grid } from "@mui/material";
 import AdminNav from "../AdminNav";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { assetSymbol } from "../../Web3/Web3";
+import { assetSymbol, editpool } from "../../Web3/Web3";
 import { AiOutlineCopy } from "react-icons/ai";
 
 const url = "https://refer.ap.ngrok.io";
@@ -57,8 +57,10 @@ export default function SeeLevel({ account }) {
       });
   };
 
-  const changestatus = async (id, tab) => {
-    axios
+  const changestatus = async (id, apy, fee, duration, payout, three, two, one, tab) => {
+    const data = await editpool(id, apy, fee, duration, payout, three, two, one, !tab)
+    if(data.status){
+      axios
       .post(`${url}/handlepool`, {
         id: id,
         status: !tab,
@@ -68,6 +70,7 @@ export default function SeeLevel({ account }) {
         init();
         notify("Pool status changed");
       });
+    }
   };
 
   const copytext = (text)=>{
@@ -457,7 +460,7 @@ export default function SeeLevel({ account }) {
                             >
                               <Button
                                 onClick={() =>
-                                  changestatus(res._id, res.poolstatus)
+                                  changestatus(level.indexOf(res), res.APY, res.fee, res.Duration, res.payout, res.levelthreeMinAmount, res.leveltwoMinAmount, res.leveloneMinAmount, res.poolstatus)
                                 }
                                 style={{ color: "white" }}
                               >
