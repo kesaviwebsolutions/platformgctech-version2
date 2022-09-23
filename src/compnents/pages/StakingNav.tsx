@@ -832,7 +832,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                 ""
               )}
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
                     <Card
                       variant="outlined"
@@ -877,7 +877,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     </Card>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
                     <Card
                       variant="outlined"
@@ -918,7 +918,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     </Card>
                   </Box>
                 </Grid>
-                <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+           {/*      <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
                   <Box sx={{}}>
                     <Card
                       variant="outlined"
@@ -958,7 +958,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                       </CardContent>
                     </Card>
                   </Box>
-                </Grid>
+                </Grid> */}
               </Grid>
 
               <Box style={{ marginTop: "50px" }}>

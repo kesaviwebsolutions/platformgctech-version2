@@ -27,6 +27,7 @@ import Staking from "./compnents/pages/StakingNav.tsx";
 import PersonalReferralId from "./compnents/pages/PersonalReferralId.tsx";
 import { poeldata1, poeldata2, poeldata3, poeldata4 } from "./Web3/Web3"
 import Pool from "./compnents/pages/Addpool";
+import SeeLevel from "./compnents/pages/SeeLevel";
 const url = "https://apigctech.ap.ngrok.io";
 
 function App() {
@@ -302,6 +303,7 @@ function App() {
             element={<PersonalReferralId />}
           />
           <Route exact path="/admin/create-level" element={<CreateLevel account={acount} />} />
+          <Route exact path="/admin/see-level" element={<SeeLevel />} />
         </Routes>
         <Footer />
       </Router>

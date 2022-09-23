@@ -65,6 +65,17 @@ export default function AdminNav({account}) {
             >
               Create Level
             </Link>
+            <Link
+              id="link"
+              to="/admin/see-level"
+              className={
+                window.location.pathname === "/admin/see-level"
+                  ? "active"
+                  : ""
+              }
+            >
+              See Level
+            </Link>
       { active && active == account ? <Link
               id="link"
               to="/admin/pool"
