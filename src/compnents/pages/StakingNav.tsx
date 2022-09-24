@@ -870,7 +870,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                               fontWeight: "900",
                             }}
                           >
-                            {Number(stakeTotal).toFixed(0)} GCS
+                            {Number(stakeTotal).toFixed(0)}
                           </Typography>
                         </Box>
                       </CardContent>
@@ -911,7 +911,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                               fontWeight: "900",
                             }}
                           >
-                            {Number(totaktokenlocked).toFixed(0)}
+                            {Number(totaktokenlocked/10**18).toFixed(0)}
                           </Typography>
                         </Box>
                       </CardContent>
