@@ -1241,19 +1241,23 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     : "Level 1"}
                 </span>
               </Typography> */}
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <Box sx={{}}>
-                    <Card
-                      variant="outlined"
-                      style={{
-                        border: "none",
-
+              <Grid container spacing={2} style={{  border: "none",
                         background: "#fff",
                         boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
                         width: "90%",
+                        margin: "0 auto",}}>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <Box sx={{}}>
+                    <Box
+                      variant="outlined"
+                      style={{
+                   
+                        background: "#fff",
+                      
+                        width: "90%",
                         margin: "0 auto",
                       }}
+                      className="Box1A"
                     >
                       {" "}
                       <CardContent>
@@ -1285,17 +1289,18 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                           </Typography>
                         </Box>
                       </CardContent>
-                    </Card>
+                    </Box>
+                    <hr className="hr"/>
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
-                    <Card
+                    <Box
                       variant="outlined"
                       style={{
                         border: "none",
                         background: "#fff",
-                        boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                      
                         width: "90%",
                         margin: "0 auto",
                       }}
@@ -1326,7 +1331,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                           </Typography>
                         </Box>
                       </CardContent>
-                    </Card>
+                    </Box>
                   </Box>
                 </Grid>
               </Grid>

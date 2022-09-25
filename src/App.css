@@ -343,6 +343,11 @@ span.MuiTypography-root.MuiTypography-span.value123.css-37jdci-MuiTypography-roo
   }
 }
 @media screen and (min-width:900px) {
+  .Box1A{
+    border-right:0.1rem solid #cacdd1;
+  }
+}
+@media screen and (min-width:900px) {
 .hr{
   display: none;
 }
