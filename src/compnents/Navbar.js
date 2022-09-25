@@ -64,7 +64,7 @@ export default function App({ Metamask, account, contractadmin }) {
                 HOME
               </Link>
 
-              {account && account != contractadmin ||
+              {(account && account != contractadmin) ||
               account != "0xD9E0f712652589584B035Db1cb44A79F2eA2389F" ||
               account != "0x149b65e2EB31c196F9C2407E0A88a9cF1F71bd35" ||
               account != "0xdBd21416Da1207Bfb66BDf3baBE16538f112b706" ||
@@ -98,10 +98,13 @@ export default function App({ Metamask, account, contractadmin }) {
           </MDBNavbarNav>
           <button
             type="button"
-            className="connectButton"
+            className="connectButton mx-3"
             onClick={() => Metamask()}
           >
             {account ? slicewallet(account) : "Connect Wallet"}
+          </button>
+          <button className="connectButton" type="button">
+            BUY GCS
           </button>
 
           {/* <div className="dropdown">

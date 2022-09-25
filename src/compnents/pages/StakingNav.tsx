@@ -42,7 +42,7 @@ import {
   poeldata4,
   assetSymbol,
   getallTokenBalancegcs,
-  totallocked
+  totallocked,
 } from "../../Web3/Web3";
 import { AiOutlineCopy } from "react-icons/ai";
 import { BsCheckCircle } from "react-icons/bs";
@@ -285,9 +285,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   const [returns, setReturns] = useState(0);
   const [level, setLevel] = useState();
 
-
-  const [plans, setPlans] = useState([])
-  const [lptoken, setLPToken] = useState()
+  const [plans, setPlans] = useState([]);
+  const [lptoken, setLPToken] = useState();
   const [symbol, setSymbol] = useState();
   const [payout, setPayout] = useState();
   const [minStakelevel1, setMinStakeLevel1] = useState(0);
@@ -303,32 +302,35 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   const [penalty, setpenalty] = useState(0);
   const [totaktokenlocked, setTotaltokenlocked] = useState(0);
 
-  useEffect(()=>{
-    const init = async()=>{
-      axios.get(`${url}/levels`).then(async(res)=>{
-        // console.log(res);
-        let item = []
-        for(let x = 0; x < res.data.length; x++){
-          const data = res.data[x];
-          const symbol = await assetSymbol(res.data[x].assertName)
-          data.symbol = symbol
-          item.push(data)
-        }
-        // console.log(item)
-        setPlans(item)
-      }).catch((e)=>{
-        console.log(e)
-      })
-    }
+  useEffect(() => {
+    const init = async () => {
+      axios
+        .get(`${url}/levels`)
+        .then(async (res) => {
+          // console.log(res);
+          let item = [];
+          for (let x = 0; x < res.data.length; x++) {
+            const data = res.data[x];
+            const symbol = await assetSymbol(res.data[x].assertName);
+            data.symbol = symbol;
+            item.push(data);
+          }
+          // console.log(item)
+          setPlans(item);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    };
     init();
-  },[])
+  }, []);
 
   useEffect(() => {
     const init = async () => {
       getReferrals();
-      
-      const locked = await totallocked()
-      setTotaltokenlocked(locked)
+
+      const locked = await totallocked();
+      setTotaltokenlocked(locked);
       const ds = await tokenDistribute();
       setDistribute(ds);
       const rewards = await totakRewardEarned();
@@ -349,33 +351,35 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
     init();
   }, [account]);
 
-  const totakStakefromDB =()=>{
-   
-  }
- 
+  const totakStakefromDB = () => {};
 
   // this methods only fetchs the refferals and stakes in all pools of currently loged in user.
-  const getReferrals = async () => { 
+  const getReferrals = async () => {
     let ref = [];
-    await axios.get(`${url}/totalamount`).then((res)=>{
-        setStakeTotal(res.data)
+    await axios
+      .get(`${url}/totalamount`)
+      .then((res) => {
+        setStakeTotal(res.data);
         // console.log("total amount",res.data)
-    }).catch((error)=>console.log(error))
+      })
+      .catch((error) => console.log(error));
 
-    await axios.post(`${url}/mystaketotal`,{
-      user: account.toLowerCase()
-    }).then((res)=>{
-      setMystake(res.data)
-      console.log("total amount",res.data)
-  }).catch((error)=>console.log(error))
-
+    await axios
+      .post(`${url}/mystaketotal`, {
+        user: account.toLowerCase(),
+      })
+      .then((res) => {
+        setMystake(res.data);
+        console.log("total amount", res.data);
+      })
+      .catch((error) => console.log(error));
 
     await axios
       .post(`${url}/isuser`, {
         user: account.toLowerCase(),
       })
       .then(async (res) => {
-        setEvents(res.data)
+        setEvents(res.data);
         if (res.data.length > 0) {
           setShowID(true);
         } else {
@@ -384,22 +388,22 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
         // setReferals(undefined);
         if (res.data[0] && res.data[0].refferals.length > 0) {
           for (let i = 0; i < res.data[0].refferals.length; i++) {
-              const events = await axios.post(`${url}/isuser`, {
+            const events = await axios
+              .post(`${url}/isuser`, {
                 user: res.data[0].refferals[i],
-              }).then((response)=>{
-                return response.data[0];
               })
+              .then((response) => {
+                return response.data[0];
+              });
             ref.push(events);
           }
           setReferals(ref);
         }
-        
       })
       .catch((e) => {
         console.log(e);
       });
   };
-
 
   const StakingToken = async () => {
     try {
@@ -413,7 +417,6 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
       setLoading(false);
     }
   };
- 
 
   const addReferralUser = async (hash, amount) => {
     if (ID) {
@@ -429,13 +432,13 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
           console.log(e);
           setLoading(false);
         });
-      const isuser = await axios  // check if user eixts in database or not
+      const isuser = await axios // check if user eixts in database or not
         .post(`${url}/isuser`, {
           user: account.toLowerCase(),
         })
         .then((res) => {
-          const dat = res.data[0]
-          console.log("Current user length ",dat);
+          const dat = res.data[0];
+          console.log("Current user length ", dat);
           return res.data;
         })
         .catch((e) => {
@@ -443,113 +446,128 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
           setLoading(false);
         });
 
-      if (isuser.length <= 0) { 
-     
+      if (isuser.length <= 0) {
         await axios
           .post(`${url}/user`, {
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-            level: (Number(amount) < minStakelevel3 ? 3 : Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 2 : 1 ),
+            level:
+              Number(amount) < minStakelevel3
+                ? 3
+                : Number(amount) >= minStakelevel3 &&
+                  Number(amount) < minStakelevel2
+                ? 2
+                : 1,
             Duration: duration,
             APY: apy,
             amount: amount,
-            stakedpool:[indexID],
-            poolID:indexID,
+            stakedpool: [indexID],
+            poolID: indexID,
             isrewardPaid: false,
             isbonusPaid: false,
             time: new Date().getTime() / 1000,
             refferals: [],
-            assertSymbol:symbol,
-            penalty:penalty,
-            lptoken:lptoken,
-            payout:payout,
-            leveloneMinAmount:minStakelevel1,
-            bonusforlevelone:bonuslevel1,
-            rewardforlevelone:rewardlevel1,
-            leveltwoMinAmount:minStakelevel2,
-            bonusforleveltwo:bonuslevel2,
-            rewardforleveltwo:rewardlevel2,
-            levelthreeMinAmount:minStakelevel3,
-            bonusforlevelthree:bonuslevel3,
-            rewardforlevelthree:rewardlevel3,
+            assertSymbol: symbol,
+            penalty: penalty,
+            lptoken: lptoken,
+            payout: payout,
+            leveloneMinAmount: minStakelevel1,
+            bonusforlevelone: bonuslevel1,
+            rewardforlevelone: rewardlevel1,
+            leveltwoMinAmount: minStakelevel2,
+            bonusforleveltwo: bonuslevel2,
+            rewardforleveltwo: rewardlevel2,
+            levelthreeMinAmount: minStakelevel3,
+            bonusforlevelthree: bonuslevel3,
+            rewardforlevelthree: rewardlevel3,
           })
           .then((res) => {
-            console.log("you are fresh staker",res);
+            console.log("you are fresh staker", res);
             getReferrals();
           })
           .catch((e) => {
             console.log(e);
             setLoading(false);
           });
-      } else if(!isuser[0].stakedpool.includes(indexID)){
-        const pool = isuser[0].stakedpool
-        pool.push(indexID)
+      } else if (!isuser[0].stakedpool.includes(indexID)) {
+        const pool = isuser[0].stakedpool;
+        pool.push(indexID);
         await axios
-        .post(`${url}/user`, {
-          user: account.toLowerCase(),
-          expire: new Date(time + duration * 86400000).getTime() / 1000,
-          Tx: hash,
-          level: (Number(amount) < minStakelevel3 ? 3 : Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 2 : 1 ),
-          Duration: duration,
-          APY: apy,
-          amount: amount,
-          stakedpool:pool,
-          poolID:indexID,
-          isrewardPaid: false,
-          isbonusPaid: false,
-          time: new Date().getTime() / 1000,
-          refferals: [],
-          assertSymbol:symbol,
-          penalty:penalty,
-          lptoken:lptoken,
-          payout:payout,
-          leveloneMinAmount:minStakelevel1,
-          bonusforlevelone:bonuslevel1,
-          rewardforlevelone:rewardlevel1,
-          leveltwoMinAmount:minStakelevel2,
-          bonusforleveltwo:bonuslevel2,
-          rewardforleveltwo:rewardlevel2,
-          levelthreeMinAmount:minStakelevel3,
-          bonusforlevelthree:bonuslevel3,
-          rewardforlevelthree:rewardlevel3,
-        })
-        .then((res) => {
-          console.log("you are old staker for new ID",res);
-          getReferrals();
-        })
-        .catch((e) => {
-          console.log(e);
-          setLoading(false);
-        });
-      } 
-      else{
-        console.log("Pool ID already exists",indexID,account.toLowerCase())
+          .post(`${url}/user`, {
+            user: account.toLowerCase(),
+            expire: new Date(time + duration * 86400000).getTime() / 1000,
+            Tx: hash,
+            level:
+              Number(amount) < minStakelevel3
+                ? 3
+                : Number(amount) >= minStakelevel3 &&
+                  Number(amount) < minStakelevel2
+                ? 2
+                : 1,
+            Duration: duration,
+            APY: apy,
+            amount: amount,
+            stakedpool: pool,
+            poolID: indexID,
+            isrewardPaid: false,
+            isbonusPaid: false,
+            time: new Date().getTime() / 1000,
+            refferals: [],
+            assertSymbol: symbol,
+            penalty: penalty,
+            lptoken: lptoken,
+            payout: payout,
+            leveloneMinAmount: minStakelevel1,
+            bonusforlevelone: bonuslevel1,
+            rewardforlevelone: rewardlevel1,
+            leveltwoMinAmount: minStakelevel2,
+            bonusforleveltwo: bonuslevel2,
+            rewardforleveltwo: rewardlevel2,
+            levelthreeMinAmount: minStakelevel3,
+            bonusforlevelthree: bonuslevel3,
+            rewardforlevelthree: rewardlevel3,
+          })
+          .then((res) => {
+            console.log("you are old staker for new ID", res);
+            getReferrals();
+          })
+          .catch((e) => {
+            console.log(e);
+            setLoading(false);
+          });
+      } else {
+        console.log("Pool ID already exists", indexID, account.toLowerCase());
         await axios
           .post(`${url}/updateuser`, {
             user: account.toLowerCase(),
-            poolID:indexID,
+            poolID: indexID,
             amount: amount,
-            level: (Number(amount) < minStakelevel3 ? 3 : Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 2 : 1 ),
+            level:
+              Number(amount) < minStakelevel3
+                ? 3
+                : Number(amount) >= minStakelevel3 &&
+                  Number(amount) < minStakelevel2
+                ? 2
+                : 1,
           })
           .then((res) => {
             console.log(res);
-            getReferrals()
+            getReferrals();
           })
           .catch((e) => {
             console.log(e);
             setLoading(false);
           });
       }
-    } 
-    else {
-      const isuser = await axios  // check if user eixts in database or not
+    } else {
+      const isuser = await axios // check if user eixts in database or not
         .post(`${url}/isuser`, {
           user: account.toLowerCase(),
         })
         .then((res) => {
-          const dat = res.data[0]
-          console.log("Current user length ",dat);
+          const dat = res.data[0];
+          console.log("Current user length ", dat);
           return res.data;
         })
         .catch((e) => {
@@ -557,98 +575,114 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
           setLoading(false);
         });
 
-      if (isuser.length <= 0) { 
-     
+      if (isuser.length <= 0) {
         await axios
           .post(`${url}/user`, {
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-            level: (Number(amount) < minStakelevel3 ? 3 : Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 2 : 1 ),
+            level:
+              Number(amount) < minStakelevel3
+                ? 3
+                : Number(amount) >= minStakelevel3 &&
+                  Number(amount) < minStakelevel2
+                ? 2
+                : 1,
             Duration: duration,
             APY: apy,
             amount: amount,
-            stakedpool:[indexID],
-            poolID:indexID,
+            stakedpool: [indexID],
+            poolID: indexID,
             isrewardPaid: false,
             isbonusPaid: false,
             time: new Date().getTime() / 1000,
             refferals: [],
-            assertSymbol:symbol,
-            penalty:penalty,
-            lptoken:lptoken,
-            payout:payout,
-            leveloneMinAmount:minStakelevel1,
-            bonusforlevelone:bonuslevel1,
-            rewardforlevelone:rewardlevel1,
-            leveltwoMinAmount:minStakelevel2,
-            bonusforleveltwo:bonuslevel2,
-            rewardforleveltwo:rewardlevel2,
-            levelthreeMinAmount:minStakelevel3,
-            bonusforlevelthree:bonuslevel3,
-            rewardforlevelthree:rewardlevel3,
+            assertSymbol: symbol,
+            penalty: penalty,
+            lptoken: lptoken,
+            payout: payout,
+            leveloneMinAmount: minStakelevel1,
+            bonusforlevelone: bonuslevel1,
+            rewardforlevelone: rewardlevel1,
+            leveltwoMinAmount: minStakelevel2,
+            bonusforleveltwo: bonuslevel2,
+            rewardforleveltwo: rewardlevel2,
+            levelthreeMinAmount: minStakelevel3,
+            bonusforlevelthree: bonuslevel3,
+            rewardforlevelthree: rewardlevel3,
           })
           .then((res) => {
-            console.log("you are fresh staker",res);
+            console.log("you are fresh staker", res);
             getReferrals();
           })
           .catch((e) => {
             console.log(e);
             setLoading(false);
           });
-      } else if(!isuser[0].stakedpool.includes(indexID)){
-        const pool = isuser[0].stakedpool
-        pool.push(indexID)
+      } else if (!isuser[0].stakedpool.includes(indexID)) {
+        const pool = isuser[0].stakedpool;
+        pool.push(indexID);
         await axios
-        .post(`${url}/user`, {
-          user: account.toLowerCase(),
-          expire: new Date(time + duration * 86400000).getTime() / 1000,
-          Tx: hash,
-          level: (Number(amount) < minStakelevel3 ? 3 : Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 2 : 1 ),
-          Duration: duration,
-          APY: apy,
-          amount: amount,
-          stakedpool:pool,
-          poolID:indexID,
-          isrewardPaid: false,
-          isbonusPaid: false,
-          time: new Date().getTime() / 1000,
-          refferals: [],
-          assertSymbol:symbol,
-          penalty:penalty,
-          lptoken:lptoken,
-          payout:payout,
-          leveloneMinAmount:minStakelevel1,
-          bonusforlevelone:bonuslevel1,
-          rewardforlevelone:rewardlevel1,
-          leveltwoMinAmount:minStakelevel2,
-          bonusforleveltwo:bonuslevel2,
-          rewardforleveltwo:rewardlevel2,
-          levelthreeMinAmount:minStakelevel3,
-          bonusforlevelthree:bonuslevel3,
-          rewardforlevelthree:rewardlevel3,
-        })
-        .then((res) => {
-          console.log("you are old staker for new ID",res);
-          getReferrals();
-        })
-        .catch((e) => {
-          console.log(e);
-          setLoading(false);
-        });
-      } 
-      else{
-        console.log("Pool ID already exists",indexID,account.toLowerCase())
+          .post(`${url}/user`, {
+            user: account.toLowerCase(),
+            expire: new Date(time + duration * 86400000).getTime() / 1000,
+            Tx: hash,
+            level:
+              Number(amount) < minStakelevel3
+                ? 3
+                : Number(amount) >= minStakelevel3 &&
+                  Number(amount) < minStakelevel2
+                ? 2
+                : 1,
+            Duration: duration,
+            APY: apy,
+            amount: amount,
+            stakedpool: pool,
+            poolID: indexID,
+            isrewardPaid: false,
+            isbonusPaid: false,
+            time: new Date().getTime() / 1000,
+            refferals: [],
+            assertSymbol: symbol,
+            penalty: penalty,
+            lptoken: lptoken,
+            payout: payout,
+            leveloneMinAmount: minStakelevel1,
+            bonusforlevelone: bonuslevel1,
+            rewardforlevelone: rewardlevel1,
+            leveltwoMinAmount: minStakelevel2,
+            bonusforleveltwo: bonuslevel2,
+            rewardforleveltwo: rewardlevel2,
+            levelthreeMinAmount: minStakelevel3,
+            bonusforlevelthree: bonuslevel3,
+            rewardforlevelthree: rewardlevel3,
+          })
+          .then((res) => {
+            console.log("you are old staker for new ID", res);
+            getReferrals();
+          })
+          .catch((e) => {
+            console.log(e);
+            setLoading(false);
+          });
+      } else {
+        console.log("Pool ID already exists", indexID, account.toLowerCase());
         await axios
           .post(`${url}/updateuser`, {
             user: account.toLowerCase(),
-            poolID:indexID,
+            poolID: indexID,
             amount: amount,
-            level: (Number(amount) < minStakelevel3 ? 3 : Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 2 : 1 ),
+            level:
+              Number(amount) < minStakelevel3
+                ? 3
+                : Number(amount) >= minStakelevel3 &&
+                  Number(amount) < minStakelevel2
+                ? 2
+                : 1,
           })
           .then((res) => {
             console.log(res);
-            getReferrals()
+            getReferrals();
           })
           .catch((e) => {
             console.log(e);
@@ -696,10 +730,10 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
     setPage(0);
   };
 
-  const gettokenbalance =async(token)=>{
-    const balance = await getallTokenBalancegcs(token)
-    setBalance(balance)
-  } 
+  const gettokenbalance = async (token) => {
+    const balance = await getallTokenBalancegcs(token);
+    setBalance(balance);
+  };
 
   const unStakeAmount = async (id: any, end: any) => {
     console.log(Number(new Date().getTime() / 1000).toFixed(0), Number(end));
@@ -758,7 +792,19 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             {new Date(Number(rowsInfo.expire) * 1000).toLocaleDateString()}
           </TableCell>
           <TableCell>{rowsInfo.level}</TableCell>
-          {Number(rowsInfo.expire) < new Date().getTime()/1000 ? !rowsInfo.claimed ? <TableCell  onClick={() => unStakeAmount(rowsInfo.poolID,rowsInfo.expire )} >UNSTAKE</TableCell> : <TableCell>UNSTAKED</TableCell> : <TableCell>{upcommingDate(rowsInfo.expire)}</TableCell>}
+          {Number(rowsInfo.expire) < new Date().getTime() / 1000 ? (
+            !rowsInfo.claimed ? (
+              <TableCell
+                onClick={() => unStakeAmount(rowsInfo.poolID, rowsInfo.expire)}
+              >
+                UNSTAKE
+              </TableCell>
+            ) : (
+              <TableCell>UNSTAKED</TableCell>
+            )
+          ) : (
+            <TableCell>{upcommingDate(rowsInfo.expire)}</TableCell>
+          )}
           {/* {!rowsInfo.claimed && Number(rowsInfo.expire) < new Date().getTime()/1000 ? (
             <TableCell
               className=""
@@ -810,10 +856,10 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     marginBottom: "3rem",
                     textAlign: "center",
                     fontWeight: 800,
-                    overflow:"hidden"
+                    overflow: "hidden",
                   }}
                 >
-                  <span >
+                  <span>
                     <span className="Refferal">Refferal-id: </span>
                     <span className="Refferal">{`https://gc-staking.netlify.app/staking/${account}`}</span>
                     <span>
@@ -911,14 +957,14 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                               fontWeight: "900",
                             }}
                           >
-                            {Number(totaktokenlocked/10**18).toFixed(0)}
+                            {Number(totaktokenlocked / 10 ** 18).toFixed(0)}
                           </Typography>
                         </Box>
                       </CardContent>
                     </Card>
                   </Box>
                 </Grid>
-           {/*      <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
+                {/*      <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
                   <Box sx={{}}>
                     <Card
                       variant="outlined"
@@ -975,76 +1021,91 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                   </Typography>
                 </Box>
                 <Grid container spacing={2}>
-                  {plans.map((item)=>{
-                    return <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                    <Box
-                      sx={{ maxWidth: 500,alignItems:"center",margin:"0 auto" }}
-                      
-                      onClick={() => {
-                        if(!item.poolstatus){
-                          warning("Pool is not active")
-                          return true
-                        }
-                        setDuration(item.Duration);
-                        setAPY(item.APY);
-                        setReturns(item.APY);
-                        setLPToken(item.assertName)
-                        setSymbol(item.symbol)
-                        setPayout(item.payout)
-                        setMinStakeLevel1(item.leveloneMinAmount)
-                        setMinStakeLevel2(item.leveltwoMinAmount)
-                        setMinStakeLevel3(item.levelthreeMinAmount)
-                        setBonuslevel1(item.bonusforlevelone)
-                        setBonuslevel2(item.bonusforleveltwo)
-                        setBonuslevel3(item.bonusforlevelthree)
-                        setRewardlevel1(item.rewardforlevelone)
-                        setRewardlevel2(item.rewardforleveltwo)
-                        setRewardlevel3(item.rewardforlevelthree)
-                        setIndexID(plans.indexOf(item))
-                        setpenalty(item.penalty)
-                        gettokenbalance(item.assertName);
-                      }}
-                    >
-                      <Card
-                        variant="outlined"
-                        className={active == plans.indexOf(item) && item.poolstatus ? "active" : ""}
-                        onClick={() => setActive(plans.indexOf(item))}  style={{boxShadow:"rgb(51 51 51 / 15%) 0px 4px 25px"}}
-                      >
-                        {" "}
-                        <CardContent>
-                          <Box className="cardcontent2">
-                            <Typography
-                              sx={{ fontSize: 14 }}
-                              color="text.secondary"
-                              gutterBottom
-                            ></Typography>
-                            <Typography
-                              variant="h6"
-                              component="div"
-                              style={{ fontWeight: "900", fontSize: "17px" }}
-                            >
-                              {item.Duration} Days
-                            </Typography>
-                            <Typography
-                              sx={{
-                                mb: 1.5,
-                              }}
-                            >
-                              {item.APY}% ESTIMATED APY
-                            </Typography>
-                            <Typography
-                              sx={{
-                                mb: 1.5,
-                              }}
-                              variant='h5'
-                            >
-                              {item.symbol}
-                            </Typography>
-                          </Box>
-                        </CardContent>
-                      </Card>
-                    </Box>
-                  </Grid>
+                  {plans.map((item) => {
+                    return (
+                      <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                        <Box
+                          sx={{
+                            maxWidth: 500,
+                            alignItems: "center",
+                            margin: "0 auto",
+                          }}
+                          onClick={() => {
+                            if (!item.poolstatus) {
+                              warning("Pool is not active");
+                              return true;
+                            }
+                            setDuration(item.Duration);
+                            setAPY(item.APY);
+                            setReturns(item.APY);
+                            setLPToken(item.assertName);
+                            setSymbol(item.symbol);
+                            setPayout(item.payout);
+                            setMinStakeLevel1(item.leveloneMinAmount);
+                            setMinStakeLevel2(item.leveltwoMinAmount);
+                            setMinStakeLevel3(item.levelthreeMinAmount);
+                            setBonuslevel1(item.bonusforlevelone);
+                            setBonuslevel2(item.bonusforleveltwo);
+                            setBonuslevel3(item.bonusforlevelthree);
+                            setRewardlevel1(item.rewardforlevelone);
+                            setRewardlevel2(item.rewardforleveltwo);
+                            setRewardlevel3(item.rewardforlevelthree);
+                            setIndexID(plans.indexOf(item));
+                            setpenalty(item.penalty);
+                            gettokenbalance(item.assertName);
+                          }}
+                        >
+                          <Card
+                            variant="outlined"
+                            className={
+                              active == plans.indexOf(item) && item.poolstatus
+                                ? "active"
+                                : ""
+                            }
+                            onClick={() => setActive(plans.indexOf(item))}
+                            style={{
+                              boxShadow: "rgb(51 51 51 / 15%) 0px 4px 25px",
+                            }}
+                          >
+                            {" "}
+                            <CardContent>
+                              <Box className="cardcontent2">
+                                <Typography
+                                  sx={{ fontSize: 14 }}
+                                  color="text.secondary"
+                                  gutterBottom
+                                ></Typography>
+                                <Typography
+                                  variant="h6"
+                                  component="div"
+                                  style={{
+                                    fontWeight: "900",
+                                    fontSize: "17px",
+                                  }}
+                                >
+                                  {item.Duration} Days
+                                </Typography>
+                                <Typography
+                                  sx={{
+                                    mb: 1.5,
+                                  }}
+                                >
+                                  {item.APY}% ESTIMATED APY
+                                </Typography>
+                                <Typography
+                                  sx={{
+                                    mb: 1.5,
+                                  }}
+                                  variant="h5"
+                                >
+                                  {item.symbol}
+                                </Typography>
+                              </Box>
+                            </CardContent>
+                          </Card>
+                        </Box>
+                      </Grid>
+                    );
                   })}
                 </Grid>
               </Box>
@@ -1070,16 +1131,16 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                   <div className="stake-summary-content">
                     <div className="stake">
                       <h4 className="srpayBalance">
-                        Your Balance : {balance}{" "}{symbol}
+                        Your Balance : {balance} {symbol}
                       </h4>
                     </div>
                     <a href="https://www.gcex.lt/" target="_black">
                       <button
                         className="d-block m-auto stake-btton"
-                        style={{ marginTop: "2rem !important" }}
+                        onClick={() => StakingToken()}
                       >
                         {" "}
-                        BUY GCS
+                        STAKE NOW
                       </button>
                     </a>
                     <div className="stake">
@@ -1105,7 +1166,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                         <p>Estimated Return</p>
                         <p className="ssc2">:</p>
                         <p className="sc">
-                          {(Number(amount) + Number(amount) * apy * duration )/(365*1000)}{" "}
+                          {(Number(amount) + Number(amount) * apy * duration) /
+                            (365 * 1000)}{" "}
                           GCS
                         </p>
                       </div>
@@ -1124,13 +1186,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                         </p>
                       </div>
                     </div>
-                    <button
-                      className="d-block m-auto stake-btton"
-                      onClick={() => StakingToken()}
-                    >
-                      {" "}
-                      STAKE NOW
-                    </button>
+
                     <br />
                   </div>
                 </div>
@@ -1300,7 +1356,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
         <TabPanel value={value} index={2}>
           <Container maxWidth="xl">
             <Container maxWidth="xl">
-            {showID ? (
+              {showID ? (
                 <Grid
                   item
                   xs={12}
@@ -1314,14 +1370,13 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     marginBottom: "3rem",
                     textAlign: "center",
                     fontWeight: 800,
-                    width:"100%",
-               overflow:"hidden"
-
+                    width: "100%",
+                    overflow: "hidden",
                   }}
                 >
-                  <span >
+                  <span>
                     <span className="">Refferal-id: </span>
-                    <Typography className="" >{`https://gc-staking.netlify.app/staking/${account}`}</Typography>
+                    <Typography className="">{`https://gc-staking.netlify.app/staking/${account}`}</Typography>
                     <span>
                       <AiOutlineCopy
                         style={{ cursor: "pointer" }}
@@ -1372,9 +1427,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                 onClick={() => copytext(item[0])}
                               />
                             </TableCell>
-                            <TableCell>
-                              {Number(item.amount)}
-                            </TableCell>
+                            <TableCell>{Number(item.amount)}</TableCell>
                             <TableCell>
                               {new Date(item.time * 1000).toLocaleString()}
                             </TableCell>
@@ -1382,11 +1435,10 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                               {new Date(item.expire * 1000).toLocaleString()}
                             </TableCell>
                             <TableCell>
-                              {(item.amount*item.APY) / ((36500 * item.Duration * 2.5)/100)}
+                              {(item.amount * item.APY) /
+                                ((36500 * item.Duration * 2.5) / 100)}
                             </TableCell>
-                            <TableCell>
-                              {Number(item.amount) / 100}
-                            </TableCell>
+                            <TableCell>{Number(item.amount) / 100}</TableCell>
                           </TableRow>
                         );
                       })}
