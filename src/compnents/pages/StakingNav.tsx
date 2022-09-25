@@ -902,7 +902,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                             component="div"
                             style={{ fontWeight: "900", fontSize: "17px" }}
                           >
-                            Total token locked
+                            Total Reward locked
                           </Typography>
                           <Typography
                             sx={{
