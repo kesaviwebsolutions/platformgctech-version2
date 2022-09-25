@@ -4,12 +4,13 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 button.connectButton {
-  width: 150px;
+  width: 200px;
   padding: 10px 10px;
   border: none;
   font-weight: 500;
   background-color: #8d00ff;
   color: #fff;
+  border-radius: 10px;
 }
 button#dropdownMenuButton {
   width: 150px;
@@ -331,3 +332,34 @@ span.MuiTypography-root.MuiTypography-span.value123.css-37jdci-MuiTypography-roo
 .inner-box{
   width:85%;
 }
+.css-mhc70k-MuiGrid-root>.MuiGrid-item {
+  padding: 16px;
+}
+
+
+@media screen and (min-width:900px) {
+  .Box1A{
+    border-right:0.1rem solid #cacdd1;
+  }
+}
+@media screen and (min-width:900px) {
+.hr{
+  display: none;
+}
+}
+button.stakenow {
+
+  width:100%;
+    border-radius: 10px;
+    background-image: linear-gradient(90deg, #ff7a00, #e8ab76, #07c3f2);
+    padding: 12px;
+  }
+  .stake-now1{
+    border:none;
+    width:100%;
+    padding:1rem 0rem ;
+    background-color: #8d00ff;
+    border-radius: 10px;
+    margin-top: 1rem;
+color: white;
+  }

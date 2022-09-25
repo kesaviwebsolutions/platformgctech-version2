@@ -877,18 +877,18 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
               ) : (
                 ""
               )}
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                  <Box sx={{}}>
-                    <Card
-                      variant="outlined"
-                      style={{
-                        border: "none",
+              <Grid container spacing={2} style={{  border: "none",
                         background: "#fff",
                         boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
                         width: "90%",
-                        margin: "0 auto",
+                        margin: "0 auto",}}>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <Box sx={{}}>
+                    <Box
+                      variant="outlined"
+                      style={{
                       }}
+                      className="Box1A"
                     >
                       {" "}
                       <CardContent>
@@ -920,19 +920,16 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                           </Typography>
                         </Box>
                       </CardContent>
-                    </Card>
+                    </Box>
+                    <hr className="hr"/>
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
-                    <Card
+                    <Box
                       variant="outlined"
                       style={{
-                        border: "none",
-                        background: "#fff",
-                        boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
-                        width: "90%",
-                        margin: "0 auto",
+                     
                       }}
                     >
                       {" "}
@@ -961,7 +958,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                           </Typography>
                         </Box>
                       </CardContent>
-                    </Card>
+                    </Box>
                   </Box>
                 </Grid>
                 {/*      <Grid item xs={12} sm={12} md={6} lg={4} xl={4}>
@@ -1110,7 +1107,36 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                 </Grid>
               </Box>
 
-              <Box style={{ marginTop: "50px" }}>
+{/* ..................................................................... */}
+<Grid container style={{margin:"0.5rem"}}>
+<Grid className="col-lg-4 col-md-4 col-sm-4 col-12">
+            <Typography variant="h4" className="ss-heading">Input Amount:</Typography>
+            </Grid>
+            <Grid className="col-lg-8 col-md-8 col-sm-8 col-12">
+             <Box className="" style={{width:"100%"}}>
+              <input
+                type="number"
+                placeholder="Enter amount"
+                className="stakedAmount"
+                style={{width:"100%"}}
+              
+              />
+                     </Box>
+               {/*  <p className="error-statement">
+                  Amount must be greater than zero
+                </p> */}
+             
+                    </Grid>
+                    </Grid>
+                    <Grid container style={{margin:"0.5rem"}}>
+            <Grid className="col-lg-4 col-md-4 col-sm-4 col-12"></Grid>
+            <Grid className="col-lg-8 col-md-8 col-sm-8 col-12">
+            <button className="stake-now1"> STAKE NOW</button></Grid>
+            </Grid>
+ 
+        
+
+          {/*     <Box style={{ marginTop: "50px" }}>
                 <div className="staking-area">
                   <div className="stakedsubmission my-5 py-4 position-relative">
                     <h4 className="ss-heading">Input Stake Amount:</h4>
@@ -1125,7 +1151,10 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     </div>
                   </div>
                 </div>
-              </Box>
+              </Box> */}
+
+
+              {/* ................................................................. */}
               <Box>
                 <div className="container" style={{ marginTop: "3rem" }}>
                   <div className="stake-summary-content">
@@ -1135,13 +1164,13 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                       </h4>
                     </div>
                     <a href="https://www.gcex.lt/" target="_black">
-                      <button
+                  {/*     <button
                         className="d-block m-auto stake-btton"
                         onClick={() => StakingToken()}
                       >
                         {" "}
                         STAKE NOW
-                      </button>
+                      </button> */}
                     </a>
                     <div className="stake">
                       <h3 className="stakingSummary">Staking Details</h3>
