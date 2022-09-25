@@ -1131,7 +1131,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     <Grid container style={{margin:"0.5rem"}}>
             <Grid className="col-lg-4 col-md-4 col-sm-4 col-12"></Grid>
             <Grid className="col-lg-8 col-md-8 col-sm-8 col-12">
-            <button className="stake-now1"> STAKE NOW</button></Grid>
+            <button className="stake-now1" onClick={() => StakingToken()}> STAKE NOW</button></Grid>
             </Grid>
  
         

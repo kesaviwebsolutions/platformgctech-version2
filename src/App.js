@@ -13,6 +13,7 @@ import {
   GetChainId,
   getUserAddress,
   getAdmin,
+  DissconnectWallet
 } from "./Web3/Web3";
 import axios from "axios";
 import Footer from "./compnents/Footer";
@@ -207,11 +208,12 @@ function App() {
   const Metamask = async () => {
     await login();
     const add = await getUserAddress();
-    // console.log("Metamask", add);
+    
     setAccount(add);
   };
 
   const Dissconnect = async () => {
+    await DissconnectWallet();
     setAccount(undefined);
   };
 
@@ -242,6 +244,7 @@ function App() {
           Metamask={Metamask}
           account={acount}
           contractadmin={contractadmin}
+          Dissconnect={Dissconnect}
         />
         {/* <Main
           gcsmaketcap={gcsmaketcap}

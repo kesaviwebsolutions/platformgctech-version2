@@ -2,7 +2,7 @@ import Web3 from 'web3/dist/web3.min.js';
 import { swapabi, swapaddress, tokenBalance } from './GCS-to-USDM-abi';
 import { Staking, stakingAddress } from './Staking';
 
-const web3 = new Web3(window.ethereum)
+let web3 = new Web3(window.ethereum)
 const abi = [
     {
         inputs: [],
@@ -24,8 +24,14 @@ const xaus = "0x66d7ca7c5111f6544a06bbf2c430a1d070d02d27"
 const stakingToken = '0x3B55C9725338253F5B2bc428B4B6A63A40Aa1994'
 
 export const login =async()=> {
+    web3 = new Web3(window.ethereum)
     const data = await window.ethereum.enable();
     return data[0];
+}
+
+export const DissconnectWallet = async () => {
+  // await provider.disconnect()
+  web3 = null
 }
 
 export const getUserAddress = async()=> {

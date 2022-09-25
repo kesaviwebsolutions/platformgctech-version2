@@ -17,7 +17,7 @@ import logo from "../images/e2bc39a2d59c627c24ff83406d75d1a6.png";
 import { getAdmin } from "../Web3/Web3";
 import { Link } from "react-router-dom";
 
-export default function App({ Metamask, account, contractadmin }) {
+export default function App({ Metamask, account, contractadmin, Dissconnect }) {
   const [showBasic, setShowBasic] = useState(false);
   const [active, setActive] = useState(1);
 
@@ -99,7 +99,15 @@ export default function App({ Metamask, account, contractadmin }) {
           <button
             type="button"
             className="connectButton mx-3"
-            onClick={() => Metamask()}
+            onClick={() => {
+              if(account){
+               
+                Dissconnect();
+                return true
+              }
+              console.log("Running")
+              Metamask()
+            }}
           >
             {account ? slicewallet(account) : "Connect Wallet"}
           </button>
