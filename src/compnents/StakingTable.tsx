@@ -18,8 +18,8 @@ import toast, { Toaster } from "react-hot-toast";
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
-const url = "https://refer.ap.ngrok.io";
-// const url = "http://localhost:3030";
+// const url = "https://refer.ap.ngrok.io";
+const url = "http://localhost:3030";
 
 const notify = (msg) => toast.success(msg);
 
@@ -81,6 +81,13 @@ const columns: readonly Column[] = [
   {
     id: "density",
     label: "Estimated APY(%)",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "Required refferals",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
@@ -338,6 +345,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
           <TableCell>{rowsInfo.Duration}</TableCell>
           <TableCell>{rowsInfo.level == 3 ? "Entry Level" : rowsInfo.level == 2 ? "Level 2" : "Level 1"}</TableCell>
           <TableCell>{rowsInfo.APY}</TableCell>
+          <TableCell>{rowsInfo.level == 1 ? rowsInfo.rewardforlevelthree : rowsInfo.level == 2 ? rowsInfo.bonusforlevelthree : "0"}</TableCell>
           <TableCell>{Number(rowsInfo.pending).toFixed(2)}</TableCell>
           <TableCell>{rowsInfo.stakedpool.length}</TableCell>
           <TableCell>{rowsInfo.refferals.length}</TableCell>
