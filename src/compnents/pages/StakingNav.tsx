@@ -1039,39 +1039,30 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                   }}
                 >
                   <Box>
-                    <Box sx={{ borderBottom: "1px solid black" }}>
-                      <Dropdown as={ButtonGroup}>
-                        <Button variant="success">Select plan</Button>
-
-                        <Dropdown.Toggle
-                          split
-                          variant="success"
-                          id="dropdown-split-basic"
-                        />
+                    <Box sx={{ margin: "1rem auto", marginBottom: "1rem" }}>
+                      <Dropdown>
+                        <Dropdown.Toggle variant="success" id="dropdown-basic">
+                          Select Plan
+                        </Dropdown.Toggle>
 
                         <Dropdown.Menu>
                           <Dropdown.Item href="#/action-1">
-                            Gold one plan
+                            Gold 1
                           </Dropdown.Item>
                           <Dropdown.Item href="#/action-2">
-                            Gold two plan
+                            Gold 2
                           </Dropdown.Item>
                           <Dropdown.Item href="#/action-3">
-                            Gold three plan
-                          </Dropdown.Item>
-                          <Dropdown.Item href="#/action-3">
-                            Gold four plan
-                          </Dropdown.Item>
-                          <Dropdown.Item href="#/action-3">
-                            Gold four plan
+                            Gold 3
                           </Dropdown.Item>
                         </Dropdown.Menu>
                       </Dropdown>
                     </Box>
                   </Box>
-
+               
                   <Grid container spacing={2}>
                     <>
+         
                       <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                         <>
                           <Box
@@ -1089,6 +1080,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                               className="inner-box"
                             >
                               <Box>
+                                
                                 <Grid container>
                                   <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                                     <Typography variant="span">
@@ -1339,6 +1331,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     </>
                   </Grid>
                 </Box>
+ 
               </Box>
 
               {/* ..................................................................... */}
