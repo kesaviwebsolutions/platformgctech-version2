@@ -1033,18 +1033,16 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
                     height: "27rem",
                     overflow: "auto",
-                    paddingLeft: "1rem",
                     margin: "0 auto",
                     width: "90%",
                   }}
                 >
                   <Box>
-                    <Box sx={{ margin: "1rem auto",borderBottom:"1px solid black", marginBottom: "1rem" }}>
+                    <Box>
                       <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
                           Select Plan
                         </Dropdown.Toggle>
-
                         <Dropdown.Menu>
                           <Dropdown.Item href="#/action-1">
                             Gold 1
@@ -1059,10 +1057,9 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                       </Dropdown>
                     </Box>
                   </Box>
-               
+
                   <Grid container spacing={2}>
                     <>
-         
                       <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                         <>
                           <Box
@@ -1080,7 +1077,6 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                               className="inner-box"
                             >
                               <Box>
-                                
                                 <Grid container>
                                   <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                                     <Typography variant="span">
@@ -1331,7 +1327,6 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     </>
                   </Grid>
                 </Box>
- 
               </Box>
 
               {/* ..................................................................... */}
