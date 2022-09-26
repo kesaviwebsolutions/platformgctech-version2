@@ -47,13 +47,16 @@ export default function CreateLevel({ account }) {
   const [rewardlevel1, setRewardlevel1] = useState(0);
   const [rewardlevel2, setRewardlevel2] = useState(0);
   const [rewardlevel3, setRewardlevel3] = useState(0);
+  const [planname, setPlanName] = useState(0);
   const [penalty, setpenalty] = useState(0);
+  const [reflev3, setreflev3] = useState()
 
 
   const updatelevel = async () => {
     const data = await Addpool(rewardperblock, lptoken, fee, penalty, duration, payoutPeriod, minStakelevel1, minStakelevel2, minStakelevel3)
     if(data.status){
      axios.post(`${url}/levelcreate`, {
+      planName:planname,
       Duration: duration,
       APY: Number(rewardperblock),
       assertName: lptoken,
@@ -69,7 +72,8 @@ export default function CreateLevel({ account }) {
       levelthreeMinAmount:minStakelevel3,
       bonusforlevelthree:bonuslevel3,
       rewardforlevelthree:rewardlevel3,
-      poolstatus:false
+      requiredrefforlevel3:reflev3,
+      poolstatus:true
       })
         .then((res) => {
           console.log(res);
@@ -85,6 +89,17 @@ export default function CreateLevel({ account }) {
     <Container maxWidth="lg">
       <AdminNav account={account} />
       <Box style={{ margin: "0px 0px 50px" }}>
+      <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+            APY(%)
+          </Typography>
+          <MDBInput
+            label="10"
+            id="form1"
+            type="text"
+            onChange={(e) => setPlanName(e.target.value)}
+          />
+        </Box>
         <Box>
           <Typography paragraph style={{ marginTop: "20px" }}>
             APY(%)
@@ -205,17 +220,7 @@ export default function CreateLevel({ account }) {
             onChange={(e) => setBonuslevel2(e.target.value)}
           />
         </Box>
-        <Box>
-          <Typography paragraph style={{ marginTop: "20px" }}>
-          Required Number of refferals for Level 2
-          </Typography>
-          <MDBInput
-            label="1"
-            id="form1"
-            type="Number"
-            onChange={(e) => setBonuslevel3(e.target.value)}
-          />
-        </Box>
+       
         <Box>
           <Typography paragraph style={{ marginTop: "20px" }}>
           Reward for Level 1(%)
@@ -247,6 +252,28 @@ export default function CreateLevel({ account }) {
             id="form1"
             type="Number"
             onChange={(e) => setRewardlevel3(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+          Required Number of refferals for Level 2
+          </Typography>
+          <MDBInput
+            label="1"
+            id="form1"
+            type="Number"
+            onChange={(e) => setBonuslevel3(e.target.value)}
+          />
+        </Box>
+        <Box>
+          <Typography paragraph style={{ marginTop: "20px" }}>
+          Required Number of refferals for Entry Level
+          </Typography>
+          <MDBInput
+            label="1"
+            id="form1"
+            type="Number"
+            onChange={(e) => setreflev3(e.target.value)}
           />
         </Box>
         <Button className="createbutton" onClick={() => updatelevel()}>

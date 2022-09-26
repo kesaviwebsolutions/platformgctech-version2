@@ -57,12 +57,12 @@ export default function SeeLevel({ account }) {
       });
   };
 
-  const changestatus = async (id, apy, fee, duration, payout, three, two, one, tab) => {
+  const changestatus = async (id, dbid, apy, fee, duration, payout, three, two, one, tab) => {
     const data = await editpool(id, apy, fee, duration, payout, three, two, one, !tab)
     if(data.status){
       axios
       .post(`${url}/handlepool`, {
-        id: id,
+        id: dbid,
         status: !tab,
       })
       .then((res) => {
@@ -111,6 +111,27 @@ export default function SeeLevel({ account }) {
                         }}
                       >
                      <Box style={{margin:"1rem auto"}} className="inner-box">
+                      <Box>
+                          <Grid container>
+                            <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                              <Typography variant="span">Plan Name:</Typography>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                              <Typography
+                                variant="span"
+                                style={{
+                                  fontWeight: "800",
+                               
+                                }}
+                                className="value12"
+                                id="value13"
+                                
+                              >
+                                {res.planName}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                        </Box>
                         <Box>
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
@@ -256,6 +277,48 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
+                                Lvl 2 Min Stake Amount:
+                              </Typography>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                              <Typography
+                                variant="span"
+                                style={{
+                                  fontWeight: "800",
+                                  
+                                }}
+                                className="value12"
+                              >
+                                {res.leveltwoMinAmount}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                        </Box>
+                        <Box>
+                          <Grid container>
+                            <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                              <Typography variant="span">
+                                Lvl 3 Min Stake Amount:
+                              </Typography>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                              <Typography
+                                variant="span"
+                                style={{
+                                  fontWeight: "800",
+                                  
+                                }}
+                                className="value12"
+                              >
+                                {res.levelthreeMinAmount}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                        </Box>
+                        <Box>
+                          <Grid container>
+                            <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                              <Typography variant="span">
                                 Bonus for lvl 1:
                               </Typography>
                             </Grid>
@@ -294,48 +357,7 @@ export default function SeeLevel({ account }) {
                             </Grid>
                           </Grid>
                         </Box>
-                        <Box>
-                          <Grid container>
-                            <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
-                              <Typography variant="span">
-                                lvl 2 Min Stake Amount:
-                              </Typography>
-                            </Grid>
-                            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
-                              <Typography
-                                variant="span"
-                                style={{
-                                  fontWeight: "800",
-                                  
-                                }}
-                                className="value12"
-                              >
-                                {res.leveltwoMinAmount}
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                        </Box>
-                        <Box>
-                          <Grid container>
-                            <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
-                              <Typography variant="span">
-                                lvl 3 Min Stake Amount:
-                              </Typography>
-                            </Grid>
-                            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
-                              <Typography
-                                variant="span"
-                                style={{
-                                  fontWeight: "800",
-                                  
-                                }}
-                                className="value12"
-                              >
-                                {res.levelthreeMinAmount}
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                        </Box>
+                        
                         <Box>
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
@@ -424,6 +446,27 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
+                              Min Referral for Entry Lvl:{" "}
+                              </Typography>
+                            </Grid>
+                            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                              <Typography
+                                variant="span"
+                                style={{
+                                  fontWeight: "800",
+                                  
+                                }}
+                                className="value12"
+                              >
+                                {res.requiredrefforlevel3}
+                              </Typography>
+                            </Grid>
+                          </Grid>
+                        </Box>
+                        <Box>
+                          <Grid container>
+                            <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                              <Typography variant="span">
                                 Pool Status:{" "}
                               </Typography>
                             </Grid>
@@ -460,7 +503,7 @@ export default function SeeLevel({ account }) {
                             >
                               <Button
                                 onClick={() =>
-                                  changestatus(level.indexOf(res), res.APY, res.fee, res.Duration, res.payout, res.levelthreeMinAmount, res.leveltwoMinAmount, res.leveloneMinAmount, res.poolstatus)
+                                  changestatus(level.indexOf(res), res._id, res.APY, res.fee, res.Duration, res.payout, res.levelthreeMinAmount, res.leveltwoMinAmount, res.leveloneMinAmount, res.poolstatus)
                                 }
                                 style={{ color: "white" }}
                               >
