@@ -135,7 +135,7 @@ export default function SeeLevel({ account }) {
                         <Box>
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
-                              <Typography variant="span">Asseet Name:</Typography>
+                              <Typography variant="span">Asset Name:</Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
                               <Typography
@@ -177,7 +177,7 @@ export default function SeeLevel({ account }) {
                         <Box>
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
-                              <Typography variant="span">APY:</Typography>
+                              <Typography variant="span">Estimated APY:</Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
                               <Typography
@@ -352,7 +352,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.rewardforleveltwo}%
+                                {res.bonusforleveltwo}%
                               </Typography>
                             </Grid>
                           </Grid>
@@ -395,7 +395,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.bonusforleveltwo}%
+                                {res.rewardforleveltwo}%
                               </Typography>
                             </Grid>
                           </Grid>
