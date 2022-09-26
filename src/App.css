@@ -386,18 +386,14 @@ button.stakenow {
   color: white;
 }
 .dropdown {
-  background: #e5e5e5 !important;
-  margin-top: -7px;
+  margin-top: -12px;
   padding: 8px 0px;
 }
 button.btn.btn-success {
   background-color: white !important;
-  padding-left: 2px !important;
-  display: block;
-  margin-left: auto;
   color: black !important;
   border: 1px solid #fff;
-  width: 15%;
+  width: 100%;
 }
 .btn {
   margin: 0.375rem;
