@@ -15,6 +15,7 @@ import { orderIDofReferal, balanceofstake, OrderIDdata, transfertoken } from "..
 import toast, { Toaster } from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import 'react-loading-skeleton/dist/skeleton.css';
+import { Grid, Typography } from "@mui/material";
 
 const url = "https://refer.ap.ngrok.io";
 // const url = "http://localhost:3030";
@@ -54,6 +55,20 @@ const columns: readonly Column[] = [
   {
     id: "density",
     label: "Staked amount",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "Level",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "NO. of Referrals",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
@@ -243,6 +258,8 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const {ref} = useParams();
+  const [referrer, setRef] = React.useState(0)
+  const [start, setStart] = React.useState(0)
   
   const [referrals, setReferrals] = React.useState(undefined);
 
@@ -289,7 +306,9 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
           <TableCell>
           <Link to={`/admin/referral-second/${rowsInfo.user}`}>{slicewallet(rowsInfo.user)}</Link>
             </TableCell>
-          <TableCell>{rowsInfo.amount}</TableCell>
+          <TableCell>{rowsInfo.amount} {rowsInfo.assertSymbol}</TableCell>
+          <TableCell>{rowsInfo.level == 3 ? "Entry Level" : rowsInfo.level == 2 ? "2" : "1"}</TableCell>
+          <TableCell>{rowsInfo.refferals.length}</TableCell>
           <TableCell>{(rowsInfo.amount * rowsInfo.APY)/((36500 * rowsInfo.Duration * 2.5)/100)}</TableCell>
           <TableCell>{(rowsInfo.amount)/100}</TableCell>
           <TableCell><button disabled={rowsInfo.paidReward ? true : false} onClick={()=>trasferReward(rowsInfo.user,((rowsInfo.amount * rowsInfo.APY)/((36500 * rowsInfo.Duration * 2.5)/100)))}>Pay Reward</button></TableCell>
@@ -304,7 +323,10 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
       user:ref.toLowerCase()
     }).then(async(res)=>{
       const event = []
-      if(res.data[0]){  
+      if(res.data[0]){ 
+        setRef(res.data[0].refferals.length)
+        setStart(res.data[0].time)
+        console.log(res)
         for(let x = 0; x < res.data[0].refferals.length; x++){
           const level = await axios.post(`${url}/isuser`,{
             user:res.data[0].refferals[x]
@@ -329,11 +351,46 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
     setPage(0);
   };
 
+  const countdown =(tab)=>{
+    var now = new Date().getTime();
+    const time = (tab*1000) + (2592000*1000)
+    var distance = time - now;
+  
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    return days +"D " + hours + "H " + minutes + "M " + seconds + "S "
+    }
+
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <Container maxWidth="lg">
         <AdminNav account={account}/>
         <p>{"Stakers Details > Referral Details"}</p>
+
+              <Grid
+                  item
+                  xs={12}
+                  sm={12}
+                  md={12}
+                  lg={12}
+                  xl={12}
+                  className="reff-id"
+                  sx={{
+                    fontSize: "1rem",
+                    marginBottom: "3rem",
+                    textAlign: "center",
+                    fontWeight: 800,
+                    width: "100%",
+                    overflow: "hidden",
+                  }}
+                >
+                  <span>
+                    {(10 - referrer) < 0 ? <Typography className="">{referrer} referrers</Typography> : <Typography className="">{countdown(start)} remaining to get {isNaN(10 - referrer) ? "0" : (10 - referrer)} more referrers</Typography>}
+                  </span>
+                </Grid>
+        
         <TableContainer sx={{ maxHeight: 440 }}>
           {referrals ? <Table stickyHeader aria-label="sticky table">
             <TableHead>

@@ -58,7 +58,7 @@ export default function SeeLevel({ account }) {
   };
 
   const changestatus = async (id, dbid, apy, fee, duration, payout, three, two, one, tab) => {
-    const data = await editpool(id, apy, fee, duration, payout, three, two, one, !tab)
+    const data = await editpool(id, apy*10, fee*100, duration, payout, three, two, one, !tab)
     if(data.status){
       axios
       .post(`${url}/handlepool`, {

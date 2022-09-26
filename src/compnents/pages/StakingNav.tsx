@@ -309,7 +309,11 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   const [indexID, setIndexID] = useState(0);
   const [penalty, setpenalty] = useState(0);
   const [totaktokenlocked, setTotaltokenlocked] = useState(0);
-  const [age, setAge] = React.useState("");
+  const [age, setAge] = React.useState("")
+  const [selectedplan, setSelectedplan] = useState("Select plan")
+  const [poolname, setPoolname] = useState("")
+  const [refferrer, setRefferrers] = useState(0)
+  const [start, setStart] = useState(0)
 
   useEffect(() => {
     const init = async () => {
@@ -392,12 +396,15 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
       .then(async (res) => {
         setEvents(res.data);
         if (res.data.length > 0) {
+          setStart(res.data[0].time)
+          setRefferrers()
           setShowID(true);
         } else {
           setShowID(false);
         }
         // setReferals(undefined);
         if (res.data[0] && res.data[0].refferals.length > 0) {
+          setRefferrers(res.data[0].refferals.length)
           for (let i = 0; i < res.data[0].refferals.length; i++) {
             const events = await axios
               .post(`${url}/isuser`, {
@@ -798,11 +805,11 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
           <TableCell>
             {new Date(Number(rowsInfo.time) * 1000).toLocaleDateString()}
           </TableCell>
-          <TableCell>{rowsInfo.amount}</TableCell>
+          <TableCell>{rowsInfo.amount} {rowsInfo.assertSymbol}</TableCell>
           <TableCell>
             {new Date(Number(rowsInfo.expire) * 1000).toLocaleDateString()}
           </TableCell>
-          <TableCell>{rowsInfo.level}</TableCell>
+          <TableCell>{rowsInfo.level == 3 ? "Entry Level" : rowsInfo.level == 2 ? "2" : "1"}</TableCell>
           {Number(rowsInfo.expire) < new Date().getTime() / 1000 ? (
             !rowsInfo.claimed ? (
               <TableCell
@@ -830,6 +837,18 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
       </>
     );
   };
+
+  const countdown =(tab)=>{
+    var now = new Date().getTime();
+    const time = (tab*1000) + (2592000*1000)
+    var distance = time - now;
+  
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    return days +"D " + hours + "H " + minutes + "M " + seconds + "S "
+    }
 
   return (
     <Container maxWidth="xl">
@@ -1041,18 +1060,40 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     <Box>
                       <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
-                          Select Plan
+                          {selectedplan}
                         </Dropdown.Toggle>
                         <Dropdown.Menu>
-                          <Dropdown.Item href="#/action-1">
-                            Gold 1
+                          {plans && plans.map((res)=>{
+                            return <Dropdown.Item href="#/action-1" onClick={()=>{
+                              if (!res.poolstatus) {
+                                warning("Plan is not active");
+                                return true;
+                              }
+
+                              setPoolname(res.planName)
+                              setSelectedplan(res.planName)
+                              setDuration(res.Duration);
+                              setAPY(res.APY);
+                              setReturns(res.APY);
+                              setLPToken(res.assertName);
+                              setSymbol(res.symbol);
+                              setPayout(res.payout);
+                              setMinStakeLevel1(res.leveloneMinAmount);
+                              setMinStakeLevel2(res.leveltwoMinAmount);
+                              setMinStakeLevel3(res.levelthreeMinAmount);
+                              setBonuslevel1(res.bonusforlevelone);
+                              setBonuslevel2(res.bonusforleveltwo);
+                              setBonuslevel3(res.bonusforlevelthree);
+                              setRewardlevel1(res.rewardforlevelone);
+                              setRewardlevel2(res.rewardforleveltwo);
+                              setRewardlevel3(res.rewardforlevelthree);
+                              setIndexID(plans.indexOf(res));
+                              setpenalty(res.penalty);
+                              gettokenbalance(res.assertName);
+                            }}>
+                            {res.planName}
                           </Dropdown.Item>
-                          <Dropdown.Item href="#/action-2">
-                            Gold 2
-                          </Dropdown.Item>
-                          <Dropdown.Item href="#/action-3">
-                            Gold 3
-                          </Dropdown.Item>
+                          })}
                         </Dropdown.Menu>
                       </Dropdown>
                     </Box>
@@ -1092,7 +1133,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       className="value12"
                                       id="value13"
                                     >
-                                      hello
+                                      {poolname}
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1113,7 +1154,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       }}
                                       className="value12"
                                     >
-                                      hello Days
+                                      {duration} Days
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1132,7 +1173,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       }}
                                       className="value12"
                                     >
-                                      hello %
+                                      {apy}%
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1152,7 +1193,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       }}
                                       className="value12"
                                     >
-                                      hello
+                                      {symbol}
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1173,7 +1214,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       }}
                                       className="value12"
                                     >
-                                      hello %
+                                      {penalty} %
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1194,7 +1235,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       }}
                                       className="value12"
                                     >
-                                      hello %
+                                      {bonuslevel1}%
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1214,7 +1255,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       }}
                                       className="value12"
                                     >
-                                      hello %
+                                      {bonuslevel2}%
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1235,7 +1276,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       }}
                                       className="value12"
                                     >
-                                      hello %
+                                      {rewardlevel1}%
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1255,7 +1296,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       }}
                                       className="value12"
                                     >
-                                      hello %
+                                      {rewardlevel2}%
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1275,7 +1316,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       }}
                                       className="value12"
                                     >
-                                      hello
+                                      {minStakelevel1} {symbol}
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1295,7 +1336,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       }}
                                       className="value12"
                                     >
-                                      hello
+                                      {minStakelevel2} {symbol}
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1304,7 +1345,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                 <Grid container>
                                   <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                                     <Typography variant="span">
-                                      Min stake Amnt for Entry level:
+                                      Min stake Amount for Entry level:
                                     </Typography>
                                   </Grid>
                                   <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -1315,7 +1356,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                       }}
                                       className="value12"
                                     >
-                                      hello
+                                      {minStakelevel3} {symbol}
                                     </Typography>
                                   </Grid>
                                 </Grid>
@@ -1684,17 +1725,20 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                 >
                   <span>
                     <span className="">Refferal-id: </span>
-                    <Typography className="">{`https://gc-staking.netlify.app/staking/${account}`}</Typography>
-                    <span>
-                      <AiOutlineCopy
+                    <Typography className="">{`https://gc-staking.netlify.app/staking/${account}`}<AiOutlineCopy
                         style={{ cursor: "pointer" }}
                         onClick={() =>
                           copytext(
                             `https://gc-staking.netlify.app/staking/${account}`
                           )
                         }
-                      />
+                      /></Typography>
+                    <span>
+                      <br/>
                     </span>
+                    <span>
+                    {(10 - refferrer) < 0 ? <Typography className="">{refferrer} referrers</Typography> : <Typography className="">{countdown(start)} remaining to get {isNaN(10 - refferrer) ? "10" : (10 - refferrer)} more referrers</Typography>}
+                  </span>
                   </span>
                 </Grid>
               ) : (

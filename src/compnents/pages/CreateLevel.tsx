@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { MDBInput } from "mdb-react-ui-kit";
 import { Box, Container } from "@mui/system";
-import { Button, Typography } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import AdminNav from "../AdminNav";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { Addpool } from './../../Web3/Web3'
-import { useTheme } from "@mui/material/styles";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import {Backdrop,
+  CircularProgress,
+} from "@mui/material";
 
 const url = "https://refer.ap.ngrok.io";
 // const url = "http://localhost:3030";
@@ -50,10 +47,14 @@ export default function CreateLevel({ account }) {
   const [planname, setPlanName] = useState(0);
   const [penalty, setpenalty] = useState(0);
   const [reflev3, setreflev3] = useState()
+  const [loading, setLoading] = useState(false);
+  const [age, setAge] = React.useState('');
 
 
   const updatelevel = async () => {
-    const data = await Addpool(rewardperblock, lptoken, fee, penalty, duration, payoutPeriod, minStakelevel1, minStakelevel2, minStakelevel3)
+    try {
+    setLoading(true)
+    const data = await Addpool(rewardperblock*10, lptoken, fee*100, penalty*10, duration, payoutPeriod, minStakelevel1, minStakelevel2, minStakelevel3)
     if(data.status){
      axios.post(`${url}/levelcreate`, {
       planName:planname,
@@ -77,12 +78,21 @@ export default function CreateLevel({ account }) {
       })
         .then((res) => {
           console.log(res);
+          setLoading(false)
           notify("Successfull level updated");
         })
       .catch((e) => {
+        setLoading(false)
         console.log(e);
       });
     }
+    } catch (error) {
+      setLoading(false)
+    }
+  };
+  const handleChange = (event) => {
+    setPayoutPeriod(event.target.value);
+    console.log(event.target.value)
   };
 
   return (
@@ -107,7 +117,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="10"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setRewardPerBlock(e.target.value)}
           />
         </Box>
@@ -128,7 +138,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="100"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setFee(e.target.value)}
           />
         </Box>
@@ -139,7 +149,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="100"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setpenalty(e.target.value)}
           />
         </Box>
@@ -150,7 +160,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="30"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setDuration(e.target.value)}
           />
         </Box>
@@ -158,12 +168,27 @@ export default function CreateLevel({ account }) {
           <Typography paragraph style={{ marginTop: "20px" }}>
             Payout Period
           </Typography>
-          <MDBInput
+          {/* <MDBInput
             label="30"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setPayoutPeriod(e.target.value)}
-          />
+          /> */}
+           <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">sel..</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={age}
+              label="Age"
+              onChange={handleChange}
+            >
+              <MenuItem value={30}>Monthly</MenuItem>
+              <MenuItem value={90}>Quarterly</MenuItem>
+              <MenuItem value={180}>Half-Yearly</MenuItem>
+              <MenuItem value={360}>Yearly</MenuItem>
+            </Select>
+          </FormControl>
         </Box>
         <Box>
           <Typography paragraph style={{ marginTop: "20px" }}>
@@ -172,7 +197,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="3000"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setMinStakeLevel1(e.target.value)}
           />
         </Box>
@@ -183,7 +208,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="2000"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setMinStakeLevel2(e.target.value)}
           />
         </Box>
@@ -194,7 +219,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="1000"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setMinStakeLevel3(e.target.value)}
           />
         </Box>
@@ -205,7 +230,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="1"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setBonuslevel1(e.target.value)}
           />
         </Box>
@@ -216,7 +241,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="1"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setBonuslevel2(e.target.value)}
           />
         </Box>
@@ -228,7 +253,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="1"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setRewardlevel1(e.target.value)}
           />
         </Box>
@@ -239,7 +264,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="1"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setRewardlevel2(e.target.value)}
           />
         </Box>
@@ -250,7 +275,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="1"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setRewardlevel3(e.target.value)}
           />
         </Box>
@@ -261,7 +286,7 @@ export default function CreateLevel({ account }) {
           <MDBInput
             label="1"
             id="form1"
-            type="Number"
+            type="text"
             onChange={(e) => setBonuslevel3(e.target.value)}
           />
         </Box>
@@ -276,6 +301,12 @@ export default function CreateLevel({ account }) {
             onChange={(e) => setreflev3(e.target.value)}
           />
         </Box> */}
+        <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
         <Button className="createbutton" onClick={() => updatelevel()}>
           Post
         </Button>
