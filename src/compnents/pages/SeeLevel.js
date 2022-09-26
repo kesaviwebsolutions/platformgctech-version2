@@ -114,7 +114,7 @@ export default function SeeLevel({ account }) {
                         <Box>
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
-                              <Typography variant="span">LP Token:</Typography>
+                              <Typography variant="span">Asseet Name:</Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
                               <Typography
@@ -136,7 +136,7 @@ export default function SeeLevel({ account }) {
                         <Box>
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
-                              <Typography variant="span">Duration:</Typography>
+                              <Typography variant="span">Duration of Stake:</Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
                               <Typography
@@ -167,7 +167,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.APY}
+                                {res.APY} %
                               </Typography>
                             </Grid>
                           </Grid>
@@ -176,7 +176,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                assert Symbol:
+                                Asset Symbol:
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -196,7 +196,7 @@ export default function SeeLevel({ account }) {
                         <Box>
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
-                              <Typography variant="span">payout:</Typography>
+                              <Typography variant="span">Payout Frequency:</Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
                               <Typography
@@ -215,7 +215,7 @@ export default function SeeLevel({ account }) {
                         <Box>
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
-                              <Typography variant="span">penalty:</Typography>
+                              <Typography variant="span">Early Withdrawal Fee:</Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
                               <Typography
@@ -226,7 +226,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.penalty}
+                                {res.penalty/10} %
                               </Typography>
                             </Grid>
                           </Grid>
@@ -235,7 +235,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                Level one MinAmount:
+                                Lvl 1 Min Stake Amount:
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -256,7 +256,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                Bonus for level one:
+                                Bonus for lvl 1:
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -277,7 +277,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                Reward for level two:
+                                Bonus for lvl 2:
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -298,7 +298,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                level two Min Amount:
+                                lvl 2 Min Stake Amount:
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -319,7 +319,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                level three Min Amount:
+                                lvl 3 Min Stake Amount:
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -340,7 +340,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                reward for level one:
+                                Reward for lvl 1:
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -361,7 +361,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                bonus for level two:
+                                Reward for lvl 2:
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -382,7 +382,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                bonus for level three:
+                                Min Referral for Lvl 1:
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -403,7 +403,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                reward for level three:{" "}
+                              Min Referral for Lvl 2:{" "}
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -424,7 +424,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                pool status:{" "}
+                                Pool Status:{" "}
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
