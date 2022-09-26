@@ -20,6 +20,14 @@ button#dropdownMenuButton {
   background-color: #8d00ff;
   color: #fff;
 }
+.btn-group,
+.btn-group-vertical {
+  box-shadow: none !important;
+  border-radius: 3px;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
 ul.dropdown-menu.disconnect {
   background-color: #8d00ff;
   color: #fff;
@@ -288,6 +296,16 @@ p.sc {
   .css-19kzrtu {
     padding: 2rem 0px !important;
   }
+  button#dropdown-basic {
+    display: block;
+    margin: 10px auto;
+  }
+}
+@media screen and (max-width: 480px) {
+  button#dropdown-basic {
+    display: block;
+    margin: 10px auto;
+  }
 }
 .reff-id {
   box-shadow: rgba(24, 23, 23, 0.15) 0px 4px 25px;
@@ -311,61 +329,125 @@ p.sc {
 /* .css-dwuj3p-MuiTableCell-root {
   text-align: center !important ;
 } */
-.value12{
+.value12 {
   padding-left: 3rem;
 }
 span.MuiTypography-root.MuiTypography-span.value123.css-37jdci-MuiTypography-root {
   padding-left: 3rem !important;
 }
 
-@media screen and (max-width:700px) {
-  .value12{
+@media screen and (max-width: 700px) {
+  .value12 {
     padding-left: 0rem;
   }
-  .inner-box{
-    width:98%;
+  .inner-box {
+    width: 98%;
   }
   span.MuiTypography-root.MuiTypography-span.value123.css-37jdci-MuiTypography-root {
     padding-left: 0rem !important;
   }
 }
 
-.inner-box{
-  width:85%;
+.inner-box {
+  width: 85%;
 }
-.css-mhc70k-MuiGrid-root>.MuiGrid-item {
+.css-mhc70k-MuiGrid-root > .MuiGrid-item {
   padding: 16px;
 }
 
-
-@media screen and (min-width:900px) {
-  .Box1A{
-    border-right:0.1rem solid #cacdd1;
+@media screen and (min-width: 900px) {
+  .Box1A {
+    border-right: 0.1rem solid #cacdd1;
   }
 }
-@media screen and (min-width:900px) {
-  .Box1A{
-    border-right:0.1rem solid #cacdd1;
+@media screen and (min-width: 900px) {
+  .Box1A {
+    border-right: 0.1rem solid #cacdd1;
   }
 }
-@media screen and (min-width:900px) {
-.hr{
-  display: none;
-}
+@media screen and (min-width: 900px) {
+  .hr {
+    display: none;
+  }
 }
 button.stakenow {
+  width: 100%;
+  border-radius: 10px;
+  background-image: linear-gradient(90deg, #ff7a00, #e8ab76, #07c3f2);
+  padding: 12px;
+}
+.stake-now1 {
+  border: none;
+  width: 100%;
+  padding: 1rem 0rem;
+  background-color: #8d00ff;
+  border-radius: 10px;
+  margin-top: 1rem;
+  color: white;
+}
+.dropdown {
+  background: #e5e5e5 !important;
+  margin-top: -7px;
+  padding: 8px 0px;
+}
+button.btn.btn-success {
+  background-color: white !important;
+  padding-left: 2px !important;
+  display: block;
+  margin-left: auto;
+  color: black !important;
+  border: 1px solid #fff;
+  width: 15%;
+}
+.btn {
+  margin: 0.375rem;
+  color: inherit;
+  text-transform: uppercase;
+  word-wrap: break-word;
+  white-space: normal;
+  cursor: pointer;
+  border: 0;
+  border-radius: 0.125rem;
+  box-shadow: 0 2px 5px 0rgba (0, 0, 0, 0.16), 0 2px 10px 0rgba (0, 0, 0, 0.12);
+  padding: 0.84rem 0px !important;
+  font-size: 0.81rem;
+}
 
-  width:100%;
-    border-radius: 10px;
-    background-image: linear-gradient(90deg, #ff7a00, #e8ab76, #07c3f2);
-    padding: 12px;
-  }
-  .stake-now1{
-    border:none;
-    width:100%;
-    padding:1rem 0rem ;
-    background-color: #8d00ff;
-    border-radius: 10px;
-    margin-top: 1rem;
-color: white;
-  }
+.dropdown-toggle::after {
+  display: inline-block;
+  margin-left: 5.255em !important;
+  vertical-align: 0.255em;
+  content: "";
+  border-top: 0.3em solid;
+  border-right: 0.3em solid transparent;
+  border-bottom: 0;
+  border-left: 0.3em solid transparent;
+}
+.btn-success.dropdown-toggle:hover,
+.btn-success.dropdown-toggle:focus {
+  background-color: white !important;
+}
+.btn-success:not([disabled]):not(.disabled):active,
+.btn-success:not([disabled]):not(.disabled).active,
+.show > .btn-success.dropdown-toggle {
+  background-color: white !important;
+}
+.show > .btn-success.dropdown-toggle {
+  background-color: white !important;
+}
+/* #dropdown-basic{
+  margin-bottom: 1rem !important;
+  margin-left: 2.2rem;
+  float: right !important;
+
+} */
+
+#dropdown-basic:hover {
+  background-color: white !important;
+}
+#dropdown-basic:focus {
+  background-color: white !important;
+}
+.dropdown {
+  /* border-bottom: 1px solid black; */
+}
