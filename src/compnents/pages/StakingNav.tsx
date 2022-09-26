@@ -1039,7 +1039,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                   }}
                 >
                   <Box>
-                    <Box sx={{ margin: "1rem auto", marginBottom: "1rem" }}>
+                    <Box sx={{ margin: "1rem auto",borderBottom:"1px solid black", marginBottom: "1rem" }}>
                       <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
                           Select Plan
