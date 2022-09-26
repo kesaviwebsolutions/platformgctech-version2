@@ -447,3 +447,14 @@ button.btn.btn-success {
 .dropdown {
   /* border-bottom: 1px solid black; */
 }
+.dop12{
+  float: left !important;
+  margin-left: 2rem;
+  font-size: 1.5rem;
+}
+.dropdown-toggle::after{
+  float: right;
+  margin-right: 2rem;
+  font-size: 1.5rem;
+  margin-top: 0.7rem;
+}

@@ -1060,9 +1060,9 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     <Box>
                       <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
-                          {selectedplan}
+                    <span className="dop12">      {selectedplan}</span>
                         </Dropdown.Toggle>
-                        <Dropdown.Menu>
+                        <Dropdown.Menu style={{width:"100%",textAlign:"center"}}>
                           {plans && plans.map((res)=>{
                             return <Dropdown.Item href="#/action-1" onClick={()=>{
                               if (!res.poolstatus) {
@@ -1615,7 +1615,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                       style={{
                         border: "none",
                         background: "#fff",
-
+   
                         width: "90%",
                         margin: "0 auto",
                       }}
