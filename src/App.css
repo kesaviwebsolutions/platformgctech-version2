@@ -20,6 +20,14 @@ button#dropdownMenuButton {
   background-color: #8d00ff;
   color: #fff;
 }
+.btn-group,
+.btn-group-vertical {
+  box-shadow: none !important;
+  border-radius: 3px;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
 ul.dropdown-menu.disconnect {
   background-color: #8d00ff;
   color: #fff;
@@ -311,61 +319,59 @@ p.sc {
 /* .css-dwuj3p-MuiTableCell-root {
   text-align: center !important ;
 } */
-.value12{
+.value12 {
   padding-left: 3rem;
 }
 span.MuiTypography-root.MuiTypography-span.value123.css-37jdci-MuiTypography-root {
   padding-left: 3rem !important;
 }
 
-@media screen and (max-width:700px) {
-  .value12{
+@media screen and (max-width: 700px) {
+  .value12 {
     padding-left: 0rem;
   }
-  .inner-box{
-    width:98%;
+  .inner-box {
+    width: 98%;
   }
   span.MuiTypography-root.MuiTypography-span.value123.css-37jdci-MuiTypography-root {
     padding-left: 0rem !important;
   }
 }
 
-.inner-box{
-  width:85%;
+.inner-box {
+  width: 85%;
 }
-.css-mhc70k-MuiGrid-root>.MuiGrid-item {
+.css-mhc70k-MuiGrid-root > .MuiGrid-item {
   padding: 16px;
 }
 
-
-@media screen and (min-width:900px) {
-  .Box1A{
-    border-right:0.1rem solid #cacdd1;
+@media screen and (min-width: 900px) {
+  .Box1A {
+    border-right: 0.1rem solid #cacdd1;
   }
 }
-@media screen and (min-width:900px) {
-  .Box1A{
-    border-right:0.1rem solid #cacdd1;
+@media screen and (min-width: 900px) {
+  .Box1A {
+    border-right: 0.1rem solid #cacdd1;
   }
 }
-@media screen and (min-width:900px) {
-.hr{
-  display: none;
-}
+@media screen and (min-width: 900px) {
+  .hr {
+    display: none;
+  }
 }
 button.stakenow {
-
-  width:100%;
-    border-radius: 10px;
-    background-image: linear-gradient(90deg, #ff7a00, #e8ab76, #07c3f2);
-    padding: 12px;
-  }
-  .stake-now1{
-    border:none;
-    width:100%;
-    padding:1rem 0rem ;
-    background-color: #8d00ff;
-    border-radius: 10px;
-    margin-top: 1rem;
-color: white;
-  }
+  width: 100%;
+  border-radius: 10px;
+  background-image: linear-gradient(90deg, #ff7a00, #e8ab76, #07c3f2);
+  padding: 12px;
+}
+.stake-now1 {
+  border: none;
+  width: 100%;
+  padding: 1rem 0rem;
+  background-color: #8d00ff;
+  border-radius: 10px;
+  margin-top: 1rem;
+  color: white;
+}

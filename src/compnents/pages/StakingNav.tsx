@@ -18,11 +18,16 @@ import {
   useScrollTrigger,
   Backdrop,
   CircularProgress,
+  InputLabel,
+  MenuItem,
+  FormHelperText,
 } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
 import { useState, useEffect } from "react";
 import { FaQuestionCircle } from "react-icons/fa";
 import axios from "axios";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import {
   Stake,
   StakingtokenBalance,
@@ -50,6 +55,9 @@ import { ImCross } from "react-icons/im";
 import { useParams } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Dropdown from "react-bootstrap/Dropdown";
 
 const url = "https://refer.ap.ngrok.io";
 // const url = "http://localhost:3030";
@@ -301,6 +309,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   const [indexID, setIndexID] = useState(0);
   const [penalty, setpenalty] = useState(0);
   const [totaktokenlocked, setTotaltokenlocked] = useState(0);
+  const [age, setAge] = React.useState("");
 
   useEffect(() => {
     const init = async () => {
@@ -892,7 +901,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
               >
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
-                    <Box variant="outlined" style={{}} className="Box1A">
+                    <Box variant="outlined" className="Box1A">
                       {" "}
                       <CardContent>
                         <Box className="cardcontent">
@@ -929,7 +938,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
-                    <Box variant="outlined" style={{}}>
+                    <Box variant="outlined">
                       {" "}
                       <CardContent>
                         <Box className="cardcontent">
@@ -1019,476 +1028,316 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     Staking Submission
                   </Typography>
                 </Box>
-                <Box style={{ boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",height:"21rem",overflow:"auto",paddingLeft:"1rem",margin:"0 auto", width:"90%"}}>
-                <Grid container spacing={2}>
-                  {plans.map((res) => {
-                    return (
-                      <>
-                      <Grid item xl={6} lg={6} md={6} sm={12} xs={12}  onClick={()=>{
-                          if (!res.poolstatus) {
-                            warning("Pool is not active");
-                            return true;
-                          }
-                          setDuration(res.Duration);
-                          setAPY(res.APY/10);
-                          setReturns(res.APY);
-                          setLPToken(res.assertName);
-                          setSymbol(res.symbol);
-                          setPayout(res.payout);
-                          setMinStakeLevel1(res.leveloneMinAmount);
-                          setMinStakeLevel2(res.leveltwoMinAmount);
-                          setMinStakeLevel3(res.levelthreeMinAmount);
-                          setBonuslevel1(res.bonusforlevelone);
-                          setBonuslevel2(res.bonusforleveltwo);
-                          setBonuslevel3(res.bonusforlevelthree);
-                          setRewardlevel1(res.rewardforlevelone);
-                          setRewardlevel2(res.rewardforleveltwo);
-                          setRewardlevel3(res.rewardforlevelthree);
-                          setIndexID(plans.indexOf(res));
-                          setpenalty(res.penalty);
-                          gettokenbalance(res.assertName);
+                <Box
+                  style={{
+                    boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                    height: "27rem",
+                    overflow: "auto",
+                    paddingLeft: "1rem",
+                    margin: "0 auto",
+                    width: "90%",
+                  }}
+                >
+                  <Box>
+                    <Box sx={{ borderBottom: "1px solid black" }}>
+                      <Dropdown as={ButtonGroup}>
+                        <Button variant="success">Select plan</Button>
 
-                        }}>
-                     
-                          <>
-                            
-                              <Box
-                                style={{
-                                  boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
-                                  padding: "1rem 0rem",
-                                  paddingLeft: "1rem",
-                                  marginTop: "1rem",
-                                
-                                  borderRadius: "10px",
-                                }}
-                              >
-                                <Box
-                                  style={{ margin: "1rem auto" }}
-                                  className="inner-box"
-                                >
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                          Plan Name:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                          id="value13"
-                                        >
-                                          {res.planName}
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
+                        <Dropdown.Toggle
+                          split
+                          variant="success"
+                          id="dropdown-split-basic"
+                        />
 
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                          Duration of Stake:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                        >
-                                          {res.Duration} Days
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
+                        <Dropdown.Menu>
+                          <Dropdown.Item href="#/action-1">
+                            Gold one plan
+                          </Dropdown.Item>
+                          <Dropdown.Item href="#/action-2">
+                            Gold two plan
+                          </Dropdown.Item>
+                          <Dropdown.Item href="#/action-3">
+                            Gold three plan
+                          </Dropdown.Item>
+                          <Dropdown.Item href="#/action-3">
+                            Gold four plan
+                          </Dropdown.Item>
+                          <Dropdown.Item href="#/action-3">
+                            Gold four plan
+                          </Dropdown.Item>
+                        </Dropdown.Menu>
+                      </Dropdown>
+                    </Box>
+                  </Box>
 
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                          APY:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                        >
-                                          {res.APY/10} %
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                          Asset Symbol:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                        >
-                                          {res.symbol}
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
+                  <Grid container spacing={2}>
+                    <>
+                      <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                        <>
+                          <Box
+                          // style={{
+                          //   boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                          //   padding: "1rem 0rem",
+                          //   paddingLeft: "1rem",
+                          //   marginTop: "1rem",
 
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                          Early Withdrawal Fee:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                        >
-                                          {res.penalty / 10} %
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
-
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                          Bonus for lvl 1:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                        >
-                                          {res.bonusforlevelone}%
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                          Bonus for lvl 2:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                        >
-                                          {res.bonusforleveltwo}%
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
-
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                          Reward for lvl 1:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                        >
-                                          {res.rewardforlevelone}%
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                          Reward for lvl 2:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                        >
-                                          {res.rewardforleveltwo}%
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                        L1 min amount to stake:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                        >
-                                          {res.leveloneMinAmount} {res.symbol}
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                        L2 min amount to stake:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                        >
-                                          {res.leveltwoMinAmount} {res.symbol}
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
-                                  <Box>
-                                    <Grid container>
-                                      <Grid
-                                        item
-                                        xl={8}
-                                        lg={8}
-                                        md={8}
-                                        sm={8}
-                                        xs={8}
-                                      >
-                                        <Typography variant="span">
-                                        Min stake Amnt for Entry level:
-                                        </Typography>
-                                      </Grid>
-                                      <Grid
-                                        item
-                                        xl={4}
-                                        lg={4}
-                                        md={4}
-                                        sm={4}
-                                        xs={4}
-                                      >
-                                        <Typography
-                                          variant="span"
-                                          style={{
-                                            fontWeight: "800",
-                                          }}
-                                          className="value12"
-                                        >
-                                          {res.levelthreeMinAmount} {res.symbol}
-                                        </Typography>
-                                      </Grid>
-                                    </Grid>
-                                  </Box>
-                                </Box>
+                          //   borderRadius: "10px",
+                          // }}
+                          >
+                            <Box
+                              style={{ margin: "1rem auto" }}
+                              className="inner-box"
+                            >
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">
+                                      Plan Name:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                      id="value13"
+                                    >
+                                      hello
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
                               </Box>
-                        
-                          </>
-                        </Grid>
-                      </>
-                    );
-                  })}
-                </Grid>
+
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">
+                                      Duration of Stake:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                    >
+                                      hello Days
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">APY:</Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                    >
+                                      hello %
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">
+                                      Asset Symbol:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                    >
+                                      hello
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">
+                                      Early Withdrawal Fee:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                    >
+                                      hello %
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">
+                                      Bonus for lvl 1:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                    >
+                                      hello %
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">
+                                      Bonus for lvl 2:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                    >
+                                      hello %
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">
+                                      Reward for lvl 1:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                    >
+                                      hello %
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">
+                                      Reward for lvl 2:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                    >
+                                      hello %
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">
+                                      L1 min amount to stake:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                    >
+                                      hello
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">
+                                      L2 min amount to stake:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                    >
+                                      hello
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+                              <Box>
+                                <Grid container>
+                                  <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
+                                    <Typography variant="span">
+                                      Min stake Amnt for Entry level:
+                                    </Typography>
+                                  </Grid>
+                                  <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+                                    <Typography
+                                      variant="span"
+                                      style={{
+                                        fontWeight: "800",
+                                      }}
+                                      className="value12"
+                                    >
+                                      hello
+                                    </Typography>
+                                  </Grid>
+                                </Grid>
+                              </Box>
+                            </Box>
+                          </Box>
+                        </>
+                      </Grid>
+                    </>
+                  </Grid>
                 </Box>
               </Box>
 
@@ -1540,7 +1389,10 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
 
               {/* ................................................................. */}
               <Box>
-                <div className="container" style={{ marginTop: "3rem" ,width:"90%" }}>
+                <div
+                  className="container"
+                  style={{ marginTop: "3rem", width: "90%" }}
+                >
                   <div className="stake-summary-content">
                     {/* <div className="stake">
                       <h4 className="srpayBalance">
@@ -1559,82 +1411,93 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     <div className="stake">
                       <h3 className="stakingSummary">Staking Details</h3>
                     </div>
-                    <Box style={{ boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",padding:"1.5rem",borderRadius:"10px"}}>
-                    <div className="stake">
-                      <div className="summary-content">
-                        <p>Duration</p>
-                        <p className="ssc4">:</p>
-                        <p className="sc">{duration} Days</p>
+                    <Box
+                      style={{
+                        boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                        padding: "1.5rem",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      <div className="stake">
+                        <div className="summary-content">
+                          <p>Duration</p>
+                          <p className="ssc4">:</p>
+                          <p className="sc">{duration} Days</p>
+                        </div>
+                        <div className="summary-content">
+                          <p>Estimated APY</p>
+                          <p className="ssc">:</p>
+                          <p className="sc">{apy}%</p>
+                        </div>
+                        <div className="summary-content">
+                          <p>Staked Amount</p>
+                          <p className="ssc">:</p>
+                          <p className="sc">{amount}</p>
+                        </div>
+                        <div className="summary-content">
+                          <p>Estimated Return</p>
+                          <p className="ssc2">:</p>
+                          <p className="sc">
+                            {(
+                              Number(amount) +
+                              (Number(amount) * apy * duration) / (365 * 100)
+                            ).toFixed(5)}{" "}
+                          </p>
+                        </div>
+                        <div className="summary-content">
+                          <p>Start Date</p>
+                          <p className="ssc3">:</p>
+                          <p className="sc">{new Date().toLocaleString()}</p>
+                        </div>
+                        <div className="summary-content">
+                          <p>End Date</p>
+                          <p className="ssc4">:</p>
+                          <p className="sc">
+                            {new Date(
+                              time + duration * 86400000
+                            ).toLocaleString()}
+                          </p>
+                        </div>
+                        <div className="summary-content">
+                          <p>Your Balance</p>
+                          <p className="ssc">&nbsp;&nbsp;&nbsp;&nbsp;:</p>
+                          <p className="sc">
+                            {balance} {symbol}
+                          </p>
+                        </div>
                       </div>
-                      <div className="summary-content">
-                        <p>Estimated APY</p>
-                        <p className="ssc">:</p>
-                        <p className="sc">{apy}%</p>
-                      </div>
-                      <div className="summary-content">
-                        <p>Staked Amount</p>
-                        <p className="ssc">:</p>
-                        <p className="sc">{amount}</p>
-                      </div>
-                      <div className="summary-content">
-                        <p>Estimated Return</p>
-                        <p className="ssc2">:</p>
-                        <p className="sc">
-                          {(Number(amount) + Number(amount) * apy * duration /
-                            (365 * 100)).toFixed(5)}{" "}
-                          
-                        </p>
-                      </div>
-                      <div className="summary-content">
-                        <p>Start Date</p>
-                        <p className="ssc3">:</p>
-                        <p className="sc">{new Date().toLocaleString()}</p>
-                      </div>
-                      <div className="summary-content">
-                        <p>End Date</p>
-                        <p className="ssc4">:</p>
-                        <p className="sc">
-                          {new Date(
-                            time + duration * 86400000
-                          ).toLocaleString()}
-                        </p>
-                      </div>
-                      <div className="summary-content">
-                      <p>Your Balance</p>
-                        <p className="ssc">&nbsp;&nbsp;&nbsp;&nbsp;:</p>
-                        <p className="sc">{balance}{" "}{symbol}</p>
-                      </div>
-                    </div>
 
-                    <br />
-                    <Grid container style={{ marginBottom: "0.5rem" }}>
-                {/* <Grid className="col-lg-4 col-md-4 col-sm-4 col-12">
+                      <br />
+                      <Grid container style={{ marginBottom: "0.5rem" }}>
+                        {/* <Grid className="col-lg-4 col-md-4 col-sm-4 col-12">
                   <Typography variant="h4" className="ss-heading">
                     Input Amount:
                   </Typography>
                 </Grid> */}
-                <Grid className="col-lg-12 col-md-12 col-sm-12 col-12">
-                  <Box className="" style={{ width: "100%" }}>
-                    <input
-                      type="number"
-                      onChange={(e) => setAmount(e.target.value)}
-                      placeholder="Enter amount"
-                      className="stakedAmount"
-                      value={amount}
-                    />
-                  </Box>
-                </Grid>
-              </Grid>
-              <Grid container style={{ marginBottom: "0.5rem" }}>
-                
-                <Grid className="col-lg-12 col-md-12 col-sm-12 col-12">
-                  <button className="stake-now1" onClick={() => StakingToken()}>
-                    {" "}
-                    STAKE NOW
-                  </button>
-                </Grid>
-              </Grid>
-              </Box>
+                        <Grid className="col-lg-12 col-md-12 col-sm-12 col-12">
+                          <Box className="" style={{ width: "100%" }}>
+                            <input
+                              type="text"
+                              onChange={(e) => setAmount(e.target.value)}
+                              placeholder="Enter amount"
+                              className="stakedAmount"
+                              value={amount}
+                            />
+                          </Box>
+                        </Grid>
+                      </Grid>
+                      <Grid container style={{ marginBottom: "0.5rem" }}>
+                        <Grid className="col-lg-12 col-md-12 col-sm-12 col-12">
+                          <button
+                            className="stake-now1"
+                            onClick={() => StakingToken()}
+                          >
+                            {" "}
+                            STAKE NOW
+                          </button>
+                        </Grid>
+                      </Grid>
+                    </Box>
                   </div>
                 </div>
               </Box>
