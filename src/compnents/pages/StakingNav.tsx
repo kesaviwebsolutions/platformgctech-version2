@@ -312,6 +312,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
           for (let x = 0; x < res.data.length; x++) {
             const data = res.data[x];
             const symbol = await assetSymbol(res.data[x].assertName);
+            const balance = await getallTokenBalancegcs(res.data[x].assertName);
+            data.balance = balance;
             data.symbol = symbol;
             item.push(data);
           }
@@ -323,7 +325,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
         });
     };
     init();
-  }, []);
+  }, [account]);
 
   useEffect(() => {
     const init = async () => {
@@ -877,19 +879,20 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
               ) : (
                 ""
               )}
-              <Grid container spacing={2} style={{  border: "none",
-                        background: "#fff",
-                        boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
-                        width: "90%",
-                        margin: "0 auto",}}>
+              <Grid
+                container
+                spacing={2}
+                style={{
+                  border: "none",
+                  background: "#fff",
+                  boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                  width: "90%",
+                  margin: "0 auto",
+                }}
+              >
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
-                    <Box
-                      variant="outlined"
-                      style={{
-                      }}
-                      className="Box1A"
-                    >
+                    <Box variant="outlined" style={{}} className="Box1A">
                       {" "}
                       <CardContent>
                         <Box className="cardcontent">
@@ -921,17 +924,12 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                         </Box>
                       </CardContent>
                     </Box>
-                    <hr className="hr"/>
+                    <hr className="hr" />
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
-                    <Box
-                      variant="outlined"
-                      style={{
-                     
-                      }}
-                    >
+                    <Box variant="outlined" style={{}}>
                       {" "}
                       <CardContent>
                         <Box className="cardcontent">
@@ -1012,131 +1010,449 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                 >
                   <Typography
                     variant="h4"
-                    style={{ fontSize: "25px", fontWeight: "500" }}
+                    style={{
+                      fontSize: "25px",
+                      fontWeight: "500",
+                      marginLeft: "4rem",
+                    }}
                   >
                     Staking Submission
                   </Typography>
                 </Box>
                 <Grid container spacing={2}>
-                  {plans.map((item) => {
+                  {plans.map((res) => {
                     return (
-                      <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                        <Box
-                          sx={{
-                            maxWidth: 500,
-                            alignItems: "center",
-                            margin: "0 auto",
-                          }}
-                          onClick={() => {
-                            if (!item.poolstatus) {
-                              warning("Pool is not active");
-                              return true;
-                            }
-                            setDuration(item.Duration);
-                            setAPY(item.APY);
-                            setReturns(item.APY);
-                            setLPToken(item.assertName);
-                            setSymbol(item.symbol);
-                            setPayout(item.payout);
-                            setMinStakeLevel1(item.leveloneMinAmount);
-                            setMinStakeLevel2(item.leveltwoMinAmount);
-                            setMinStakeLevel3(item.levelthreeMinAmount);
-                            setBonuslevel1(item.bonusforlevelone);
-                            setBonuslevel2(item.bonusforleveltwo);
-                            setBonuslevel3(item.bonusforlevelthree);
-                            setRewardlevel1(item.rewardforlevelone);
-                            setRewardlevel2(item.rewardforleveltwo);
-                            setRewardlevel3(item.rewardforlevelthree);
-                            setIndexID(plans.indexOf(item));
-                            setpenalty(item.penalty);
-                            gettokenbalance(item.assertName);
-                          }}
+                      <>
+                        <Grid container spacing={2}
+                        onClick={()=>{
+                          if (!res.poolstatus) {
+                            warning("Pool is not active");
+                            return true;
+                          }
+                          setDuration(res.Duration);
+                          setAPY(res.APY);
+                          setReturns(res.APY);
+                          setLPToken(res.assertName);
+                          setSymbol(res.symbol);
+                          setPayout(res.payout);
+                          setMinStakeLevel1(res.leveloneMinAmount);
+                          setMinStakeLevel2(res.leveltwoMinAmount);
+                          setMinStakeLevel3(res.levelthreeMinAmount);
+                          setBonuslevel1(res.bonusforlevelone);
+                          setBonuslevel2(res.bonusforleveltwo);
+                          setBonuslevel3(res.bonusforlevelthree);
+                          setRewardlevel1(res.rewardforlevelone);
+                          setRewardlevel2(res.rewardforleveltwo);
+                          setRewardlevel3(res.rewardforlevelthree);
+                          setIndexID(plans.indexOf(res));
+                          setpenalty(res.penalty);
+                          gettokenbalance(res.assertName);
+
+                        }}
                         >
-                          <Card
-                            variant="outlined"
-                            className={
-                              active == plans.indexOf(item) && item.poolstatus
-                                ? "active"
-                                : ""
-                            }
-                            onClick={() => setActive(plans.indexOf(item))}
-                            style={{
-                              boxShadow: "rgb(51 51 51 / 15%) 0px 4px 25px",
-                            }}
-                          >
-                            {" "}
-                            <CardContent>
-                              <Box className="cardcontent2">
-                                <Typography
-                                  sx={{ fontSize: 14 }}
-                                  color="text.secondary"
-                                  gutterBottom
-                                ></Typography>
-                                <Typography
-                                  variant="h6"
-                                  component="div"
-                                  style={{
-                                    fontWeight: "900",
-                                    fontSize: "17px",
-                                  }}
+                          <>
+                            <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                              <Box
+                                style={{
+                                  boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                                  padding: "1rem 0rem",
+                                  paddingLeft: "1rem",
+                                  marginTop: "1rem",
+                                  marginLeft: "4.5rem",
+                                  borderRadius: "10px",
+                                }}
+                              >
+                                <Box
+                                  style={{ margin: "1rem auto" }}
+                                  className="inner-box"
                                 >
-                                  {item.Duration} Days
-                                </Typography>
-                                <Typography
-                                  sx={{
-                                    mb: 1.5,
-                                  }}
-                                >
-                                  {item.APY}% ESTIMATED APY
-                                </Typography>
-                                <Typography
-                                  sx={{
-                                    mb: 1.5,
-                                  }}
-                                  variant="h5"
-                                >
-                                  {item.symbol}
-                                </Typography>
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                          Plan Name:
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                          id="value13"
+                                        >
+                                          {res.planName}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                          Duration of Stake:
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                        >
+                                          {res.Duration}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                          APY:
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                        >
+                                          {res.APY} %
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                          Asset Symbol:
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                        >
+                                          {res.symbol}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                          Early Withdrawal Fee:
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                        >
+                                          {res.penalty / 10} %
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                          Bonus for lvl 1:
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                        >
+                                          {res.bonusforlevelone}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                          Bonus for lvl 2:
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                        >
+                                          {res.rewardforleveltwo}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                          Reward for lvl 1:
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                        >
+                                          {res.rewardforlevelone}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                          Reward for lvl 2:
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                        >
+                                          {res.bonusforleveltwo}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                          Balance
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                        >
+                                          {res.balance}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+                                </Box>
                               </Box>
-                            </CardContent>
-                          </Card>
-                        </Box>
-                      </Grid>
+                            </Grid>
+                          </>
+                        </Grid>
+                      </>
                     );
                   })}
                 </Grid>
               </Box>
 
-{/* ..................................................................... */}
-<Grid container style={{margin:"0.5rem"}}>
-<Grid className="col-lg-4 col-md-4 col-sm-4 col-12">
-            <Typography variant="h4" className="ss-heading">Input Amount:</Typography>
-            </Grid>
-            <Grid className="col-lg-8 col-md-8 col-sm-8 col-12">
-             <Box className="" style={{width:"100%"}}>
-              <input
-                type="number"
-                placeholder="Enter amount"
-                className="stakedAmount"
-                style={{width:"100%"}}
-              
-              />
-                     </Box>
-               {/*  <p className="error-statement">
-                  Amount must be greater than zero
-                </p> */}
-             
-                    </Grid>
-                    </Grid>
-                    <Grid container style={{margin:"0.5rem"}}>
-            <Grid className="col-lg-4 col-md-4 col-sm-4 col-12"></Grid>
-            <Grid className="col-lg-8 col-md-8 col-sm-8 col-12">
-            <button className="stake-now1" onClick={() => StakingToken()}> STAKE NOW</button></Grid>
-            </Grid>
- 
-        
+              {/* ..................................................................... */}
+              {/* <Grid container style={{ margin: "0.5rem" }}>
+                <Grid className="col-lg-4 col-md-4 col-sm-4 col-12">
+                  <Typography variant="h4" className="ss-heading">
+                    Input Amount:
+                  </Typography>
+                </Grid>
+                <Grid className="col-lg-8 col-md-8 col-sm-8 col-12">
+                  <Box className="" style={{ width: "100%" }}>
+                    <input
+                      type="number"
+                      onChange={(e) => setAmount(e.target.value)}
+                      placeholder="Enter amount"
+                      className="stakedAmount"
+                      value={amount}
+                    />
+                  </Box>
+                </Grid>
+              </Grid>
+              <Grid container style={{ margin: "0.5rem" }}>
+                <Grid className="col-lg-4 col-md-4 col-sm-4 col-12"></Grid>
+                <Grid className="col-lg-8 col-md-8 col-sm-8 col-12">
+                  <button className="stake-now1" onClick={() => StakingToken()}>
+                    {" "}
+                    STAKE NOW
+                  </button>
+                </Grid>
+              </Grid> */}
 
-          {/*     <Box style={{ marginTop: "50px" }}>
+              {/*     <Box style={{ marginTop: "50px" }}>
                 <div className="staking-area">
                   <div className="stakedsubmission my-5 py-4 position-relative">
                     <h4 className="ss-heading">Input Stake Amount:</h4>
@@ -1153,25 +1469,24 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                 </div>
               </Box> */}
 
-
               {/* ................................................................. */}
               <Box>
                 <div className="container" style={{ marginTop: "3rem" }}>
                   <div className="stake-summary-content">
-                    <div className="stake">
+                    {/* <div className="stake">
                       <h4 className="srpayBalance">
                         Your Balance : {balance} {symbol}
                       </h4>
                     </div>
                     <a href="https://www.gcex.lt/" target="_black">
-                  {/*     <button
+                          <button
                         className="d-block m-auto stake-btton"
                         onClick={() => StakingToken()}
                       >
                         {" "}
                         STAKE NOW
-                      </button> */}
-                    </a>
+                      </button>
+                    </a> */}
                     <div className="stake">
                       <h3 className="stakingSummary">Staking Details</h3>
                     </div>
@@ -1217,6 +1532,33 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     </div>
 
                     <br />
+                    <Grid container style={{ margin: "0.5rem" }}>
+                {/* <Grid className="col-lg-4 col-md-4 col-sm-4 col-12">
+                  <Typography variant="h4" className="ss-heading">
+                    Input Amount:
+                  </Typography>
+                </Grid> */}
+                <Grid className="col-lg-8 col-md-8 col-sm-8 col-12">
+                  <Box className="" style={{ width: "100%" }}>
+                    <input
+                      type="number"
+                      onChange={(e) => setAmount(e.target.value)}
+                      placeholder="Enter amount"
+                      className="stakedAmount"
+                      value={amount}
+                    />
+                  </Box>
+                </Grid>
+              </Grid>
+              <Grid container style={{ margin: "0.5rem" }}>
+                <Grid className="col-lg-4 col-md-4 col-sm-4 col-12"></Grid>
+                <Grid className="col-lg-8 col-md-8 col-sm-8 col-12">
+                  <button className="stake-now1" onClick={() => StakingToken()}>
+                    {" "}
+                    STAKE NOW
+                  </button>
+                </Grid>
+              </Grid>
                   </div>
                 </div>
               </Box>
@@ -1241,19 +1583,24 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     : "Level 1"}
                 </span>
               </Typography> */}
-              <Grid container spacing={2} style={{  border: "none",
-                        background: "#fff",
-                        boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
-                        width: "90%",
-                        margin: "0 auto",}}>
+              <Grid
+                container
+                spacing={2}
+                style={{
+                  border: "none",
+                  background: "#fff",
+                  boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
+                  width: "90%",
+                  margin: "0 auto",
+                }}
+              >
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
                   <Box sx={{}}>
                     <Box
                       variant="outlined"
                       style={{
-                   
                         background: "#fff",
-                      
+
                         width: "90%",
                         margin: "0 auto",
                       }}
@@ -1290,7 +1637,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                         </Box>
                       </CardContent>
                     </Box>
-                    <hr className="hr"/>
+                    <hr className="hr" />
                   </Box>
                 </Grid>
                 <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
@@ -1300,7 +1647,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                       style={{
                         border: "none",
                         background: "#fff",
-                      
+
                         width: "90%",
                         margin: "0 auto",
                       }}
