@@ -1019,12 +1019,12 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     Staking Submission
                   </Typography>
                 </Box>
+                <Box style={{ boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",height:"21rem",overflow:"auto",paddingLeft:"1rem",margin:"0 auto", width:"90%"}}>
                 <Grid container spacing={2}>
                   {plans.map((res) => {
                     return (
                       <>
-                        <Grid container spacing={2}
-                        onClick={()=>{
+                      <Grid item xl={6} lg={6} md={6} sm={12} xs={12}  onClick={()=>{
                           if (!res.poolstatus) {
                             warning("Pool is not active");
                             return true;
@@ -1048,17 +1048,17 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                           setpenalty(res.penalty);
                           gettokenbalance(res.assertName);
 
-                        }}
-                        >
+                        }}>
+                     
                           <>
-                            <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                            
                               <Box
                                 style={{
                                   boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",
                                   padding: "1rem 0rem",
                                   paddingLeft: "1rem",
                                   marginTop: "1rem",
-                                  marginLeft: "4.5rem",
+                                
                                   borderRadius: "10px",
                                 }}
                               >
@@ -1414,13 +1414,14 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                   </Box>
                                 </Box>
                               </Box>
-                            </Grid>
+                        
                           </>
                         </Grid>
                       </>
                     );
                   })}
                 </Grid>
+                </Box>
               </Box>
 
               {/* ..................................................................... */}
@@ -1471,7 +1472,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
 
               {/* ................................................................. */}
               <Box>
-                <div className="container" style={{ marginTop: "3rem" }}>
+                <div className="container" style={{ marginTop: "3rem" ,width:"90%" }}>
                   <div className="stake-summary-content">
                     {/* <div className="stake">
                       <h4 className="srpayBalance">
@@ -1490,6 +1491,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     <div className="stake">
                       <h3 className="stakingSummary">Staking Details</h3>
                     </div>
+                    <Box style={{ boxShadow: "0 4px 25px rgb(51 51 51 / 15%)",padding:"1.5rem",borderRadius:"10px"}}>
                     <div className="stake">
                       <div className="summary-content">
                         <p>Duration</p>
@@ -1532,13 +1534,13 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                     </div>
 
                     <br />
-                    <Grid container style={{ margin: "0.5rem" }}>
+                    <Grid container style={{ marginBottom: "0.5rem" }}>
                 {/* <Grid className="col-lg-4 col-md-4 col-sm-4 col-12">
                   <Typography variant="h4" className="ss-heading">
                     Input Amount:
                   </Typography>
                 </Grid> */}
-                <Grid className="col-lg-8 col-md-8 col-sm-8 col-12">
+                <Grid className="col-lg-12 col-md-12 col-sm-12 col-12">
                   <Box className="" style={{ width: "100%" }}>
                     <input
                       type="number"
@@ -1550,15 +1552,16 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                   </Box>
                 </Grid>
               </Grid>
-              <Grid container style={{ margin: "0.5rem" }}>
-                <Grid className="col-lg-4 col-md-4 col-sm-4 col-12"></Grid>
-                <Grid className="col-lg-8 col-md-8 col-sm-8 col-12">
+              <Grid container style={{ marginBottom: "0.5rem" }}>
+                
+                <Grid className="col-lg-12 col-md-12 col-sm-12 col-12">
                   <button className="stake-now1" onClick={() => StakingToken()}>
                     {" "}
                     STAKE NOW
                   </button>
                 </Grid>
               </Grid>
+              </Box>
                   </div>
                 </div>
               </Box>

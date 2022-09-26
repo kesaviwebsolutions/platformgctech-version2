@@ -185,6 +185,7 @@ button.MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary.Mu
 }
 input.stakedAmount {
   padding: 20px 20px;
+  margin-top: -2rem;
   width: 100%;
 }
 .stakedsubmission {
