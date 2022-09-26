@@ -1599,6 +1599,11 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                           ).toLocaleString()}
                         </p>
                       </div>
+                      <div className="summary-content">
+                      <p>Your Balance</p>
+                        <p className="ssc">&nbsp;&nbsp;&nbsp;&nbsp;:</p>
+                        <p className="sc">{balance}{" "}{symbol}</p>
+                      </div>
                     </div>
 
                     <br />

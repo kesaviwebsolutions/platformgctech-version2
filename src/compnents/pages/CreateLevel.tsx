@@ -72,7 +72,7 @@ export default function CreateLevel({ account }) {
       levelthreeMinAmount:minStakelevel3,
       bonusforlevelthree:bonuslevel3,
       rewardforlevelthree:rewardlevel3,
-      requiredrefforlevel3:reflev3,
+      requiredrefforlevel3:0,
       poolstatus:true
       })
         .then((res) => {
@@ -245,7 +245,7 @@ export default function CreateLevel({ account }) {
         </Box>
         <Box>
           <Typography paragraph style={{ marginTop: "20px" }}>
-         Required Number of refferals for Level 1
+          Min L2 referral required for Lvl 1 Bonus:
           </Typography>
           <MDBInput
             label="1"
@@ -256,7 +256,7 @@ export default function CreateLevel({ account }) {
         </Box>
         <Box>
           <Typography paragraph style={{ marginTop: "20px" }}>
-          Required Number of refferals for Level 2
+          Min Entry level referral required for Lvl 2 Bonus:
           </Typography>
           <MDBInput
             label="1"
@@ -265,7 +265,7 @@ export default function CreateLevel({ account }) {
             onChange={(e) => setBonuslevel3(e.target.value)}
           />
         </Box>
-        <Box>
+        {/* <Box>
           <Typography paragraph style={{ marginTop: "20px" }}>
           Required Number of refferals for Entry Level
           </Typography>
@@ -275,7 +275,7 @@ export default function CreateLevel({ account }) {
             type="Number"
             onChange={(e) => setreflev3(e.target.value)}
           />
-        </Box>
+        </Box> */}
         <Button className="createbutton" onClick={() => updatelevel()}>
           Post
         </Button>
