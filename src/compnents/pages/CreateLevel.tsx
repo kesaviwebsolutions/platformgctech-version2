@@ -91,7 +91,7 @@ export default function CreateLevel({ account }) {
       <Box style={{ margin: "0px 0px 50px" }}>
       <Box>
           <Typography paragraph style={{ marginTop: "20px" }}>
-            APY(%)
+            Plan Name
           </Typography>
           <MDBInput
             label="10"

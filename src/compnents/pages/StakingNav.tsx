@@ -844,7 +844,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                 padding: "60px 20px 60px",
               }}
             >
-              {showID ? (
+              {/* {showID ? (
                 <Grid
                   item
                   xs={12}
@@ -878,7 +878,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                 </Grid>
               ) : (
                 ""
-              )}
+              )} */}
               <Grid
                 container
                 spacing={2}
@@ -1030,7 +1030,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                             return true;
                           }
                           setDuration(res.Duration);
-                          setAPY(res.APY);
+                          setAPY(res.APY/10);
                           setReturns(res.APY);
                           setLPToken(res.assertName);
                           setSymbol(res.symbol);
@@ -1131,7 +1131,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                           }}
                                           className="value12"
                                         >
-                                          {res.Duration}
+                                          {res.Duration} Days
                                         </Typography>
                                       </Grid>
                                     </Grid>
@@ -1166,7 +1166,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                           }}
                                           className="value12"
                                         >
-                                          {res.APY} %
+                                          {res.APY/10} %
                                         </Typography>
                                       </Grid>
                                     </Grid>
@@ -1270,7 +1270,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                           }}
                                           className="value12"
                                         >
-                                          {res.bonusforlevelone}
+                                          {res.bonusforlevelone}%
                                         </Typography>
                                       </Grid>
                                     </Grid>
@@ -1304,7 +1304,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                           }}
                                           className="value12"
                                         >
-                                          {res.rewardforleveltwo}
+                                          {res.bonusforleveltwo}%
                                         </Typography>
                                       </Grid>
                                     </Grid>
@@ -1339,7 +1339,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                           }}
                                           className="value12"
                                         >
-                                          {res.rewardforlevelone}
+                                          {res.rewardforlevelone}%
                                         </Typography>
                                       </Grid>
                                     </Grid>
@@ -1373,7 +1373,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                           }}
                                           className="value12"
                                         >
-                                          {res.bonusforleveltwo}
+                                          {res.rewardforleveltwo}%
                                         </Typography>
                                       </Grid>
                                     </Grid>
@@ -1389,7 +1389,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                         xs={8}
                                       >
                                         <Typography variant="span">
-                                          Balance
+                                        L1 min amount to stake:
                                         </Typography>
                                       </Grid>
                                       <Grid
@@ -1407,7 +1407,75 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                                           }}
                                           className="value12"
                                         >
-                                          {res.balance}
+                                          {res.leveloneMinAmount} {res.symbol}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                        L2 min amount to stake:
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                        >
+                                          {res.leveltwoMinAmount} {res.symbol}
+                                        </Typography>
+                                      </Grid>
+                                    </Grid>
+                                  </Box>
+                                  <Box>
+                                    <Grid container>
+                                      <Grid
+                                        item
+                                        xl={8}
+                                        lg={8}
+                                        md={8}
+                                        sm={8}
+                                        xs={8}
+                                      >
+                                        <Typography variant="span">
+                                        Min stake Amnt for Entry level:
+                                        </Typography>
+                                      </Grid>
+                                      <Grid
+                                        item
+                                        xl={4}
+                                        lg={4}
+                                        md={4}
+                                        sm={4}
+                                        xs={4}
+                                      >
+                                        <Typography
+                                          variant="span"
+                                          style={{
+                                            fontWeight: "800",
+                                          }}
+                                          className="value12"
+                                        >
+                                          {res.levelthreeMinAmount} {res.symbol}
                                         </Typography>
                                       </Grid>
                                     </Grid>
@@ -1506,15 +1574,15 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                       <div className="summary-content">
                         <p>Staked Amount</p>
                         <p className="ssc">:</p>
-                        <p className="sc">{amount} GCS</p>
+                        <p className="sc">{amount}</p>
                       </div>
                       <div className="summary-content">
                         <p>Estimated Return</p>
                         <p className="ssc2">:</p>
                         <p className="sc">
-                          {(Number(amount) + Number(amount) * apy * duration) /
-                            (365 * 1000)}{" "}
-                          GCS
+                          {(Number(amount) + Number(amount) * apy * duration /
+                            (365 * 100)).toFixed(5)}{" "}
+                          
                         </p>
                       </div>
                       <div className="summary-content">

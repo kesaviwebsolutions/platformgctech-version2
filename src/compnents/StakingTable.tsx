@@ -349,7 +349,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
           <TableCell>{Number(rowsInfo.pending).toFixed(2)}</TableCell>
           <TableCell>{rowsInfo.stakedpool.length}</TableCell>
           <TableCell>{rowsInfo.refferals.length}</TableCell>
-          <TableCell>{countdown(rowsInfo.time)}</TableCell>
+          <TableCell>{rowsInfo.level == 3 ? "NOT APPLICABLE" : countdown(rowsInfo.time)}</TableCell>
         </TableRow>
       </>
     );

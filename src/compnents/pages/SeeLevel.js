@@ -168,7 +168,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.Duration}
+                                {res.Duration} Days
                               </Typography>
                             </Grid>
                           </Grid>
@@ -268,7 +268,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.leveloneMinAmount}
+                                {res.leveloneMinAmount} {res.symbol}
                               </Typography>
                             </Grid>
                           </Grid>
@@ -289,7 +289,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.leveltwoMinAmount}
+                                {res.leveltwoMinAmount} {res.symbol}
                               </Typography>
                             </Grid>
                           </Grid>
@@ -310,7 +310,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.levelthreeMinAmount}
+                                {res.levelthreeMinAmount} {res.symbol}
                               </Typography>
                             </Grid>
                           </Grid>
@@ -331,7 +331,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.bonusforlevelone}
+                                {res.bonusforlevelone}%
                               </Typography>
                             </Grid>
                           </Grid>
@@ -352,7 +352,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.rewardforleveltwo}
+                                {res.rewardforleveltwo}%
                               </Typography>
                             </Grid>
                           </Grid>
@@ -374,7 +374,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.rewardforlevelone}
+                                {res.rewardforlevelone}%
                               </Typography>
                             </Grid>
                           </Grid>
@@ -395,7 +395,7 @@ export default function SeeLevel({ account }) {
                                 }}
                                 className="value12"
                               >
-                                {res.bonusforleveltwo}
+                                {res.bonusforleveltwo}%
                               </Typography>
                             </Grid>
                           </Grid>
@@ -404,7 +404,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                                Min Referral for Lvl 1:
+                              Min L2 referral required for Lvl 1 Bonus:
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -425,7 +425,7 @@ export default function SeeLevel({ account }) {
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                               <Typography variant="span">
-                              Min Referral for Lvl 2:{" "}
+                              Min Entry level referral required for Lvl 2 Bonus:{" "}
                               </Typography>
                             </Grid>
                             <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -442,27 +442,7 @@ export default function SeeLevel({ account }) {
                             </Grid>
                           </Grid>
                         </Box>
-                        <Box>
-                          <Grid container>
-                            <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
-                              <Typography variant="span">
-                              Min Referral for Entry Lvl:{" "}
-                              </Typography>
-                            </Grid>
-                            <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
-                              <Typography
-                                variant="span"
-                                style={{
-                                  fontWeight: "800",
-                                  
-                                }}
-                                className="value12"
-                              >
-                                {res.requiredrefforlevel3}
-                              </Typography>
-                            </Grid>
-                          </Grid>
-                        </Box>
+                        
                         <Box>
                           <Grid container>
                             <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
