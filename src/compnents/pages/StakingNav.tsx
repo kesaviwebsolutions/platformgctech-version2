@@ -477,19 +477,8 @@ const [previous, setPrivious] = React.useState(0);
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-<<<<<<< HEAD
             planName:poolname,
             level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
-=======
-            planName: poolname,
-            level:
-              Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2
-                ? 3
-                : Number(amount) > minStakelevel2 &&
-                  Number(amount) < minStakelevel1
-                ? 2
-                : 1,
->>>>>>> 2f4508d404cd5fcf29a19a392f99d65ae9a1e33c
             Duration: duration,
             APY: apy,
             amount: amount,
@@ -529,17 +518,7 @@ const [previous, setPrivious] = React.useState(0);
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-<<<<<<< HEAD
             level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
-=======
-            level:
-              Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2
-                ? 3
-                : Number(amount) > minStakelevel2 &&
-                  Number(amount) < minStakelevel1
-                ? 2
-                : 1,
->>>>>>> 2f4508d404cd5fcf29a19a392f99d65ae9a1e33c
             Duration: duration,
             APY: apy,
             planName: poolname,
@@ -587,21 +566,9 @@ const [previous, setPrivious] = React.useState(0);
           .post(`${url}/updateuser`, {
             user: account.toLowerCase(),
             poolID: indexID,
-<<<<<<< HEAD
             amount: preamount + Number(amount),
             level:(Number(amount) + preamount) >= minStakelevel3 && (Number(amount) + preamount) < minStakelevel2 ? 3 : (Number(amount) + preamount) >= minStakelevel2 && (Number(amount) + preamount) < minStakelevel1 ? 2 : 1,
             })
-=======
-            amount: amount,
-            level:
-              Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2
-                ? 3
-                : Number(amount) > minStakelevel2 &&
-                  Number(amount) < minStakelevel1
-                ? 2
-                : 1,
-          })
->>>>>>> 2f4508d404cd5fcf29a19a392f99d65ae9a1e33c
           .then((res) => {
             console.log(res);
             getReferrals();
@@ -632,17 +599,7 @@ const [previous, setPrivious] = React.useState(0);
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-<<<<<<< HEAD
             level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
-=======
-            level:
-              Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2
-                ? 3
-                : Number(amount) > minStakelevel2 &&
-                  Number(amount) < minStakelevel1
-                ? 2
-                : 1,
->>>>>>> 2f4508d404cd5fcf29a19a392f99d65ae9a1e33c
             Duration: duration,
             APY: apy,
             planName: poolname,
@@ -683,17 +640,7 @@ const [previous, setPrivious] = React.useState(0);
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-<<<<<<< HEAD
             level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
-=======
-            level:
-              Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2
-                ? 3
-                : Number(amount) > minStakelevel2 &&
-                  Number(amount) < minStakelevel1
-                ? 2
-                : 1,
->>>>>>> 2f4508d404cd5fcf29a19a392f99d65ae9a1e33c
             Duration: duration,
             APY: apy,
             planName: poolname,
@@ -739,21 +686,9 @@ const [previous, setPrivious] = React.useState(0);
           .post(`${url}/updateuser`, {
             user: account.toLowerCase(),
             poolID: indexID,
-<<<<<<< HEAD
             amount: preamount + Number(amount),
             level:(Number(amount) + preamount) >= minStakelevel3 && (Number(amount) + preamount) < minStakelevel2 ? 3 : (Number(amount) + preamount) >= minStakelevel2 && (Number(amount) + preamount) < minStakelevel1 ? 2 : 1,
             })
-=======
-            amount: amount,
-            level:
-              Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2
-                ? 3
-                : Number(amount) > minStakelevel2 &&
-                  Number(amount) < minStakelevel1
-                ? 2
-                : 1,
-          })
->>>>>>> 2f4508d404cd5fcf29a19a392f99d65ae9a1e33c
           .then((res) => {
             console.log(res);
             getReferrals();
