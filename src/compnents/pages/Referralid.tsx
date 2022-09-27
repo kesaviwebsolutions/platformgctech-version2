@@ -11,15 +11,19 @@ import { Container } from "@mui/system";
 import AdminNav from "../AdminNav";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
-import { orderIDofReferal, balanceofstake, OrderIDdata, transfertoken } from "../../Web3/Web3";
+import {
+  orderIDofReferal,
+  balanceofstake,
+  OrderIDdata,
+  transfertoken,
+} from "../../Web3/Web3";
 import toast, { Toaster } from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
-import 'react-loading-skeleton/dist/skeleton.css';
+import "react-loading-skeleton/dist/skeleton.css";
 import { Grid, Typography } from "@mui/material";
 
 const url = "https://refer.ap.ngrok.io";
 // const url = "http://localhost:3030";
-
 
 const notify = (msg) => toast.success(msg);
 interface Column {
@@ -223,18 +227,15 @@ const rowsInfo = [
   },
 ];
 
-const copytext = (text)=>{
-  navigator.clipboard.writeText(text)
-  
-}
+const copytext = (text) => {
+  navigator.clipboard.writeText(text);
+};
 
 const slicewallet = (add) => {
   const first = add.slice(0, 6);
   const second = add.slice(35);
   return first + "..." + second;
 };
-
-
 
 const rows = [
   createData("India", "IN", 1324171354, 1),
@@ -254,94 +255,136 @@ const rows = [
   createData("Brazil", "BR", 210147125, 15),
 ];
 
-export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
+export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const {ref} = useParams();
-  const [referrer, setRef] = React.useState(0)
-  const [start, setStart] = React.useState(0)
-  
+  const { ref } = useParams();
+  const [referrer, setRef] = React.useState(0);
+  const [start, setStart] = React.useState(0);
+
   const [referrals, setReferrals] = React.useState(undefined);
 
-  React.useEffect(()=>{
-      const init =async()=>{
-        await getRef()
-      }
-      init();
-  },[])
+  React.useEffect(() => {
+    const init = async () => {
+      await getRef();
+    };
+    init();
+  }, []);
 
-  const trasferReward = async(reciver, amount)=>{
+  const trasferReward = async (reciver, amount) => {
     const data = await transfertoken(reciver, Number(amount).toFixed(5));
-    if(data.status){
+    if (data.status) {
       notify("Transfer Successfully");
-      axios.post(`${url}/makereward`,{
-        user:account.toLowerCase()
-      }).then((res)=>{
-        console.log("done")
-      })
+      axios
+        .post(`${url}/makereward`, {
+          user: account.toLowerCase(),
+        })
+        .then((res) => {
+          console.log("done");
+        });
     }
-  }
+  };
 
-  const trasferBonus = async(reciver, amount)=>{
+  const trasferBonus = async (reciver, amount) => {
     const data = await transfertoken(reciver, Number(amount).toFixed(5));
-    if(data.status){
+    if (data.status) {
       notify("Transfer Successfully");
-      axios.post(`${url}/makebonus`,{
-        user:reciver.toLowerCase()
-      }).then((res)=>{
-        console.log("done")
-      })
+      axios
+        .post(`${url}/makebonus`, {
+          user: reciver.toLowerCase(),
+        })
+        .then((res) => {
+          console.log("done");
+        });
     }
-  }
-
-
-  
+  };
 
   const renderRows = (rowsInfo, index) => {
     return (
       <>
         <TableRow key={index}>
-          <TableCell>{index+1}</TableCell>
-          <TableCell>{rowsInfo.user}</TableCell>
-          <TableCell>
-          <Link to={`/admin/referral-second/${rowsInfo.user}`}>{slicewallet(rowsInfo.user)}</Link>
-            </TableCell>
-          <TableCell>{rowsInfo.amount} {rowsInfo.assertSymbol}</TableCell>
-          <TableCell>{rowsInfo.level == 3 ? "Entry Level" : rowsInfo.level == 2 ? "2" : "1"}</TableCell>
-          <TableCell>{rowsInfo.refferals.length}</TableCell>
-          <TableCell>{(rowsInfo.amount * rowsInfo.APY)/((36500 * rowsInfo.Duration * 2.5)/100)}</TableCell>
-          <TableCell>{(rowsInfo.amount)/100}</TableCell>
-          <TableCell><button disabled={rowsInfo.paidReward ? true : false} onClick={()=>trasferReward(rowsInfo.user,((rowsInfo.amount * rowsInfo.APY)/((36500 * rowsInfo.Duration * 2.5)/100)))}>Pay Reward</button></TableCell>
-          <TableCell><button disabled={rowsInfo.paidBonus ? true : false} onClick={()=>trasferBonus(rowsInfo.user,(rowsInfo.amount)/100)}>Pay Bonus</button></TableCell>
+          <TableCell sx={{ textAlign: "center" }}>{index + 1}</TableCell>
+          <TableCell sx={{ textAlign: "center" }}>{rowsInfo.user}</TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            <Link to={`/admin/referral-second/${rowsInfo.user}`}>
+              {slicewallet(rowsInfo.user)}
+            </Link>
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            {rowsInfo.amount} {rowsInfo.assertSymbol}
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            {rowsInfo.level == 3
+              ? "Entry Level"
+              : rowsInfo.level == 2
+              ? "2"
+              : "1"}
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            {rowsInfo.refferals.length}
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            {(rowsInfo.amount * rowsInfo.APY) /
+              ((36500 * rowsInfo.Duration * 2.5) / 100)}
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            {rowsInfo.amount / 100}
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            <button
+              disabled={rowsInfo.paidReward ? true : false}
+              onClick={() =>
+                trasferReward(
+                  rowsInfo.user,
+                  (rowsInfo.amount * rowsInfo.APY) /
+                    ((36500 * rowsInfo.Duration * 2.5) / 100)
+                )
+              }
+            >
+              Pay Reward
+            </button>
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            <button
+              disabled={rowsInfo.paidBonus ? true : false}
+              onClick={() => trasferBonus(rowsInfo.user, rowsInfo.amount / 100)}
+            >
+              Pay Bonus
+            </button>
+          </TableCell>
         </TableRow>
       </>
     );
   };
- 
-  const getRef =async()=>{
-    axios.post(`${url}/isuser`,{
-      user:ref.toLowerCase()
-    }).then(async(res)=>{
-      const event = []
-      if(res.data[0]){ 
-        setRef(res.data[0].refferals.length)
-        setStart(res.data[0].time)
-        console.log(res)
-        for(let x = 0; x < res.data[0].refferals.length; x++){
-          const level = await axios.post(`${url}/isuser`,{
-            user:res.data[0].refferals[x]
-          }).then((response)=>{
-            return response.data[0]
-          })
-          event.push(level)
 
+  const getRef = async () => {
+    axios
+      .post(`${url}/isuser`, {
+        user: ref.toLowerCase(),
+      })
+      .then(async (res) => {
+        const event = [];
+        if (res.data[0]) {
+          setRef(res.data[0].refferals.length);
+          setStart(res.data[0].time);
+          console.log(res);
+          for (let x = 0; x < res.data[0].refferals.length; x++) {
+            const level = await axios
+              .post(`${url}/isuser`, {
+                user: res.data[0].refferals[x],
+              })
+              .then((response) => {
+                return response.data[0];
+              });
+            event.push(level);
+          }
         }
-      }
-      setReferrals(event)
-    }).catch(console.error)
-  }
+        setReferrals(event);
+      })
+      .catch(console.error);
+  };
 
-  console.log("Refferals",referrals)
+  console.log("Refferals", referrals);
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -351,63 +394,81 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
     setPage(0);
   };
 
-  const countdown =(tab)=>{
+  const countdown = (tab) => {
     var now = new Date().getTime();
-    const time = (tab*1000) + (2592000*1000)
+    const time = tab * 1000 + 2592000 * 1000;
     var distance = time - now;
-  
+
     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    return days +"D " + hours + "H " + minutes + "M " + seconds + "S "
-    }
+    return days + "D " + hours + "H " + minutes + "M " + seconds + "S ";
+  };
 
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <Container maxWidth="lg">
-        <AdminNav account={account}/>
+        <AdminNav account={account} />
         <p>{"Stakers Details > Referral Details"}</p>
 
-              <Grid
-                  item
-                  xs={12}
-                  sm={12}
-                  md={12}
-                  lg={12}
-                  xl={12}
-                  className="reff-id"
-                  sx={{
-                    fontSize: "1rem",
-                    marginBottom: "3rem",
-                    textAlign: "center",
-                    fontWeight: 800,
-                    width: "100%",
-                    overflow: "hidden",
-                  }}
-                >
-                  <span>
-                    {(10 - referrer) < 0 ? <Typography className="">{referrer} referrers</Typography> : <Typography className="">{countdown(start)} remaining to get {isNaN(10 - referrer) ? "0" : (10 - referrer)} more referrers</Typography>}
-                  </span>
-                </Grid>
-        
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          lg={12}
+          xl={12}
+          className="reff-id"
+          sx={{
+            fontSize: "1rem",
+            marginBottom: "3rem",
+            textAlign: "center",
+            fontWeight: 800,
+            width: "100%",
+            overflow: "hidden",
+          }}
+        >
+          <span>
+            {10 - referrer < 0 ? (
+              <Typography className="">{referrer} referrers</Typography>
+            ) : (
+              <Typography className="">
+                {countdown(start)} remaining to get{" "}
+                {isNaN(10 - referrer) ? "0" : 10 - referrer} more referrers
+              </Typography>
+            )}
+          </span>
+        </Grid>
+
         <TableContainer sx={{ maxHeight: 440 }}>
-          {referrals ? <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>{referrals.map((item)=>renderRows(item, referrals.indexOf(item)))}</TableBody>
-          </Table> : <Skeleton count={5} />}
+          {referrals ? (
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      sx={{ textAlign: "center" }}
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {referrals.map((item) =>
+                  renderRows(item, referrals.indexOf(item))
+                )}
+              </TableBody>
+            </Table>
+          ) : (
+            <Skeleton count={5} />
+          )}
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}

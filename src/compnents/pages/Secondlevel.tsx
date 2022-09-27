@@ -13,7 +13,7 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { orderIDofReferal, balanceofstake, OrderIDdata } from "../../Web3/Web3";
 import Skeleton from "react-loading-skeleton";
-import 'react-loading-skeleton/dist/skeleton.css';
+import "react-loading-skeleton/dist/skeleton.css";
 
 const url = "https://refer.ap.ngrok.io";
 // const url = "http://localhost:3030";
@@ -189,7 +189,6 @@ const rowsInfo = [
   },
 ];
 
-
 const rows = [
   createData("India", "IN", 1324171354, 1),
   createData("China", "CN", 1403500365, 2),
@@ -208,11 +207,11 @@ const rows = [
   createData("Brazil", "BR", 210147125, 15),
 ];
 
-export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
+export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const {secondref} = useParams();
-  
+  const { secondref } = useParams();
+
   const [referrals, setReferrals] = React.useState(undefined);
 
   const renderRows = (rowsInfo, index) => {
@@ -223,41 +222,49 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
           <TableCell>{rowsInfo.user}</TableCell>
           <TableCell>{rowsInfo.amount}</TableCell>
           {/* <TableCell>{rowsInfo.numberofstake}</TableCell> */}
-          <TableCell>{(rowsInfo.amount * rowsInfo.APY)/((36500 * rowsInfo.Duration * 2.5)/100)}</TableCell>
-          <TableCell>{(rowsInfo.amount)/100}</TableCell>
+          <TableCell>
+            {(rowsInfo.amount * rowsInfo.APY) /
+              ((36500 * rowsInfo.Duration * 2.5) / 100)}
+          </TableCell>
+          <TableCell>{rowsInfo.amount / 100}</TableCell>
         </TableRow>
       </>
     );
   };
 
-  React.useEffect(()=>{
-      const init =async()=>{
-        await getRef()
-      }
-      init();
-  },[])
+  React.useEffect(() => {
+    const init = async () => {
+      await getRef();
+    };
+    init();
+  }, []);
 
-  const getRef =async()=>{
-    axios.post(`${url}/isuser`,{
-      user:secondref.toLowerCase()
-    }).then(async(res)=>{
-      const event = []
-      if(res.data[0]){  
-        for(let x = 0; x < res.data[0].refferals.length; x++){
-          const level = await axios.post(`${url}/isuser`,{
-            user:res.data[0].refferals[x]
-          }).then((response)=>{
-            return response.data[0]
-          })
-          // console.log(level)
-          event.push(level)
+  const getRef = async () => {
+    axios
+      .post(`${url}/isuser`, {
+        user: secondref.toLowerCase(),
+      })
+      .then(async (res) => {
+        const event = [];
+        if (res.data[0]) {
+          for (let x = 0; x < res.data[0].refferals.length; x++) {
+            const level = await axios
+              .post(`${url}/isuser`, {
+                user: res.data[0].refferals[x],
+              })
+              .then((response) => {
+                return response.data[0];
+              });
+            // console.log(level)
+            event.push(level);
+          }
         }
-      }
-      setReferrals(event)
-    }).catch(console.error)
-  }
+        setReferrals(event);
+      })
+      .catch(console.error);
+  };
 
-  console.log("Refferals",referrals)
+  console.log("Refferals", referrals);
   const handleChangePage = (e: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -270,25 +277,34 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4}) {
   return (
     <Paper sx={{ width: "100%", overflow: "hidden" }}>
       <Container maxWidth="lg">
-        <AdminNav account={account}/>
+        <AdminNav account={account} />
         <p>{"Stakers Details > Referral Details > Seconds Level"}</p>
         <TableContainer sx={{ maxHeight: 440 }}>
-          {referrals ? <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>{referrals.map((item)=>renderRows(item, referrals.indexOf(item)))}</TableBody>
-          </Table> : <Skeleton count={5} />}
+          {referrals ? (
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      sx={{ textAlign: "center" }}
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {referrals.map((item) =>
+                  renderRows(item, referrals.indexOf(item))
+                )}
+              </TableBody>
+            </Table>
+          ) : (
+            <Skeleton count={5} />
+          )}
         </TableContainer>
         <TablePagination
           rowsPerPageOptions={[10, 25, 100]}
