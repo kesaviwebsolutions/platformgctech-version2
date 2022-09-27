@@ -179,7 +179,7 @@ export default function CreateLevel({ account }) {
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
-              value={age}
+              value={payoutPeriod}
               label="Age"
               onChange={handleChange}
             >
