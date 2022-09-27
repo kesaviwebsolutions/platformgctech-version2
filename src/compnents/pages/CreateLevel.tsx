@@ -48,7 +48,7 @@ export default function CreateLevel({ account }) {
   const [penalty, setpenalty] = useState(0);
   const [reflev3, setreflev3] = useState()
   const [loading, setLoading] = useState(false);
-  const [age, setAge] = React.useState('');
+  const [previous, setPrivious] = React.useState(0);
 
 
   const updatelevel = async () => {

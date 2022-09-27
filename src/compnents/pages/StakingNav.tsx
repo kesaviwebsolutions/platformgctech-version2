@@ -320,7 +320,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   const [selectedplan, setSelectedplan] = useState("Select plan")
   const [poolname, setPoolname] = useState("")
   const [refferrer, setRefferrers] = useState(0)
-const [previous, setPrivious] = React.useState(0);
+  const [previous, setPrivious] = React.useState(0);
+  const [start, setStart] = useState()
 
   useEffect(() => {
     const init = async () => {
@@ -404,7 +405,6 @@ const [previous, setPrivious] = React.useState(0);
         setEvents(res.data);
         if (res.data.length > 0) {
           setStart(res.data[0].time);
-          setRefferrers();
           setShowID(true);
         } else {
           setShowID(false);
