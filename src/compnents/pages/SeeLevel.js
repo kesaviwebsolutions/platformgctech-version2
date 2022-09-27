@@ -59,6 +59,7 @@ export default function SeeLevel({ account }) {
 
   const changestatus = async (
     id,
+    dbid,
     apy,
     fee,
     duration,
