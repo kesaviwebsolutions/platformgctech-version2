@@ -1064,12 +1064,9 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                         </Dropdown.Toggle>
                         <Dropdown.Menu style={{width:"100%",textAlign:"center"}}>
                           {plans && plans.map((res)=>{
-                            return <Dropdown.Item href="#/action-1" onClick={()=>{
-                              if (!res.poolstatus) {
-                                warning("Plan is not active");
-                                return true;
-                              }
-
+                            return <>
+                           {res.poolstatus ? <Dropdown.Item href="#/action-1" onClick={()=>{
+                              
                               setPoolname(res.planName)
                               setSelectedplan(res.planName)
                               setDuration(res.Duration);
@@ -1092,7 +1089,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                               gettokenbalance(res.assertName);
                             }}>
                             {res.planName}
-                          </Dropdown.Item>
+                          </Dropdown.Item>:""}
+                          </>
                           })}
                         </Dropdown.Menu>
                       </Dropdown>
