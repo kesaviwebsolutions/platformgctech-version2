@@ -85,13 +85,13 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
-  // {
-  //   id: "density",
-  //   label: "Plan",
-  //   minWidth: 170,
-  //   align: "center",
-  //   format: (value: number) => value.toFixed(2),
-  // },
+  {
+    id: "density",
+    label: "Plan",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
   {
     id: "density",
     label: "Required refferals",
@@ -352,6 +352,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
           <TableCell>{rowsInfo.Duration}</TableCell>
           <TableCell>{rowsInfo.level == 3 ? "Entry Level" : rowsInfo.level == 2 ? "Level 2" : "Level 1"}</TableCell>
           <TableCell>{rowsInfo.APY}</TableCell>
+          <TableCell>{rowsInfo.planName}</TableCell>
           <TableCell>{rowsInfo.level == 1 ? rowsInfo.rewardforlevelthree : rowsInfo.level == 2 ? rowsInfo.bonusforlevelthree : "0"}</TableCell>
           <TableCell>{Number(rowsInfo.pending).toFixed(2)}</TableCell>
           <TableCell>{rowsInfo.stakedpool.length}</TableCell>

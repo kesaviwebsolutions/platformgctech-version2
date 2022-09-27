@@ -111,6 +111,13 @@ const columns: readonly Column[] = [
   },
   {
     id: "density",
+    label: "Plan",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
     label: "Staking End",
     minWidth: 170,
     align: "center",
@@ -313,7 +320,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   const [selectedplan, setSelectedplan] = useState("Select plan")
   const [poolname, setPoolname] = useState("")
   const [refferrer, setRefferrers] = useState(0)
-  const [start, setStart] = useState(0)
+  const [start, setStart] = useState(0);
+  const [levelname, setLevelname] = useState('')
 
   useEffect(() => {
     const init = async () => {
@@ -470,13 +478,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-            level:
-              Number(amount) < minStakelevel3
-                ? 3
-                : Number(amount) >= minStakelevel3 &&
-                  Number(amount) < minStakelevel2
-                ? 2
-                : 1,
+            planName:poolname,
+            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
             amount: amount,
@@ -516,15 +519,10 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-            level:
-              Number(amount) < minStakelevel3
-                ? 3
-                : Number(amount) >= minStakelevel3 &&
-                  Number(amount) < minStakelevel2
-                ? 2
-                : 1,
+            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
+            planName:poolname,
             amount: amount,
             stakedpool: pool,
             poolID: indexID,
@@ -561,14 +559,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             user: account.toLowerCase(),
             poolID: indexID,
             amount: amount,
-            level:
-              Number(amount) < minStakelevel3
-                ? 3
-                : Number(amount) >= minStakelevel3 &&
-                  Number(amount) < minStakelevel2
-                ? 2
-                : 1,
-          })
+            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
+            })
           .then((res) => {
             console.log(res);
             getReferrals();
@@ -599,15 +591,10 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-            level:
-              Number(amount) < minStakelevel3
-                ? 3
-                : Number(amount) >= minStakelevel3 &&
-                  Number(amount) < minStakelevel2
-                ? 2
-                : 1,
+            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
+            planName:poolname,
             amount: amount,
             stakedpool: [indexID],
             poolID: indexID,
@@ -645,15 +632,10 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-            level:
-              Number(amount) < minStakelevel3
-                ? 3
-                : Number(amount) >= minStakelevel3 &&
-                  Number(amount) < minStakelevel2
-                ? 2
-                : 1,
+            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
+            planName:poolname,
             amount: amount,
             stakedpool: pool,
             poolID: indexID,
@@ -690,14 +672,8 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             user: account.toLowerCase(),
             poolID: indexID,
             amount: amount,
-            level:
-              Number(amount) < minStakelevel3
-                ? 3
-                : Number(amount) >= minStakelevel3 &&
-                  Number(amount) < minStakelevel2
-                ? 2
-                : 1,
-          })
+            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
+            })
           .then((res) => {
             console.log(res);
             getReferrals();
@@ -806,6 +782,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             {new Date(Number(rowsInfo.time) * 1000).toLocaleDateString()}
           </TableCell>
           <TableCell>{rowsInfo.amount} {rowsInfo.assertSymbol}</TableCell>
+          <TableCell>{rowsInfo.planName}</TableCell>
           <TableCell>
             {new Date(Number(rowsInfo.expire) * 1000).toLocaleDateString()}
           </TableCell>
@@ -1066,7 +1043,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                           {plans && plans.map((res)=>{
                             return <>
                            {res.poolstatus ? <Dropdown.Item href="#/action-1" onClick={()=>{
-                              
+                          
                               setPoolname(res.planName)
                               setSelectedplan(res.planName)
                               setDuration(res.Duration);
