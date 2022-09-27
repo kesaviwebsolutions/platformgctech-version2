@@ -448,8 +448,7 @@ export default function SeeLevel({ account }) {
                             <Grid container>
                               <Grid item xl={8} lg={8} md={8} sm={8} xs={8}>
                                 <Typography variant="span">
-                                  Min Entry lvl ref. required for Lvl2
-                                  Bonus:{" "}
+                                  Min Entry lvl ref. required for Lvl2 Bonus:{" "}
                                 </Typography>
                               </Grid>
                               <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
@@ -489,19 +488,14 @@ export default function SeeLevel({ account }) {
                           <Box>
                             <Grid container>
                               <Grid
+                                className="pause"
+                                id={`${res.poolstatus ? "active" : ""}`}
                                 item
                                 xl={12}
                                 lg={12}
                                 md={12}
                                 sm={12}
                                 xs={12}
-                                style={{
-                                  backgroundColor: "#8D00FF",
-                                  textAlign: "center",
-                                  margin: "1rem auto",
-                                  borderRadius: "10px",
-                                  color: "white",
-                                }}
                               >
                                 <Button
                                   onClick={() =>
