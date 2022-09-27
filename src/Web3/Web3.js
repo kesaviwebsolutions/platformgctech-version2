@@ -680,22 +680,27 @@ export const Allowforstaking = async(token)=>{
 //////////////////New Staking//////////////////
 
 
-export const Addpool = async(rewardblock, tokem, fee, penalty,duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv3)=>{
+export const Addpool = async(rewardblock, tokem, fee, penalty,duration, payoutperiod, minStakelevel3, minStakelevel2, minStakelevel1)=>{
   try {
+    const level1 = await towie(minStakelevel1)
+    const level2 = await towie(minStakelevel2)
+    const level3 = await towie(minStakelevel3)
     // const a = await towie(Number(rewardblock).toFixed(8))
     const contract = new web3.eth.Contract(Staking, stakingAddress);
-    const data = await contract.methods.addPool(rewardblock, tokem, fee, penalty, duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv3, true).send({from:await getUserAddress()});
+    const data = await contract.methods.addPool(rewardblock, tokem, fee, penalty, duration, payoutperiod, level3, level2, level1, true).send({from:await getUserAddress()});
     return data;
   } catch (error) {
    console.log(error)
   }
  };
 
- export const editpool = async(poolid, apy, fee, duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv1, tab)=>{
+ export const editpool = async(poolid, apy, fee, duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLvl2, minStakeAmntEntryLvl1, tab)=>{
   try {
-    console.log(poolid, apy, fee, duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv1, tab)
+    const level1 = await towie(minStakeAmntEntryLvl1)
+    const level2 = await towie(minStakeAmntEntryLvl2)
+    const level3 = await towie(minStakeAmntEntryLvl)  
     const contract = new web3.eth.Contract(Staking, stakingAddress);
-    const data = await contract.methods.setPool(poolid, apy, fee, duration, payoutperiod, minStakeAmntEntryLvl, minStakeAmntEntryLv2, minStakeAmntEntryLv1, tab).send({from:await getUserAddress()});
+    const data = await contract.methods.setPool(poolid, apy, fee, duration, payoutperiod, level3, level2, level1, tab).send({from:await getUserAddress()});
     return data;
   } catch (error) {
    console.log(error)

@@ -258,7 +258,8 @@ export default function SeeLevel({ account }) {
                                   }}
                                   className="value12"
                                 >
-                                  {res.payout}
+                                  {res.payout == 30 ? "Monthly" : res.payout == 90 ? "Quarterly" : res.payout == 180 ? "Half-Yearly" : "Yearly"}
+                             
                                 </Typography>
                               </Grid>
                             </Grid>

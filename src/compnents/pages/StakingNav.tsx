@@ -320,8 +320,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   const [selectedplan, setSelectedplan] = useState("Select plan")
   const [poolname, setPoolname] = useState("")
   const [refferrer, setRefferrers] = useState(0)
-  const [start, setStart] = useState(0);
-  const [levelname, setLevelname] = useState('')
+const [previous, setPrivious] = React.useState(0);
 
   useEffect(() => {
     const init = async () => {
@@ -479,7 +478,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
             planName:poolname,
-            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
+            level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
             amount: amount,
@@ -519,7 +518,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
+            level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
             planName:poolname,
@@ -554,12 +553,21 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
           });
       } else {
         console.log("Pool ID already exists", indexID, account.toLowerCase());
+
+        const preamount = await axios.post(`${url}/isuserpoolid`, {
+            user: account.toLowerCase(),
+            poolID: indexID,
+           })
+          .then((res) => {
+            return res.data[0].amount
+          })
+
         await axios
           .post(`${url}/updateuser`, {
             user: account.toLowerCase(),
             poolID: indexID,
-            amount: amount,
-            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
+            amount: preamount + Number(amount),
+            level:(Number(amount) + preamount) >= minStakelevel3 && (Number(amount) + preamount) < minStakelevel2 ? 3 : (Number(amount) + preamount) >= minStakelevel2 && (Number(amount) + preamount) < minStakelevel1 ? 2 : 1,
             })
           .then((res) => {
             console.log(res);
@@ -591,7 +599,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
+            level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
             planName:poolname,
@@ -632,7 +640,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
             user: account.toLowerCase(),
             expire: new Date(time + duration * 86400000).getTime() / 1000,
             Tx: hash,
-            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
+            level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
             planName:poolname,
@@ -667,12 +675,19 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
           });
       } else {
         console.log("Pool ID already exists", indexID, account.toLowerCase());
+        const preamount = await axios.post(`${url}/isuserpoolid`, {
+          user: account.toLowerCase(),
+          poolID: indexID,
+         })
+        .then((res) => {
+          return res.data[0].amount
+        })
         await axios
           .post(`${url}/updateuser`, {
             user: account.toLowerCase(),
             poolID: indexID,
-            amount: amount,
-            level:Number(amount) > minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) > minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
+            amount: preamount + Number(amount),
+            level:(Number(amount) + preamount) >= minStakelevel3 && (Number(amount) + preamount) < minStakelevel2 ? 3 : (Number(amount) + preamount) >= minStakelevel2 && (Number(amount) + preamount) < minStakelevel1 ? 2 : 1,
             })
           .then((res) => {
             console.log(res);
