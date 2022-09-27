@@ -23,7 +23,7 @@ import "./App.css";
 import CreateLevel from "./compnents/pages/CreateLevel.tsx";
 import Referralid from "./compnents/pages/Referralid.tsx";
 import Secondlevel from "./compnents/pages/Secondlevel.tsx"
-import StakingTable from "./compnents/StakingTable.tsx";
+import StakingTable from "./compnents/StakingTable";
 import Staking from "./compnents/pages/StakingNav.tsx";
 import PersonalReferralId from "./compnents/pages/PersonalReferralId.tsx";
 import { poeldata1, poeldata2, poeldata3, poeldata4 } from "./Web3/Web3"

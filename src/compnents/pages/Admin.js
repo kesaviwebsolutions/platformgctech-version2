@@ -43,7 +43,7 @@ import {
 } from "../../Web3/Web3";
 
 import { Button } from "@material-ui/core";
-import StakingTable from "../StakingTable.tsx";
+import StakingTable from "../StakingTable";
 import AdminNav from "../AdminNav";
 
 const notify = (msg) => toast(msg);
