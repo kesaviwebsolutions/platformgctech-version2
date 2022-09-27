@@ -403,15 +403,15 @@ const [previous, setPrivious] = React.useState(0);
       .then(async (res) => {
         setEvents(res.data);
         if (res.data.length > 0) {
-          setStart(res.data[0].time)
-          setRefferrers()
+          setStart(res.data[0].time);
+          setRefferrers();
           setShowID(true);
         } else {
           setShowID(false);
         }
         // setReferals(undefined);
         if (res.data[0] && res.data[0].refferals.length > 0) {
-          setRefferrers(res.data[0].refferals.length)
+          setRefferrers(res.data[0].refferals.length);
           for (let i = 0; i < res.data[0].refferals.length; i++) {
             const events = await axios
               .post(`${url}/isuser`, {
@@ -521,7 +521,7 @@ const [previous, setPrivious] = React.useState(0);
             level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
-            planName:poolname,
+            planName: poolname,
             amount: amount,
             stakedpool: pool,
             poolID: indexID,
@@ -602,7 +602,7 @@ const [previous, setPrivious] = React.useState(0);
             level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
-            planName:poolname,
+            planName: poolname,
             amount: amount,
             stakedpool: [indexID],
             poolID: indexID,
@@ -643,7 +643,7 @@ const [previous, setPrivious] = React.useState(0);
             level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
-            planName:poolname,
+            planName: poolname,
             amount: amount,
             stakedpool: pool,
             poolID: indexID,
@@ -791,17 +791,29 @@ const [previous, setPrivious] = React.useState(0);
     return (
       <>
         <TableRow key={index}>
-          <TableCell>{rowsInfo.poolID}</TableCell>
-          <TableCell>{rowsInfo.assertSymbol}</TableCell>
-          <TableCell>
+          <TableCell sx={{ textAlign: "center" }}>{rowsInfo.poolID}</TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            {rowsInfo.assertSymbol}
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
             {new Date(Number(rowsInfo.time) * 1000).toLocaleDateString()}
           </TableCell>
-          <TableCell>{rowsInfo.amount} {rowsInfo.assertSymbol}</TableCell>
-          <TableCell>{rowsInfo.planName}</TableCell>
-          <TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            {rowsInfo.amount} {rowsInfo.assertSymbol}
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            {rowsInfo.planName}
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
             {new Date(Number(rowsInfo.expire) * 1000).toLocaleDateString()}
           </TableCell>
-          <TableCell>{rowsInfo.level == 3 ? "Entry Level" : rowsInfo.level == 2 ? "2" : "1"}</TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            {rowsInfo.level == 3
+              ? "Entry Level"
+              : rowsInfo.level == 2
+              ? "2"
+              : "1"}
+          </TableCell>
           {Number(rowsInfo.expire) < new Date().getTime() / 1000 ? (
             !rowsInfo.claimed ? (
               <TableCell
@@ -810,10 +822,12 @@ const [previous, setPrivious] = React.useState(0);
                 UNSTAKE
               </TableCell>
             ) : (
-              <TableCell>UNSTAKED</TableCell>
+              <TableCell sx={{ textAlign: "center" }}>UNSTAKED</TableCell>
             )
           ) : (
-            <TableCell>{upcommingDate(rowsInfo.expire)}</TableCell>
+            <TableCell sx={{ textAlign: "center" }}>
+              {upcommingDate(rowsInfo.expire)}
+            </TableCell>
           )}
           {/* {!rowsInfo.claimed && Number(rowsInfo.expire) < new Date().getTime()/1000 ? (
             <TableCell
@@ -823,24 +837,26 @@ const [previous, setPrivious] = React.useState(0);
               {upcommingDate(rowsInfo.endtime)}
             </TableCell>
           ) : (
-            <TableCell>UNSTAKE NOT AVAILABLE</TableCell>
+            <TableCell sx={{textAlign:"center"}}>UNSTAKE NOT AVAILABLE</TableCell>
           )} */}
         </TableRow>
       </>
     );
   };
 
-  const countdown =(tab)=>{
+  const countdown = (tab) => {
     var now = new Date().getTime();
-    const time = (tab*1000) + (2592000*1000)
+    const time = tab * 1000 + 2592000 * 1000;
     var distance = time - now;
-  
+
     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    return days +"D " + hours + "H " + minutes + "M " + seconds + "S "
-    }
+    return days + "D " + hours + "H " + minutes + "M " + seconds + "S ";
+  };
 
   return (
     <Container maxWidth="xl">
@@ -1052,38 +1068,57 @@ const [previous, setPrivious] = React.useState(0);
                     <Box>
                       <Dropdown>
                         <Dropdown.Toggle variant="success" id="dropdown-basic">
-                    <span className="dop12">      {selectedplan}</span>
+                          <span className="dop12"> {selectedplan}</span>
                         </Dropdown.Toggle>
-                        <Dropdown.Menu style={{width:"100%",textAlign:"center"}}>
-                          {plans && plans.map((res)=>{
-                            return <>
-                           {res.poolstatus ? <Dropdown.Item href="#/action-1" onClick={()=>{
-                          
-                              setPoolname(res.planName)
-                              setSelectedplan(res.planName)
-                              setDuration(res.Duration);
-                              setAPY(res.APY);
-                              setReturns(res.APY);
-                              setLPToken(res.assertName);
-                              setSymbol(res.symbol);
-                              setPayout(res.payout);
-                              setMinStakeLevel1(res.leveloneMinAmount);
-                              setMinStakeLevel2(res.leveltwoMinAmount);
-                              setMinStakeLevel3(res.levelthreeMinAmount);
-                              setBonuslevel1(res.bonusforlevelone);
-                              setBonuslevel2(res.bonusforleveltwo);
-                              setBonuslevel3(res.bonusforlevelthree);
-                              setRewardlevel1(res.rewardforlevelone);
-                              setRewardlevel2(res.rewardforleveltwo);
-                              setRewardlevel3(res.rewardforlevelthree);
-                              setIndexID(plans.indexOf(res));
-                              setpenalty(res.penalty);
-                              gettokenbalance(res.assertName);
-                            }}>
-                            {res.planName}
-                          </Dropdown.Item>:""}
-                          </>
-                          })}
+                        <Dropdown.Menu
+                          style={{ width: "100%", textAlign: "center" }}
+                        >
+                          {plans &&
+                            plans.map((res) => {
+                              return (
+                                <>
+                                  {res.poolstatus ? (
+                                    <Dropdown.Item
+                                      href="#/action-1"
+                                      onClick={() => {
+                                        setPoolname(res.planName);
+                                        setSelectedplan(res.planName);
+                                        setDuration(res.Duration);
+                                        setAPY(res.APY);
+                                        setReturns(res.APY);
+                                        setLPToken(res.assertName);
+                                        setSymbol(res.symbol);
+                                        setPayout(res.payout);
+                                        setMinStakeLevel1(
+                                          res.leveloneMinAmount
+                                        );
+                                        setMinStakeLevel2(
+                                          res.leveltwoMinAmount
+                                        );
+                                        setMinStakeLevel3(
+                                          res.levelthreeMinAmount
+                                        );
+                                        setBonuslevel1(res.bonusforlevelone);
+                                        setBonuslevel2(res.bonusforleveltwo);
+                                        setBonuslevel3(res.bonusforlevelthree);
+                                        setRewardlevel1(res.rewardforlevelone);
+                                        setRewardlevel2(res.rewardforleveltwo);
+                                        setRewardlevel3(
+                                          res.rewardforlevelthree
+                                        );
+                                        setIndexID(plans.indexOf(res));
+                                        setpenalty(res.penalty);
+                                        gettokenbalance(res.assertName);
+                                      }}
+                                    >
+                                      {res.planName}
+                                    </Dropdown.Item>
+                                  ) : (
+                                    ""
+                                  )}
+                                </>
+                              );
+                            })}
                         </Dropdown.Menu>
                       </Dropdown>
                     </Box>
@@ -1605,7 +1640,7 @@ const [previous, setPrivious] = React.useState(0);
                       style={{
                         border: "none",
                         background: "#fff",
-   
+
                         width: "90%",
                         margin: "0 auto",
                       }}
@@ -1654,6 +1689,7 @@ const [previous, setPrivious] = React.useState(0);
                         <TableRow sx={{ textAlign: "center" }}>
                           {columns.map((column) => (
                             <TableCell
+                              sx={{ textAlign: "center" }}
                               key={column.id}
                               align={column.align}
                               style={{ minWidth: column.minWidth }}
@@ -1715,20 +1751,33 @@ const [previous, setPrivious] = React.useState(0);
                 >
                   <span>
                     <span className="">Refferal-id: </span>
-                    <Typography className="">{`https://gc-staking.netlify.app/staking/${account}`}<AiOutlineCopy
+                    <Typography className="">
+                      {`https://gc-staking.netlify.app/staking/${account}`}
+                      <AiOutlineCopy
                         style={{ cursor: "pointer" }}
                         onClick={() =>
                           copytext(
                             `https://gc-staking.netlify.app/staking/${account}`
                           )
                         }
-                      /></Typography>
+                      />
+                    </Typography>
                     <span>
-                      <br/>
+                      <br />
                     </span>
                     <span>
-                    {(10 - refferrer) < 0 ? <Typography className="">{refferrer} referrers</Typography> : <Typography className="">{countdown(start)} remaining to get {isNaN(10 - refferrer) ? "10" : (10 - refferrer)} more referrers</Typography>}
-                  </span>
+                      {10 - refferrer < 0 ? (
+                        <Typography className="">
+                          {refferrer} referrers
+                        </Typography>
+                      ) : (
+                        <Typography className="">
+                          {countdown(start)} remaining to get{" "}
+                          {isNaN(10 - refferrer) ? "10" : 10 - refferrer} more
+                          referrers
+                        </Typography>
+                      )}
+                    </span>
                   </span>
                 </Grid>
               ) : (
@@ -1748,6 +1797,7 @@ const [previous, setPrivious] = React.useState(0);
                       <TableRow>
                         {columns2.map((column) => (
                           <TableCell
+                            sx={{ textAlign: "center" }}
                             key={column.id}
                             align={column.align}
                             style={{ minWidth: column.minWidth }}
@@ -1761,26 +1811,32 @@ const [previous, setPrivious] = React.useState(0);
                       {referal.map((item) => {
                         return (
                           <TableRow>
-                            <TableCell>{referal.indexOf(item)}</TableCell>
-                            <TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>
+                              {referal.indexOf(item)}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>
                               {slicewallet(item.user)}{" "}
                               <AiOutlineCopy
                                 style={{ cursor: "pointer" }}
                                 onClick={() => copytext(item[0])}
                               />
                             </TableCell>
-                            <TableCell>{Number(item.amount)}</TableCell>
-                            <TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>
+                              {Number(item.amount)}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>
                               {new Date(item.time * 1000).toLocaleString()}
                             </TableCell>
-                            <TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>
                               {new Date(item.expire * 1000).toLocaleString()}
                             </TableCell>
-                            <TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>
                               {(item.amount * item.APY) /
                                 ((36500 * item.Duration * 2.5) / 100)}
                             </TableCell>
-                            <TableCell>{Number(item.amount) / 100}</TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>
+                              {Number(item.amount) / 100}
+                            </TableCell>
                           </TableRow>
                         );
                       })}

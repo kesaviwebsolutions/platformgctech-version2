@@ -11,13 +11,13 @@ export default function Footer() {
           <Typography
             variant="h6"
             style={{
-              border: "1px solid #F144EC",
+              border: "1px solid #0064F0",
               width: "200px",
-              background: "#F144EC",
+              background: "#0064F0",
               color: "#fff",
               textAlign: "center",
               margin: "20px 0px",
-              padding:"7px 10px"
+              padding: "7px 10px",
             }}
           >
             <Link
@@ -32,13 +32,13 @@ export default function Footer() {
             variant="h6"
             className="mx-5"
             style={{
-              border: "1px solid #00C851",
+              border: "1px solid #4AB4A6",
               width: "200px",
-              background: "#00C851",
+              background: "#0064F0",
               color: "#fff",
               textAlign: "center",
               margin: "20px 0px",
-              padding:"7px 10px"
+              padding: "7px 10px",
             }}
           >
             <Link

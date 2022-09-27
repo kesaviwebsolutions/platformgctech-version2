@@ -8,9 +8,23 @@ button.connectButton {
   padding: 10px 10px;
   border: none;
   font-weight: 500;
-  background-color: #8d00ff;
+  background-color: #0064f0;
   color: #fff;
   border-radius: 10px;
+}
+div#active {
+  background-color: #fbbfa7;
+  text-align: center;
+  margin: 1rem auto;
+  border-radius: 10px;
+  color: white;
+}
+div.pause {
+  background-color: #4ab4a6;
+  text-align: center;
+  margin: 1rem auto;
+  border-radius: 10px;
+  color: white;
 }
 button#dropdownMenuButton {
   width: 150px;
@@ -51,7 +65,7 @@ a#link {
   font-size: 10px;
   cursor: pointer;
   padding: 10px 10px;
-  background: #f144ec;
+  background: #0064f0;
   color: #fff;
 }
 i.fas.fa-arrows-alt-v.swap-icon.swap-icon {
@@ -68,8 +82,8 @@ i.fas.fa-arrows-alt-v.swap-icon.swap-icon {
   transition: 0.5s;
 }
 i.fas.fa-arrows-alt-v.swap-icon.swap-icon:hover {
-  background-color: #f144ec;
-  border: 1px solid #f144ec;
+  background-color: #0064f0;
+  border: 1px solid #0064f0;
   color: #fff;
 }
 
@@ -88,8 +102,8 @@ i.fas.fa-arrows-alt-v.swap-icon.swap-icon:hover {
   cursor: pointer;
   border: 1px solid;
   margin: auto;
-  background-color: #f144ec;
-  border: 1px solid #f144ec;
+  background-color: #0064f0;
+  border: 1px solid #0064f0;
   color: #fff;
   width: 100%;
 }
@@ -219,7 +233,7 @@ h4.srpayBalance {
   font-family: josefin-sans, sans-serif;
 }
 button.stake-btton {
-  background-color: #8d00ff;
+  background-color: #0064f0;
   border: none;
   color: #fff;
   font-family: josefin-sans, sans-serif;
@@ -320,7 +334,7 @@ p.sc {
   padding: 1rem;
   font-size: 17px;
   width: fit-content;
-  background-color: #8d00ff;
+  background-color: #0064f0;
   font-weight: 500;
   border-radius: 10px;
   margin: 0px;
@@ -380,7 +394,7 @@ button.stakenow {
   border: none;
   width: 100%;
   padding: 1rem 0rem;
-  background-color: #8d00ff;
+  background-color: #0064f0;
   border-radius: 10px;
   margin-top: 1rem;
   color: white;
@@ -447,12 +461,12 @@ button.btn.btn-success {
 .dropdown {
   /* border-bottom: 1px solid black; */
 }
-.dop12{
+.dop12 {
   float: left !important;
   margin-left: 2rem;
   font-size: 1.5rem;
 }
-.dropdown-toggle::after{
+.dropdown-toggle::after {
   float: right;
   margin-right: 2rem;
   font-size: 1.5rem;
