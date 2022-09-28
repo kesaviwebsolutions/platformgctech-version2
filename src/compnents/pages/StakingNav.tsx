@@ -1639,7 +1639,7 @@ console.log("Refferals", referal)
                               fontWeight: "900",
                             }}
                           >
-                            {Number(mystake).toFixed(0)} GCS
+                            {Number(mystake).toFixed(0)} 
                           </Typography>
                         </Box>
                       </CardContent>
