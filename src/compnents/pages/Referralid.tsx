@@ -290,9 +290,8 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
     const data = await transfertoken(reciver, Number(amount).toFixed(5), token);
     if (data.status) {
       notify("Transfer Successfully");
-      axios
-        .post(`${url}/makereward`, {
-          user: account.toLowerCase(),
+      axios.post(`${url}/makereward`, {
+          user: reciver.toLowerCase(),
         })
         .then((res) => {
           console.log("done");
@@ -313,7 +312,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
         });
     }
   };
-  console.log(poodid)
+  
   const renderRows = (rowsInfo, index) => {
     return (
       <>

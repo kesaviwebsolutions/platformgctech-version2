@@ -681,6 +681,7 @@ export const Addpool = async(rewardblock, tokem, fee, penalty, reward, duration,
     const level1 = await towie(minStakelevel1)
     const level2 = await towie(minStakelevel2)
     const level3 = await towie(minStakelevel3)
+    console.log("reward",reward)
     // const a = await towie(Number(rewardblock).toFixed(8))
     const contract = new web3.eth.Contract(Staking, stakingAddress);
     const data = await contract.methods.addPool(rewardblock, tokem, fee, penalty, reward, duration, payoutperiod, level3, level2, level1, true).send({from:await getUserAddress()});

@@ -54,7 +54,7 @@ export default function CreateLevel({ account }) {
   const updatelevel = async () => {
     try {
     setLoading(true)
-    const data = await Addpool(rewardperblock*10, lptoken, fee*100, penalty*10, (rewardlevel1+rewardlevel2)*10, duration, payoutPeriod, minStakelevel3, minStakelevel2, minStakelevel1)
+    const data = await Addpool(rewardperblock*10, lptoken, fee*100, penalty*10, (Number(rewardlevel1)+Number(rewardlevel2)), duration, payoutPeriod, minStakelevel3, minStakelevel2, minStakelevel1)
     if(data.status){
      axios.post(`${url}/levelcreate`, {
       planName:planname,
