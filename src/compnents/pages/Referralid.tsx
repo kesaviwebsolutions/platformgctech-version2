@@ -20,7 +20,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Grid, Typography ,Button} from "@mui/material";
+import { Grid, Typography, Button } from "@mui/material";
 
 const url = "https://refer.ap.ngrok.io";
 // const url = "http://localhost:3030";
@@ -106,56 +106,6 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
-{/*   {
-    id: "density",
-    label: "Pay Reward",
-    minWidth: 170,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  },
-
-  {
-    id: "density",
-    label: "Pay Bonus",
-    minWidth: 170,
-    align: "center",
-    format: (value: number) => value.toFixed(2),
-  }, */}
-  // {
-  //   id: "density",
-  //   label: "APY(%)",
-  //   minWidth: 170,
-  //   align: "center",
-  //   format: (value: number) => value.toFixed(2),
-  // },
-  // {
-  //   id: "density",
-  //   label: "Referrer Bonus",
-  //   minWidth: 170,
-  //   align: "center",
-  //   format: (value: number) => value.toFixed(2),
-  // },
-  // {
-  //   id: "density",
-  //   label: "No. of Tokens in Bonus",
-  //   minWidth: 200,
-  //   align: "center",
-  //   format: (value: number) => value.toFixed(2),
-  // },
-  // {
-  //   id: "density",
-  //   label: "Due Date",
-  //   minWidth: 170,
-  //   align: "center",
-  //   format: (value: number) => value.toFixed(2),
-  // },
-  // {
-  //   id: "density",
-  //   label: "Action",
-  //   minWidth: 170,
-  //   align: "center",
-  //   format: (value: number) => value.toFixed(2),
-  // },
 ];
 
 interface Data {
@@ -278,6 +228,12 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
   const [start, setStart] = React.useState(0);
   const [levels, setLevel] = React.useState(0);
   const [referrals, setReferrals] = React.useState(undefined);
+  const [paidbouns, setPaidbonus] = React.useState(0)
+  const [paidReward, setPaidreward] = React.useState(0)
+  const [refAmount, setRefAmount] = React.useState(0)
+  const [APY, setAPY] = React.useState(0)
+  const [duration, setDuration] = React.useState(0)
+  const [token, setToken] = React.useState('')
 
   React.useEffect(() => {
     const init = async () => {
@@ -293,6 +249,8 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
       axios
         .post(`${url}/makereward`, {
           user: reciver.toLowerCase(),
+          poolID: poodid,
+          reward: amount+paidReward
         })
         .then((res) => {
           console.log("done");
@@ -301,12 +259,15 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
   };
 
   const trasferBonus = async (reciver, amount, token) => {
+    console.log(reciver.toLowerCase(),poodid)
     const data = await transfertoken(reciver, Number(amount).toFixed(5), token);
     if (data.status) {
       notify("Transfer Successfully");
       axios
         .post(`${url}/makebonus`, {
           user: reciver.toLowerCase(),
+          poolID: poodid,
+          bonus: amount+paidbouns
         })
         .then((res) => {
           console.log("done");
@@ -349,35 +310,6 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
           <TableCell sx={{ textAlign: "center" }}>
             {rowsInfo.amount / 100}
           </TableCell>
-        {/*   <TableCell sx={{ textAlign: "center" }}>
-            <button
-              disabled={rowsInfo.paidReward ? true : false}
-              onClick={() =>
-                trasferReward(
-                  rowsInfo.user,
-                  (rowsInfo.amount * rowsInfo.APY) /
-                    ((36500 * rowsInfo.Duration * 2.5) / 100),
-                  rowsInfo.lptoken
-                )
-              }
-            >
-              Pay Reward
-            </button>
-          </TableCell>
-          <TableCell sx={{ textAlign: "center" }}>
-            <button
-              disabled={rowsInfo.paidBonus ? true : false}
-              onClick={() =>
-                trasferBonus(
-                  rowsInfo.user,
-                  rowsInfo.amount / 100,
-                  rowsInfo.lptoken
-                )
-              }
-            >
-              Pay Bonus
-            </button>
-          </TableCell> */}
         </TableRow>
       </>
     );
@@ -395,7 +327,13 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
           setRef(res.data[0].refferals.length);
           setStart(res.data[0].time);
           setLevel(res.data[0].level);
-          console.log(res);
+          setPaidreward(res.data[0].paidReward)
+          setPaidbonus(res.data[0].paidBonus)
+          setRefAmount(res.data[0].amount)
+          setDuration(res.data[0].Duration)
+          setAPY(res.data[0].APY)
+          setToken(res.data[0].lptoken)
+          console.log(res)
           for (let x = 0; x < res.data[0].refferals.length; x++) {
             const level = await axios
               .post(`${url}/isuser`, {
@@ -478,8 +416,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
           )}
         </Grid>
 
-
-        <Grid
+        {referrer > 0 && levels != 3 ? <Grid
           item
           xs={12}
           sm={12}
@@ -496,39 +433,43 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
             overflow: "hidden",
           }}
         >
-         <Grid container>
-         <Grid
-          item
-          xs={12}
-          sm={12}
-          md={6}
-          lg={6}
-          xl={6}>
-<Typography style={{color:"#7c7c7c"}}>Paid Bonus : 20</Typography><br/>
-<Typography>Total Bonus : 20</Typography><br/>
-<Button style={{backgroundColor:"#0064f0",color:"white",marginBottom:"1rem"}}>Pay Bonus</Button>
+          <Grid container>
+            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+              <Typography style={{ color: "#7c7c7c" }}>
+                Paid Bonus : {paidbouns}
+              </Typography>
+              <br />
+              <Typography>Total Bonus : {refAmount/100}</Typography>
+              <br />
+              <Button
+                style={{
+                  backgroundColor: "#0064f0",
+                  color: "white",
+                  marginBottom: "1rem",
+                }}
+                onClick={()=>trasferBonus(ref,(refAmount/100)-paidbouns,token)}
+              >
+                Pay Bonus
+              </Button>
+            </Grid>
 
-
+            <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+              <Typography style={{ color: "#7c7c7c" }}>
+                Paid Reward : {paidReward}
+              </Typography>
+              <br />
+              <Typography>Total Reward : {(refAmount * APY) /
+                    ((36500 * duration * 2.5) / 100)}</Typography>
+              <br />
+              <Button style={{ backgroundColor: "#0064f0", color: "white" }}
+              onClick={()=>trasferReward(ref,(((refAmount * APY) /
+              ((36500 * duration * 2.5) / 100))-paidReward),token)}
+              >
+                Pay Reward
+              </Button>
+            </Grid>
           </Grid>
-
-          <Grid
-          item
-          xs={12}
-          sm={12}
-          md={6}
-          lg={6}
-          xl={6}>
-
-<Typography style={{color:"#7c7c7c"}}>Paid Reward : 20</Typography><br/>
-<Typography>Total Reward : 20</Typography><br/>
-<Button style={{backgroundColor:"#0064f0",color:"white"}}>Pay Reward</Button>
-
-          </Grid>
-
-
-         </Grid>
-        </Grid>
-
+        </Grid> : ""}
 
         <TableContainer sx={{ maxHeight: 440 }}>
           {referrals ? (
