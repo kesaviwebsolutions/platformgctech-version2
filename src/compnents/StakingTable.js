@@ -249,7 +249,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
                           {rowsInfo.amount}
                         </TableCell>
                         <TableCell sx={{ textAlign: "center" }}>
-                          {new Date(rowsInfo.time).toLocaleString()}
+                          {new Date(rowsInfo.time*1000).toLocaleString()}
                         </TableCell>
                         <TableCell sx={{ textAlign: "center" }}>
                           {rowsInfo.Duration}

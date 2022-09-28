@@ -65,7 +65,21 @@ const columns: readonly Column[] = [
   },
   {
     id: "density",
+    label: "TX",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
     label: "Level",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
+    label: "Plan",
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
@@ -314,11 +328,17 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
             {rowsInfo.amount} {rowsInfo.assertSymbol}
           </TableCell>
           <TableCell sx={{ textAlign: "center" }}>
+            {rowsInfo.txs}
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
             {rowsInfo.level == 3
               ? "Entry Level"
               : rowsInfo.level == 2
               ? "2"
               : "1"}
+          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>
+            {rowsInfo.planName}
           </TableCell>
           <TableCell sx={{ textAlign: "center" }}>
             {rowsInfo.refferals.length}
@@ -371,11 +391,12 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
           for (let x = 0; x < res.data[0].refferals.length; x++) {
             const level = await axios
               .post(`${url}/isuser`, {
-                user: res.data[0].refferals[x],
+                user: res.data[0].refferals[x].wallet,
               })
               .then((response) => {
                 return response.data[0];
               });
+            level.txs = res.data[0].refferals[x].tx
             event.push(level);
           }
         }

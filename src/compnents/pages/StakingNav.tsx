@@ -164,6 +164,13 @@ const columns2: readonly Column2[] = [
   },
   {
     id: "density",
+    label: "TX",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
+  {
+    id: "density",
     label: "Started at",
     minWidth: 170,
     align: "center",
@@ -351,7 +358,9 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   useEffect(() => {
     const init = async () => {
       getReferrals();
-
+      const stake = await totalstakedinContract()
+      const ts = await totalstakedinContract();
+      setStakeTotal(ts);
       const locked = await totallocked();
       setTotaltokenlocked(locked);
       const ds = await tokenDistribute();
@@ -382,7 +391,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
     await axios
       .get(`${url}/totalamount`)
       .then((res) => {
-        setStakeTotal(res.data);
+        // setStakeTotal(res.data);
         // console.log("total amount",res.data)
       })
       .catch((error) => console.log(error));
@@ -415,11 +424,12 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
           for (let i = 0; i < res.data[0].refferals.length; i++) {
             const events = await axios
               .post(`${url}/isuser`, {
-                user: res.data[0].refferals[i],
+                user: res.data[0].refferals[i].wallet,
               })
               .then((response) => {
                 return response.data[0];
               });
+            events.txs = res.data[0].refferals[i].tx
             ref.push(events);
           }
           setReferals(ref);
@@ -429,14 +439,15 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
         console.log(e);
       });
   };
-
+console.log("Refferals", referal)
   const StakingToken = async () => {
     try {
       setLoading(true);
       const data = await Stake(amount, indexID, lptoken);
       if (data.status) {
         notify("Stake Successfully");
-        await addReferralUser("Ox00000000000000oO", amount);
+        console.log(data)
+        await addReferralUser(data.transactionHash, amount);
       }
     } catch (error) {
       setLoading(false);
@@ -449,6 +460,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
         .post(`${url}/addreferrals`, {
           user: ID.toLowerCase(),
           wallet: account.toLowerCase(),
+          tx:hash
         })
         .then((res) => {
           console.log(res);
@@ -1823,6 +1835,9 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
                             </TableCell>
                             <TableCell sx={{ textAlign: "center" }}>
                               {Number(item.amount)}
+                            </TableCell>
+                            <TableCell sx={{ textAlign: "center" }}>
+                              {item.txs}
                             </TableCell>
                             <TableCell sx={{ textAlign: "center" }}>
                               {new Date(item.time * 1000).toLocaleString()}

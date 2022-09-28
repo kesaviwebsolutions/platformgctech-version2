@@ -439,15 +439,7 @@ export const Allowforstaking = async(token)=>{
 
  
 
-  export const totalstakedinContract = async()=>{
-    try {
-      const contract = new web3.eth.Contract(Staking, stakingAddress);
-      const data = await contract.methods.totalStake().call();
-      return data/10**18;
-    } catch (error) {
-      
-    }
-  }
+ 
 
   export const StakingtokenBalance = async()=>{
     try {
@@ -680,14 +672,14 @@ export const Allowforstaking = async(token)=>{
 //////////////////New Staking//////////////////
 
 
-export const Addpool = async(rewardblock, tokem, fee, penalty,duration, payoutperiod, minStakelevel3, minStakelevel2, minStakelevel1)=>{
+export const Addpool = async(rewardblock, tokem, fee, penalty, reward, duration, payoutperiod, minStakelevel3, minStakelevel2, minStakelevel1)=>{
   try {
     const level1 = await towie(minStakelevel1)
     const level2 = await towie(minStakelevel2)
     const level3 = await towie(minStakelevel3)
     // const a = await towie(Number(rewardblock).toFixed(8))
     const contract = new web3.eth.Contract(Staking, stakingAddress);
-    const data = await contract.methods.addPool(rewardblock, tokem, fee, penalty, duration, payoutperiod, level3, level2, level1, true).send({from:await getUserAddress()});
+    const data = await contract.methods.addPool(rewardblock, tokem, fee, penalty, reward, duration, payoutperiod, level3, level2, level1, true).send({from:await getUserAddress()});
     return data;
   } catch (error) {
    console.log(error)
@@ -700,7 +692,7 @@ export const Addpool = async(rewardblock, tokem, fee, penalty,duration, payoutpe
     const level2 = await towie(minStakeAmntEntryLvl2)
     const level3 = await towie(minStakeAmntEntryLvl)  
     const contract = new web3.eth.Contract(Staking, stakingAddress);
-    const data = await contract.methods.setPool(poolid, apy, fee, duration, payoutperiod, level3, level2, level1, tab).send({from:await getUserAddress()});
+    const data = await contract.methods.setPool(poolid, tab).send({from:await getUserAddress()});
     return data;
   } catch (error) {
    console.log(error)
@@ -795,6 +787,17 @@ export const totallocked =async()=>{
       return data/10**18;
   } catch (error) {
       console.log(error)
+  }
+}
+
+export const totalstakedinContract = async()=>{
+  try {
+    const contract = new web3.eth.Contract(Staking, stakingAddress);
+    const data = await contract.methods.totalStaked().call();
+    console.log(data/10**18)
+    return data/10**18;
+  } catch (error) {
+    
   }
 }
 

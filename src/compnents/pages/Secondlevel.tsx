@@ -48,13 +48,13 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
-  // {
-  //   id: "density",
-  //   label: "Time of staked",
-  //   minWidth: 170,
-  //   align: "center",
-  //   format: (value: number) => value.toFixed(2),
-  // },
+  {
+    id: "density",
+    label: "Plan",
+    minWidth: 170,
+    align: "center",
+    format: (value: number) => value.toFixed(2),
+  },
   {
     id: "density",
     label: "Reward",
@@ -221,7 +221,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
           <TableCell>{index}</TableCell>
           <TableCell>{rowsInfo.user}</TableCell>
           <TableCell>{rowsInfo.amount}</TableCell>
-          {/* <TableCell>{rowsInfo.numberofstake}</TableCell> */}
+          <TableCell>{rowsInfo.planName}</TableCell>
           <TableCell>
             {(rowsInfo.amount * rowsInfo.APY) /
               ((36500 * rowsInfo.Duration * 2.5) / 100)}

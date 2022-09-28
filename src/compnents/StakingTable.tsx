@@ -348,7 +348,7 @@ export default function StakingTable({account, aday1, aday2, aday3, aday4 }) {
             <Link to={`/admin/referral-id/${rowsInfo.user}`}>{slicewallet(rowsInfo.user)}</Link>
           </TableCell>
           <TableCell>{rowsInfo.amount}</TableCell>
-          <TableCell>{new Date(rowsInfo.time).toLocaleString()}</TableCell>
+          <TableCell>{new Date(rowsInfo.time*1000).toLocaleString()}</TableCell>
           <TableCell>{rowsInfo.Duration}</TableCell>
           <TableCell>{rowsInfo.level == 3 ? "Entry Level" : rowsInfo.level == 2 ? "Level 2" : "Level 1"}</TableCell>
           <TableCell>{rowsInfo.APY}</TableCell>

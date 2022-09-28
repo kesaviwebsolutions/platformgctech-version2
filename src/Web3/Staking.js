@@ -1,4 +1,4 @@
-export const stakingAddress = "0xdE4bf08ACd73475f7101Ea7e85985fC125f08F12";
+export const stakingAddress = "0x5C824D04D0376a19a06F96Bea4d84660E311369F";
 export const Staking = [
   {
     inputs: [
@@ -20,6 +20,11 @@ export const Staking = [
       {
         internalType: "uint16",
         name: "_penatly",
+        type: "uint16",
+      },
+      {
+        internalType: "uint16",
+        name: "_reward",
         type: "uint16",
       },
       {
@@ -95,6 +100,11 @@ export const Staking = [
         internalType: "address",
         name: "_treasuryAddress",
         type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "_stakingStatus",
+        type: "bool",
       },
     ],
     stateMutability: "nonpayable",
@@ -241,47 +251,25 @@ export const Staking = [
         type: "uint256",
       },
       {
-        internalType: "uint256",
-        name: "_APY",
-        type: "uint256",
-      },
-      {
-        internalType: "uint16",
-        name: "_depositFeeBP",
-        type: "uint16",
-      },
-      {
-        internalType: "uint256",
-        name: "_duration",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_payoutPeriod",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_minStakeAmntEntryLvl",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_minStakeAmntL2",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_minStakeAmntL1",
-        type: "uint256",
-      },
-      {
         internalType: "bool",
         name: "_status",
         type: "bool",
       },
     ],
     name: "setPool",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bool",
+        name: "_status",
+        type: "bool",
+      },
+    ],
+    name: "setStakingStatus",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -517,6 +505,11 @@ export const Staking = [
         type: "uint16",
       },
       {
+        internalType: "uint16",
+        name: "rewardFee",
+        type: "uint16",
+      },
+      {
         internalType: "uint256",
         name: "payoutPeriod",
         type: "uint256",
@@ -570,7 +563,33 @@ export const Staking = [
   },
   {
     inputs: [],
+    name: "stakingStatus",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "totalLockedUpRewards",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "totalStaked",
     outputs: [
       {
         internalType: "uint256",
