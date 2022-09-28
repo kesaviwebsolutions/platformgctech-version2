@@ -20,7 +20,7 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography ,Button} from "@mui/material";
 
 const url = "https://refer.ap.ngrok.io";
 // const url = "http://localhost:3030";
@@ -106,7 +106,7 @@ const columns: readonly Column[] = [
     align: "center",
     format: (value: number) => value.toFixed(2),
   },
-  {
+{/*   {
     id: "density",
     label: "Pay Reward",
     minWidth: 170,
@@ -120,7 +120,7 @@ const columns: readonly Column[] = [
     minWidth: 170,
     align: "center",
     format: (value: number) => value.toFixed(2),
-  },
+  }, */}
   // {
   //   id: "density",
   //   label: "APY(%)",
@@ -276,7 +276,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
   const { poodid } = useParams();
   const [referrer, setRef] = React.useState(0);
   const [start, setStart] = React.useState(0);
-  const [levels, setLevel] = React.useState(0)
+  const [levels, setLevel] = React.useState(0);
   const [referrals, setReferrals] = React.useState(undefined);
 
   React.useEffect(() => {
@@ -290,7 +290,8 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
     const data = await transfertoken(reciver, Number(amount).toFixed(5), token);
     if (data.status) {
       notify("Transfer Successfully");
-      axios.post(`${url}/makereward`, {
+      axios
+        .post(`${url}/makereward`, {
           user: reciver.toLowerCase(),
         })
         .then((res) => {
@@ -312,7 +313,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
         });
     }
   };
-  
+
   const renderRows = (rowsInfo, index) => {
     return (
       <>
@@ -327,9 +328,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
           <TableCell sx={{ textAlign: "center" }}>
             {rowsInfo.amount} {rowsInfo.assertSymbol}
           </TableCell>
-          <TableCell sx={{ textAlign: "center" }}>
-            {rowsInfo.txs}
-          </TableCell>
+          <TableCell sx={{ textAlign: "center" }}>{rowsInfo.txs}</TableCell>
           <TableCell sx={{ textAlign: "center" }}>
             {rowsInfo.level == 3
               ? "Entry Level"
@@ -350,15 +349,15 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
           <TableCell sx={{ textAlign: "center" }}>
             {rowsInfo.amount / 100}
           </TableCell>
-          <TableCell sx={{ textAlign: "center" }}>
+        {/*   <TableCell sx={{ textAlign: "center" }}>
             <button
               disabled={rowsInfo.paidReward ? true : false}
               onClick={() =>
                 trasferReward(
                   rowsInfo.user,
                   (rowsInfo.amount * rowsInfo.APY) /
-                    ((36500 * rowsInfo.Duration * 2.5) / 100), 
-                    rowsInfo.lptoken
+                    ((36500 * rowsInfo.Duration * 2.5) / 100),
+                  rowsInfo.lptoken
                 )
               }
             >
@@ -368,11 +367,17 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
           <TableCell sx={{ textAlign: "center" }}>
             <button
               disabled={rowsInfo.paidBonus ? true : false}
-              onClick={() => trasferBonus(rowsInfo.user, rowsInfo.amount / 100, rowsInfo.lptoken)}
+              onClick={() =>
+                trasferBonus(
+                  rowsInfo.user,
+                  rowsInfo.amount / 100,
+                  rowsInfo.lptoken
+                )
+              }
             >
               Pay Bonus
             </button>
-          </TableCell>
+          </TableCell> */}
         </TableRow>
       </>
     );
@@ -382,14 +387,14 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
     axios
       .post(`${url}/isuserpoolid`, {
         user: ref.toLowerCase(),
-        poolID:poodid
+        poolID: poodid,
       })
       .then(async (res) => {
         const event = [];
         if (res.data[0]) {
           setRef(res.data[0].refferals.length);
           setStart(res.data[0].time);
-          setLevel(res.data[0].level)
+          setLevel(res.data[0].level);
           console.log(res);
           for (let x = 0; x < res.data[0].refferals.length; x++) {
             const level = await axios
@@ -399,7 +404,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
               .then((response) => {
                 return response.data[0];
               });
-            level.txs = res.data[0].refferals[x].tx
+            level.txs = res.data[0].refferals[x].tx;
             event.push(level);
           }
         }
@@ -455,17 +460,75 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
             overflow: "hidden",
           }}
         >
-          {levels == 3 ? "Entry level is not eligible for bonus or reward" :<span>
-            {10 - referrer < 0 ? (
-              <Typography className="">{referrer} referrers</Typography>
-            ) : (
-              <Typography className="">
-                {countdown(start)} remaining to get{" "}
-                {isNaN(10 - referrer) ? "0" : 10 - referrer} more referrers
-              </Typography>
-            )}
-          </span>}
+          <span>Level: {levels == 3 ? "Entry Level" : levels}</span>
+          <br />
+          {levels == 3 ? (
+            "Entry level is not eligible for bonus or reward"
+          ) : (
+            <span>
+              {10 - referrer < 0 ? (
+                <Typography className="">Eligible</Typography>
+              ) : (
+                <Typography className="">
+                  {countdown(start)} remaining to get{" "}
+                  {isNaN(10 - referrer) ? "0" : 10 - referrer} more referrers
+                </Typography>
+              )}
+            </span>
+          )}
         </Grid>
+
+
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          lg={12}
+          xl={12}
+          className="reff-id"
+          sx={{
+            fontSize: "1rem",
+            marginBottom: "3rem",
+            textAlign: "center",
+            fontWeight: 800,
+            width: "100%",
+            overflow: "hidden",
+          }}
+        >
+         <Grid container>
+         <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={6}
+          xl={6}>
+<Typography style={{color:"#7c7c7c"}}>Paid Bonus : 20</Typography><br/>
+<Typography>Total Bonus : 20</Typography><br/>
+<Button style={{backgroundColor:"#0064f0",color:"white"}}>Pay Bonus</Button>
+
+
+          </Grid>
+
+          <Grid
+          item
+          xs={12}
+          sm={12}
+          md={6}
+          lg={6}
+          xl={6}>
+
+<Typography style={{color:"#7c7c7c"}}>Paid Reward : 20</Typography><br/>
+<Typography>Total Reward : 20</Typography><br/>
+<Button style={{backgroundColor:"#0064f0",color:"white"}}>Pay Reward</Button>
+
+          </Grid>
+
+
+         </Grid>
+        </Grid>
+
 
         <TableContainer sx={{ maxHeight: 440 }}>
           {referrals ? (
