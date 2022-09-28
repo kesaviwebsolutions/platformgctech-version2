@@ -1792,12 +1792,10 @@ console.log("Refferals", referal)
                         </Typography>
                       )}
                     </span>
+                    <br/>
                     <span >
                       <Typography >
-                         Note:
-                      </Typography>
-                      <Typography >
-                          There is no bonus or reward for Entry Level
+                           Note: There is no bonus or reward for Entry Level
                       </Typography>
                     </span>
                   </span>
