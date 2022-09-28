@@ -3,6 +3,7 @@ import { swapabi, swapaddress, tokenBalance } from './GCS-to-USDM-abi';
 import { Staking, stakingAddress } from './Staking';
 
 let web3 = new Web3(window.ethereum)
+
 const abi = [
     {
         inputs: [],
@@ -18,6 +19,8 @@ const abi = [
         type: "function",
       }
 ]
+
+
 const usdm = "0x08ab7e5c08cc0d78589fc506c35ea9c2520a86bc"
 const gcs = "0x3d2bb1f7ab5d64c3917dbe03d37843421a42e0cd"
 const xaus = "0x50ea0dfFE399A706EdC310f55c658e8B0eC27981"
@@ -450,10 +453,11 @@ export const Allowforstaking = async(token)=>{
       
     }
   }
-  export const transfertoken = async(address,amount)=>{
+  export const transfertoken = async(address,amount, token)=>{
     try {
       const a = await towie(amount);
-      const contract = new web3.eth.Contract(tokenBalance, stakingToken);
+      console.log(a, address, token)
+      const contract = new web3.eth.Contract(tokenBalance, token);
       const data = await contract.methods.transfer(address, a).send({from: await getUserAddress()});
       return data;
     } catch (error) {
@@ -796,6 +800,31 @@ export const totalstakedinContract = async()=>{
     const data = await contract.methods.totalStaked().call();
     console.log(data/10**18)
     return data/10**18;
+  } catch (error) {
+    
+  }
+}
+
+export const totalpools = async()=>{
+  try {
+    const contract = new web3.eth.Contract(Staking, stakingAddress);
+    const data = await contract.methods.poolLength().call();
+    return data;
+  } catch (error) {
+    
+  }
+}
+
+export const userTotalStake = async()=>{
+  try {
+    const contract = new web3.eth.Contract(Staking, stakingAddress);
+    const totalpool = await totalpools();
+    let total = 0
+    for(let i = 0; i < totalpool; i++){
+      const user = await contract.methods.userInfo(i, await getUserAddress()).call();
+      total = total + Number(user[0])
+    }
+    return total/10**18;
   } catch (error) {
     
   }

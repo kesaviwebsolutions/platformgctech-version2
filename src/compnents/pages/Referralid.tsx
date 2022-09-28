@@ -273,9 +273,10 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const { ref } = useParams();
+  const { poodid } = useParams();
   const [referrer, setRef] = React.useState(0);
   const [start, setStart] = React.useState(0);
-
+  const [levels, setLevel] = React.useState(0)
   const [referrals, setReferrals] = React.useState(undefined);
 
   React.useEffect(() => {
@@ -285,8 +286,8 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
     init();
   }, []);
 
-  const trasferReward = async (reciver, amount) => {
-    const data = await transfertoken(reciver, Number(amount).toFixed(5));
+  const trasferReward = async (reciver, amount, token) => {
+    const data = await transfertoken(reciver, Number(amount).toFixed(5), token);
     if (data.status) {
       notify("Transfer Successfully");
       axios
@@ -299,8 +300,8 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
     }
   };
 
-  const trasferBonus = async (reciver, amount) => {
-    const data = await transfertoken(reciver, Number(amount).toFixed(5));
+  const trasferBonus = async (reciver, amount, token) => {
+    const data = await transfertoken(reciver, Number(amount).toFixed(5), token);
     if (data.status) {
       notify("Transfer Successfully");
       axios
@@ -312,7 +313,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
         });
     }
   };
-
+  console.log(poodid)
   const renderRows = (rowsInfo, index) => {
     return (
       <>
@@ -357,7 +358,8 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
                 trasferReward(
                   rowsInfo.user,
                   (rowsInfo.amount * rowsInfo.APY) /
-                    ((36500 * rowsInfo.Duration * 2.5) / 100)
+                    ((36500 * rowsInfo.Duration * 2.5) / 100), 
+                    rowsInfo.lptoken
                 )
               }
             >
@@ -367,7 +369,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
           <TableCell sx={{ textAlign: "center" }}>
             <button
               disabled={rowsInfo.paidBonus ? true : false}
-              onClick={() => trasferBonus(rowsInfo.user, rowsInfo.amount / 100)}
+              onClick={() => trasferBonus(rowsInfo.user, rowsInfo.amount / 100, rowsInfo.lptoken)}
             >
               Pay Bonus
             </button>
@@ -379,14 +381,16 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
 
   const getRef = async () => {
     axios
-      .post(`${url}/isuser`, {
+      .post(`${url}/isuserpoolid`, {
         user: ref.toLowerCase(),
+        poolID:poodid
       })
       .then(async (res) => {
         const event = [];
         if (res.data[0]) {
           setRef(res.data[0].refferals.length);
           setStart(res.data[0].time);
+          setLevel(res.data[0].level)
           console.log(res);
           for (let x = 0; x < res.data[0].refferals.length; x++) {
             const level = await axios
@@ -452,7 +456,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
             overflow: "hidden",
           }}
         >
-          <span>
+          {levels == 3 ? "Entry level is not eligible for bonus or reward" :<span>
             {10 - referrer < 0 ? (
               <Typography className="">{referrer} referrers</Typography>
             ) : (
@@ -461,7 +465,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
                 {isNaN(10 - referrer) ? "0" : 10 - referrer} more referrers
               </Typography>
             )}
-          </span>
+          </span>}
         </Grid>
 
         <TableContainer sx={{ maxHeight: 440 }}>

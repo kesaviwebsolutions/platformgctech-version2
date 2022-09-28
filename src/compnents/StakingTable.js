@@ -241,7 +241,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
                         </TableCell>
                         <TableCell sx={{ textAlign: "center" }}>
                           {" "}
-                          <Link to={`/admin/referral-id/${rowsInfo.user}`}>
+                          <Link to={`/admin/referral-id/${rowsInfo.user}/${rowsInfo.poolID}`}>
                             {slicewallet(rowsInfo.user)}
                           </Link>
                         </TableCell>

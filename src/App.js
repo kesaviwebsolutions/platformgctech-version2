@@ -297,7 +297,7 @@ function App() {
           />
           <Route
             exact
-            path="/admin/referral-id/:ref"
+            path="/admin/referral-id/:ref/:poodid"
             element={<Referralid account={acount} aday1={day1} aday2={day2} aday3={day3} aday4={day4}/>}
           />
           <Route

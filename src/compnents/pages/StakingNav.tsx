@@ -40,7 +40,7 @@ import {
   orderIDReferrals,
   OrderIDdata,
   totalstakedinContract,
-  orderID,
+  userTotalStake,
   poeldata1,
   poeldata2,
   poeldata3,
@@ -358,7 +358,6 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
   useEffect(() => {
     const init = async () => {
       getReferrals();
-      const stake = await totalstakedinContract()
       const ts = await totalstakedinContract();
       setStakeTotal(ts);
       const locked = await totallocked();
@@ -367,6 +366,9 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
       setDistribute(ds);
       const rewards = await totakRewardEarned();
       setRewards(rewards);
+      const usertotal = await userTotalStake();
+      setMystake(usertotal);
+  
       // const event = await getDetails();
       // setEvents(event);
       // const myst = await StakeBalace();
@@ -401,7 +403,7 @@ export default function AdminNav({ account, aday1, aday2, aday3, aday4 }) {
         user: account.toLowerCase(),
       })
       .then((res) => {
-        setMystake(res.data);
+        // setMystake(res.data);
         console.log("total amount", res.data);
       })
       .catch((error) => console.log(error));
@@ -1789,6 +1791,14 @@ console.log("Refferals", referal)
                           referrers
                         </Typography>
                       )}
+                    </span>
+                    <span >
+                      <Typography >
+                         Note:
+                      </Typography>
+                      <Typography >
+                          There is no bonus or reward for Entry Level
+                      </Typography>
                     </span>
                   </span>
                 </Grid>
