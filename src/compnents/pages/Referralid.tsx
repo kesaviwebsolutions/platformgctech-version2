@@ -506,7 +506,7 @@ export default function StakingTable({ account, aday1, aday2, aday3, aday4 }) {
           xl={6}>
 <Typography style={{color:"#7c7c7c"}}>Paid Bonus : 20</Typography><br/>
 <Typography>Total Bonus : 20</Typography><br/>
-<Button style={{backgroundColor:"#0064f0",color:"white"}}>Pay Bonus</Button>
+<Button style={{backgroundColor:"#0064f0",color:"white",marginBottom:"1rem"}}>Pay Bonus</Button>
 
 
           </Grid>
