@@ -495,7 +495,7 @@ console.log("Refferals", referal)
             level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
-            piadBonus:0,
+            paiddBonus:0,
             paidReward:0,
             amount: amount,
             stakedpool: [indexID],
@@ -537,7 +537,7 @@ console.log("Refferals", referal)
             level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
-            piadBonus:0,
+            paiddBonus:0,
             paidReward:0,
             planName: poolname,
             amount: amount,
@@ -620,7 +620,7 @@ console.log("Refferals", referal)
             level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
-            piadBonus:0,
+            paiddBonus:0,
             paidReward:0,
             planName: poolname,
             amount: amount,
@@ -663,7 +663,7 @@ console.log("Refferals", referal)
             level:Number(amount) >= minStakelevel3 && Number(amount) < minStakelevel2 ? 3 : Number(amount) >= minStakelevel2 && Number(amount) < minStakelevel1 ? 2 : 1,
             Duration: duration,
             APY: apy,
-            piadBonus:0,
+            paiddBonus:0,
             paidReward:0,
             planName: poolname,
             amount: amount,
@@ -1774,12 +1774,12 @@ console.log("Refferals", referal)
                   <span>
                     <span className="">Refferal-id: </span>
                     <Typography className="">
-                      {`https://gc-staking.netlify.app/staking/${account}`}
+                      {`https://sandbox.goldchainex.com/staking/${account}`}
                       <AiOutlineCopy
                         style={{ cursor: "pointer" }}
                         onClick={() =>
                           copytext(
-                            `https://gc-staking.netlify.app/staking/${account}`
+                            `https://sandbox.goldchainex.com/staking/${account}`
                           )
                         }
                       />
